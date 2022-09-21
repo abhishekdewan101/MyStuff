@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.adewan.mystuff"
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.adewan.mystuff"
         minSdk = 27
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -33,7 +33,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = Deps.androidx.compose.version
     }
     packagingOptions {
         resources {
@@ -44,16 +44,18 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.1")
-    implementation("androidx.compose.ui:ui:1.2.0")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha11")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.0")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.2.0")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0")
+    implementation(Deps.androidx.coreKtx)
+    implementation(Deps.androidx.lifecycleRuntime)
+    implementation(Deps.androidx.compose.activityCompose)
+    implementation(Deps.androidx.compose.ui)
+    implementation(Deps.androidx.compose.toolingPreview)
+    implementation(Deps.androidx.compose.material3)
+
+
+    testImplementation(Deps.testing.jUnit)
+    androidTestImplementation(Deps.testing.jUnitExt)
+    androidTestImplementation(Deps.testing.espressoCore)
+    androidTestImplementation(Deps.androidx.compose.uiTestJunit4)
+    debugImplementation(Deps.androidx.compose.tooling)
+    debugImplementation(Deps.androidx.compose.uiTestManifest)
 }
