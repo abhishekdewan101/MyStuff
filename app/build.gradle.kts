@@ -20,7 +20,7 @@ android {
         }
     }
 
-    //FIXME: Add a release target that minify's the build
+    // FIXME: Add a release target that minify's the build
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -51,6 +51,8 @@ dependencies {
     implementation(Deps.androidx.compose.toolingPreview)
     implementation(Deps.androidx.compose.material3)
 
+    implementation(Deps.androidx.compose.navigation)
+    implementation(Deps.androidx.accompanist.systemUiController)
 
     testImplementation(Deps.testing.jUnit)
     androidTestImplementation(Deps.testing.jUnitExt)
