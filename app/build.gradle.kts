@@ -1,11 +1,25 @@
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.plugins
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.protobuf") version "0.8.12"
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 android {
     namespace = "com.adewan.mystuff"
     compileSdk = 33
+
+    sourceSets {
+        getByName("main") {
+            protobuf {
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.adewan.mystuff"
@@ -52,7 +66,7 @@ dependencies {
     implementation(Deps.androidx.compose.material3)
 
     implementation(Deps.androidx.compose.navigation)
-    implementation(Deps.androidx.accompanist.systemUiController)
+    implementation(Deps.accompanist.systemUiController)
 
     testImplementation(Deps.testing.jUnit)
     androidTestImplementation(Deps.testing.jUnitExt)
@@ -60,4 +74,40 @@ dependencies {
     androidTestImplementation(Deps.androidx.compose.uiTestJunit4)
     debugImplementation(Deps.androidx.compose.tooling)
     debugImplementation(Deps.androidx.compose.uiTestManifest)
+
+    implementation(Deps.protobuf.javalite)
+    implementation(Deps.protobuf.kotlinlite)
+
+    with(Deps.ktor) {
+        implementation(core)
+        implementation(cio)
+        implementation(logging)
+        implementation(contentNegotiation)
+        implementation(kotlinx_json)
+    }
+
+    with(Deps.koin) {
+        implementation(android)
+        implementation(compose)
+    }
+
+    implementation(Deps.kotlinx.serialization)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.5"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                create("kotlin") {
+                    option("lite")
+                }
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

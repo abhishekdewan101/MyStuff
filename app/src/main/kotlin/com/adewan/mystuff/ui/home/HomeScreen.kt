@@ -40,6 +40,7 @@ fun HomeScreen() {
     SideEffect {
         systemUiController.setSystemBarsColor(color = backgroundColor, darkIcons = useDarkIcons)
     }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { HomeHeaderBar() },

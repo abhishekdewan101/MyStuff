@@ -14,11 +14,40 @@ object Deps {
             const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:$version"
             const val navigation = "androidx.navigation:navigation-compose:2.5.2"
         }
+    }
 
-        object accompanist {
-            const val version = "0.25.1"
-            const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
-        }
+    object kotlinx {
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+    }
+
+    object accompanist {
+        const val version = "0.25.1"
+        const val systemUiController =
+            "com.google.accompanist:accompanist-systemuicontroller:$version"
+    }
+
+    object koin {
+        const val version = "3.2.2"
+        const val android = "io.insert-koin:koin-android:$version"
+        const val compose = "io.insert-koin:koin-androidx-compose:3.2.1"
+    }
+
+    object ktor {
+        const val version = "2.1.1"
+        const val core = "io.ktor:ktor-server-core:$version"
+        const val cio = "io.ktor:ktor-client-cio:$version"
+        const val android = "io.ktor:ktor-client-android:$version"
+        const val clientSerialization = "io.ktor:ktor-client-serialization:$version"
+        const val logging = "io.ktor:ktor-client-logging-jvm:$version"
+        const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
+        const val kotlinx_json = "io.ktor:ktor-serialization-kotlinx-json:$version"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0'"
+    }
+
+    object protobuf {
+        const val version = "3.21.5"
+        const val javalite = "com.google.protobuf:protobuf-javalite:$version"
+        const val kotlinlite = "com.google.protobuf:protobuf-kotlin-lite:$version"
     }
 
     object testing {
