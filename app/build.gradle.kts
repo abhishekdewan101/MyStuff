@@ -92,6 +92,8 @@ dependencies {
     }
 
     implementation(Deps.kotlinx.serialization)
+
+    implementation(Deps.timber)
 }
 
 protobuf {

@@ -6,12 +6,8 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.takeFrom
 
-interface NetworkDataSource {
-    suspend fun getIgdbAuthenticationToken(): IgdbAuthenticationToken
-}
-
-class NetworkDataSourceImpl(private val client: HttpClient) : NetworkDataSource {
-    override suspend fun getIgdbAuthenticationToken(): IgdbAuthenticationToken =
+class NetworkDataSource(private val client: HttpClient) {
+    suspend fun getIgdbAuthenticationToken(): IgdbAuthenticationToken =
         client.get {
             url {
                 takeFrom("https://px058nbguc.execute-api.us-east-1.amazonaws.com/default/authentication")
