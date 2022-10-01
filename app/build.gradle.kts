@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
@@ -32,6 +33,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "ClientId",
+            gradleLocalProperties(rootDir).getProperty("clientId")
+        )
     }
 
     // FIXME: Add a release target that minify's the build
@@ -91,7 +98,10 @@ dependencies {
         implementation(compose)
     }
 
-    implementation(Deps.kotlinx.serialization)
+    with(Deps.kotlinx) {
+        implementation(serialization)
+        implementation(protobuf)
+    }
 
     implementation(Deps.timber)
 }

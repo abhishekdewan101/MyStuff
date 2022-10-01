@@ -18,6 +18,7 @@ object Deps {
 
     object kotlinx {
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+        const val protobuf = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.4.0"
     }
 
     object accompanist {

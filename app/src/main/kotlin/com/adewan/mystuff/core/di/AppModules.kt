@@ -5,23 +5,32 @@ import com.adewan.mystuff.BuildConfig
 import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
+import com.adewan.mystuff.core.repository.GameRepository
+import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
+import io.ktor.serialization.ContentConverter
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.charsets.Charset
+import io.ktor.utils.io.core.readBytes
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import proto.GameResult
 import java.time.Clock
 
 /**
  * AppModule defines app level declarations of dependencies that can be used everywhere in the app.
  */
-
 val appModule = module {
     singleOf<HttpClient> {
         HttpClient(CIO) {
@@ -33,7 +42,9 @@ val appModule = module {
                         ignoreUnknownKeys = true
                     }
                 )
+                register(ContentType.Application.ProtoBuf, ProtobufConverter())
             }
+            install(HttpCache)
             install(Logging) {
                 logger = object :
                     Logger {
@@ -55,11 +66,26 @@ val appModule = module {
         Clock.systemDefaultZone()
     }
 
+    // UseCase
+    single { GetComingSoonGames(get()) }
+
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }
+    single { GameRepository(get(), get()) }
 
     // DataSources
     single { PreferenceDataSource(get()) }
 
     single { NetworkDataSource(get()) }
+}
+
+class ProtobufConverter : ContentConverter {
+    override suspend fun deserialize(
+        charset: Charset,
+        typeInfo: TypeInfo,
+        content: ByteReadChannel
+    ): Any {
+        val byteArray = content.readRemaining().readBytes()
+        return GameResult.parseFrom(byteArray)
+    }
 }
