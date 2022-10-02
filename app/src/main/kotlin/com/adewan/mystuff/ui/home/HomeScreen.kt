@@ -3,7 +3,6 @@
 package com.adewan.mystuff.ui.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,30 +22,28 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.adewan.mystuff.ui.composables.ThemedSystemUiContainer
+import com.adewan.mystuff.ui.navigation.AppNavigator
 
 @Composable
-fun HomeScreen() {
-    val systemUiController = rememberSystemUiController()
-    val backgroundColor = MaterialTheme.colorScheme.background
-    val useDarkIcons = !isSystemInDarkTheme()
-
-    SideEffect {
-        systemUiController.setSystemBarsColor(color = backgroundColor, darkIcons = useDarkIcons)
-    }
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = { HomeHeaderBar() },
-        floatingActionButton = { FloatingActionButton() }
-    ) {
-        HomeScreenContent(paddingValues = it)
+fun HomeScreen(appNavigator: AppNavigator) {
+    ThemedSystemUiContainer {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = { HomeHeaderBar() },
+            floatingActionButton = {
+                FloatingActionButton {
+                    appNavigator.navigateToGameScreen()
+                }
+            }
+        ) {
+//        HomeScreenContent(paddingValues = it)
+        }
     }
 }
 
@@ -91,8 +88,8 @@ private fun HomeScreenContent(paddingValues: PaddingValues) {
 }
 
 @Composable
-private fun FloatingActionButton() {
-    FloatingActionButton(onClick = {}) {
+private fun FloatingActionButton(onClick: () -> Unit) {
+    FloatingActionButton(onClick = onClick) {
         Icon(Icons.Default.Add, contentDescription = "Add something")
     }
 }
