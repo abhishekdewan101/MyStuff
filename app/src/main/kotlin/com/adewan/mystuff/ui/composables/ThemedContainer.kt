@@ -8,16 +8,15 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun ThemedSystemUiContainer(
+fun ThemedContainer(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     content: @Composable () -> Unit
 ) {
-    val systemUiController = rememberSystemUiController()
+    val uiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
 
     SideEffect {
-        systemUiController.setSystemBarsColor(color = backgroundColor, darkIcons = useDarkIcons)
+        uiController.setSystemBarsColor(color = backgroundColor, darkIcons = useDarkIcons)
     }
-
     content()
 }

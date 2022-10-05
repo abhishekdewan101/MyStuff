@@ -65,8 +65,6 @@ android {
 
 dependencies {
 
-    api(project(":ux-common"))
-
     implementation(Deps.androidx.coreKtx)
     implementation(Deps.androidx.lifecycleRuntime)
     implementation(Deps.androidx.compose.activityCompose)

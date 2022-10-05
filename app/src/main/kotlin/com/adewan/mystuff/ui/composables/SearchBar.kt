@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeUiApi::class)
 
-package com.adewan.ux.common
+package com.adewan.mystuff.ui.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

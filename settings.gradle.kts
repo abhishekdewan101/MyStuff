@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MyStuff"
 include(":app")
-include(":ux-common")

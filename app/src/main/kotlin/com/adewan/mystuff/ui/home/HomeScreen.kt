@@ -27,12 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.adewan.mystuff.ui.composables.ThemedSystemUiContainer
+import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.navigation.AppNavigator
 
 @Composable
 fun HomeScreen(appNavigator: AppNavigator) {
-    ThemedSystemUiContainer {
+    ThemedContainer {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = { HomeHeaderBar() },
