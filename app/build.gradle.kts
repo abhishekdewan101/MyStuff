@@ -71,6 +71,7 @@ dependencies {
     implementation(Deps.androidx.compose.ui)
     implementation(Deps.androidx.compose.toolingPreview)
     implementation(Deps.androidx.compose.material3)
+    implementation(Deps.androidx.compose.iconsExtended)
 
     implementation(Deps.androidx.compose.navigation)
     implementation(Deps.accompanist.systemUiController)

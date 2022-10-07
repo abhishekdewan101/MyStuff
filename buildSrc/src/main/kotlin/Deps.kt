@@ -13,6 +13,7 @@ object Deps {
             const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4:$version"
             const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:$version"
             const val navigation = "androidx.navigation:navigation-compose:2.5.2"
+            const val iconsExtended = "androidx.compose.material:material-icons-extended:$version"
         }
     }
 
