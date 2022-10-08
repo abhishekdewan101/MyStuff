@@ -75,6 +75,7 @@ dependencies {
 
     implementation(Deps.androidx.compose.navigation)
     implementation(Deps.accompanist.systemUiController)
+    implementation(Deps.accompanist.pager)
 
     testImplementation(Deps.testing.jUnit)
     androidTestImplementation(Deps.testing.jUnitExt)
@@ -85,6 +86,8 @@ dependencies {
 
     implementation(Deps.protobuf.javalite)
     implementation(Deps.protobuf.kotlinlite)
+
+    implementation(Deps.coil)
 
     with(Deps.ktor) {
         implementation(core)

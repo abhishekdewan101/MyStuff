@@ -1,4 +1,7 @@
 object Deps {
+
+    const val coil = "io.coil-kt:coil-compose:2.2.2"
+
     object androidx {
         const val coreKtx = "androidx.core:core-ktx:1.9.0"
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
@@ -26,6 +29,7 @@ object Deps {
         const val version = "0.25.1"
         const val systemUiController =
             "com.google.accompanist:accompanist-systemuicontroller:$version"
+        const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
 
     object koin {
