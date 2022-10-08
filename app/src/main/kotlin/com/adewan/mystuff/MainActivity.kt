@@ -3,7 +3,7 @@ package com.adewan.mystuff
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.adewan.mystuff.ui.navigation.NavigationGraph
+import com.adewan.mystuff.ui.splash.SplashScreen
 import com.adewan.mystuff.ui.theme.MyStuffTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyStuffTheme {
-                NavigationGraph()
+                SplashScreen()
             }
         }
     }

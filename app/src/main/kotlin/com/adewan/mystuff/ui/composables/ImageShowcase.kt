@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -23,7 +24,7 @@ fun ImageShowcase(
     items: List<ImageShowcaseItem>,
     showLabel: Boolean = true
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(initialPage = 1)
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -38,7 +39,10 @@ fun ImageShowcase(
             Text(
                 items[pagerState.currentPage].label
                     ?: throw IllegalStateException("Label can't be null with showLabel is true"),
-                modifier = Modifier.padding(top = 25.dp),
+                modifier = Modifier
+                    .padding(top = 25.dp)
+                    .padding(horizontal = 10.dp),
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight =
                     FontWeight.Bold

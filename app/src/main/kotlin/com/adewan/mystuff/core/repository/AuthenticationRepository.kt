@@ -12,11 +12,11 @@ class AuthenticationRepository(
     private val networkDataSource: NetworkDataSource,
     private val clock: Clock
 ) {
-    suspend fun provideIgdbAuthenticationToken(): String {
+    suspend fun initializeIgdbAuthenticationToken(): Boolean {
         val currentToken = preferenceDataSource.getIgdbToken()
         return if (currentToken != null && currentToken.isValid(clock.millis())) {
-            Timber.d("Getting Igdb token from cache")
-            currentToken.token
+            Timber.d("Token is present and valid ")
+            true
         } else {
             Timber.d("Getting Igdb token from network")
             val networkToken = networkDataSource.getIgdbAuthenticationToken()
@@ -26,7 +26,7 @@ class AuthenticationRepository(
                     expiration = networkToken.expiresIn + clock.millis()
                 )
             )
-            networkToken.token
+            true
         }
     }
 }

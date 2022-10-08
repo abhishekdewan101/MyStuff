@@ -10,21 +10,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.home.HomeScreen
 import com.adewan.mystuff.ui.library.LibraryScreen
 import com.adewan.mystuff.ui.search.SearchScreen
+import org.koin.androidx.compose.get
 
 @Composable
 fun NavigationGraph() {
     val navHostController = rememberNavController()
     val navigationDirector = NavigationDirector(navHostController = navHostController)
+    val authenticationRepository: AuthenticationRepository = get()
+
+    LaunchedEffect(key1 = authenticationRepository) {
+        authenticationRepository.initializeIgdbAuthenticationToken()
+    }
 
     ThemedContainer {
         Scaffold(

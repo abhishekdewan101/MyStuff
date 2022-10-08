@@ -6,7 +6,8 @@ import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.core.repository.GameRepository
-import com.adewan.mystuff.core.usecase.GetComingSoonGames
+import com.adewan.mystuff.core.usecase.GetShowcaseGames
+import com.adewan.mystuff.ui.home.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.cache.HttpCache
@@ -23,6 +24,7 @@ import io.ktor.utils.io.charsets.Charset
 import io.ktor.utils.io.core.readBytes
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import proto.GameResult
@@ -66,8 +68,11 @@ val appModule = module {
         Clock.systemDefaultZone()
     }
 
+    // ViewModel
+    viewModel { HomeViewModel(get()) }
+
     // UseCase
-    single { GetComingSoonGames(get()) }
+    single { GetShowcaseGames(get()) }
 
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }
