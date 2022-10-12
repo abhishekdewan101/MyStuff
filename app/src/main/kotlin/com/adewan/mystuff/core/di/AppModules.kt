@@ -6,6 +6,7 @@ import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.core.repository.GameRepository
+import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.ui.home.HomeViewModel
@@ -70,11 +71,12 @@ val appModule = module {
     }
 
     // ViewModel
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
 
     // UseCase
     single { GetShowcaseGames(get()) }
     single { GetTopRatedGames(get()) }
+    single { GetComingSoonGames(get()) }
 
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }

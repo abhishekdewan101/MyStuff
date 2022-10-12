@@ -2,12 +2,11 @@
 
 package com.adewan.mystuff.ui.home
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,7 +33,7 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .scrollable(state = scrollState, orientation = Orientation.Vertical)
+            .verticalScroll(scrollState)
     ) {
         TextFilterRow(
             modifier = Modifier.padding(top = 10.dp),
@@ -54,6 +53,11 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
             ImageCarouselWithTitle(
                 modifier = Modifier.padding(top = 15.dp),
                 data = it.topRatedGames,
+                onViewMore = {}
+            )
+            ImageCarouselWithTitle(
+                modifier = Modifier.padding(top = 15.dp),
+                data = it.comingSoonGames,
                 onViewMore = {}
             )
         }
