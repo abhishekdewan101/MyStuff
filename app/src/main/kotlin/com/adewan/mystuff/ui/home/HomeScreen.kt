@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitle
 import com.adewan.mystuff.ui.composables.ImageShowcase
 import com.adewan.mystuff.ui.composables.TextFilterRow
@@ -20,21 +21,10 @@ import com.adewan.mystuff.ui.navigation.NavigationDirector
 import com.google.accompanist.pager.ExperimentalPagerApi
 import org.koin.androidx.compose.getViewModel
 
-enum class DataFilter {
-    Games,
-    Movies,
-    Tv
-}
-
 @Composable
 fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel = getViewModel()) {
     val viewState by viewModel.viewState.collectAsState()
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         TextFilterRow(
             modifier = Modifier.padding(top = 10.dp),
             filters = listOf(
@@ -42,29 +32,33 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
                 TextFilterRowItem(label = "Movies", filter = DataFilter.Movies),
                 TextFilterRowItem(label = "TV Shows", filter = DataFilter.Tv)
             ),
-            onFilterSelected = {
-            }
+            onFilterSelected = viewModel::changeFilter
         )
-        viewState?.let {
-            ImageShowcase(
-                modifier = Modifier.padding(top = 15.dp),
-                items = it.showcaseGames
-            )
-            ImageCarouselWithTitle(
-                modifier = Modifier.padding(top = 15.dp),
-                data = it.topRatedGames,
-                onViewMore = {}
-            )
-            ImageCarouselWithTitle(
-                modifier = Modifier.padding(top = 15.dp),
-                data = it.comingSoonGames,
-                onViewMore = {}
-            )
-            ImageCarouselWithTitle(
-                modifier = Modifier.padding(top = 15.dp),
-                data = it.recentReleasedGames,
-                onViewMore = {}
-            )
+
+        if (viewState == null) {
+            CenteredLoadingIndicator()
+        } else {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                ImageShowcase(
+                    modifier = Modifier.padding(top = 15.dp),
+                    items = viewState!!.showcase
+                )
+                ImageCarouselWithTitle(
+                    modifier = Modifier.padding(top = 15.dp),
+                    data = viewState!!.topRated,
+                    onViewMore = {}
+                )
+                ImageCarouselWithTitle(
+                    modifier = Modifier.padding(top = 15.dp),
+                    data = viewState!!.comingSoon,
+                    onViewMore = {}
+                )
+                ImageCarouselWithTitle(
+                    modifier = Modifier.padding(top = 15.dp),
+                    data = viewState!!.recentReleased,
+                    onViewMore = {}
+                )
+            }
         }
     }
 }

@@ -14,11 +14,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class HomeViewState(
-    val showcaseGames: List<ImageShowcaseItem>,
-    val topRatedGames: ImageCarouselWithTitleData,
-    val comingSoonGames: ImageCarouselWithTitleData,
-    val recentReleasedGames: ImageCarouselWithTitleData
+    val showcase: List<ImageShowcaseItem>,
+    val topRated: ImageCarouselWithTitleData,
+    val comingSoon: ImageCarouselWithTitleData,
+    val recentReleased: ImageCarouselWithTitleData
 )
+
+enum class DataFilter {
+    Games,
+    Movies,
+    Tv
+}
 
 class HomeViewModel(
     private val getShowcaseGames: GetShowcaseGames,
@@ -29,7 +35,29 @@ class HomeViewModel(
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
 
+    private val _currentFilter = MutableStateFlow(DataFilter.Games)
+
     init {
+        viewModelScope.launch {
+            _currentFilter.collect {
+                when (it) {
+                    DataFilter.Games -> getGamesData()
+                    DataFilter.Movies -> {
+                        _viewState.value = null
+                    }
+                    DataFilter.Tv -> {
+                        _viewState.value = null
+                    }
+                }
+            }
+        }
+    }
+
+    fun changeFilter(filter: DataFilter) {
+        _currentFilter.value = filter
+    }
+
+    private fun getGamesData() {
         viewModelScope.launch {
             val data1 = async {
                 getShowcaseGames().gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
@@ -66,10 +94,10 @@ class HomeViewModel(
 
             _viewState.value =
                 HomeViewState(
-                    showcaseGames = data1.await(),
-                    topRatedGames = data2.await(),
-                    comingSoonGames = data3.await(),
-                    recentReleasedGames = data4.await()
+                    showcase = data1.await(),
+                    topRated = data2.await(),
+                    comingSoon = data3.await(),
+                    recentReleased = data4.await()
                 )
         }
     }
