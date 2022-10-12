@@ -60,6 +60,11 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
                 data = it.comingSoonGames,
                 onViewMore = {}
             )
+            ImageCarouselWithTitle(
+                modifier = Modifier.padding(top = 15.dp),
+                data = it.recentReleasedGames,
+                onViewMore = {}
+            )
         }
     }
 }

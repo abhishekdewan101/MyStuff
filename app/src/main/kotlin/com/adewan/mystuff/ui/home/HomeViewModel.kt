@@ -3,6 +3,7 @@ package com.adewan.mystuff.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
+import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
@@ -15,13 +16,15 @@ import kotlinx.coroutines.launch
 data class HomeViewState(
     val showcaseGames: List<ImageShowcaseItem>,
     val topRatedGames: ImageCarouselWithTitleData,
-    val comingSoonGames: ImageCarouselWithTitleData
+    val comingSoonGames: ImageCarouselWithTitleData,
+    val recentReleasedGames: ImageCarouselWithTitleData
 )
 
 class HomeViewModel(
     private val getShowcaseGames: GetShowcaseGames,
     private val getTopRatedGames: GetTopRatedGames,
-    private val getComingSoonGames: GetComingSoonGames
+    private val getComingSoonGames: GetComingSoonGames,
+    private val getRecentReleasedGames: GetRecentReleasedGames
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -53,11 +56,20 @@ class HomeViewModel(
                 )
             }
 
+            val data4 = async {
+                ImageCarouselWithTitleData(
+                    title = "Recently Released",
+                    images = getRecentReleasedGames().gamesList.filter { it.hasCover() }
+                        .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
+                )
+            }
+
             _viewState.value =
                 HomeViewState(
                     showcaseGames = data1.await(),
                     topRatedGames = data2.await(),
-                    comingSoonGames = data3.await()
+                    comingSoonGames = data3.await(),
+                    recentReleasedGames = data4.await()
                 )
         }
     }
