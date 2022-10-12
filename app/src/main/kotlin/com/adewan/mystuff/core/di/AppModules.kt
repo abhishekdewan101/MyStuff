@@ -7,6 +7,7 @@ import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.core.repository.GameRepository
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
+import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.ui.home.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -69,10 +70,11 @@ val appModule = module {
     }
 
     // ViewModel
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
 
     // UseCase
     single { GetShowcaseGames(get()) }
+    single { GetTopRatedGames(get()) }
 
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }

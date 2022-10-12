@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.adewan.mystuff.ui.composables.ImageCarouselWithTitle
 import com.adewan.mystuff.ui.composables.ImageShowcase
 import com.adewan.mystuff.ui.composables.TextFilterRow
 import com.adewan.mystuff.ui.composables.TextFilterRowItem
@@ -28,7 +29,7 @@ enum class DataFilter {
 
 @Composable
 fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel = getViewModel()) {
-    val showcaseViewState by viewModel.showcaseGames.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -45,10 +46,15 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
             onFilterSelected = {
             }
         )
-        showcaseViewState?.let {
+        viewState?.let {
             ImageShowcase(
                 modifier = Modifier.padding(top = 15.dp),
-                items = it
+                items = it.showcaseGames
+            )
+            ImageCarouselWithTitle(
+                modifier = Modifier.padding(top = 15.dp),
+                data = it.topRatedGames,
+                onViewMore = {}
             )
         }
     }
