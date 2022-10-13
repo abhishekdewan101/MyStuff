@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import com.adewan.mystuff.core.usecase.GetComingSoonMovies
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
+import com.adewan.mystuff.core.usecase.GetRecentReleasedMovies
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
+import com.adewan.mystuff.core.usecase.GetShowcaseMovies
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.core.usecase.GetTopRatedMovies
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
@@ -34,7 +36,9 @@ class HomeViewModel(
     private val getComingSoonGames: GetComingSoonGames,
     private val getRecentReleasedGames: GetRecentReleasedGames,
     private val getTopRatedMovies: GetTopRatedMovies,
-    private val getComingSoonMovies: GetComingSoonMovies
+    private val getComingSoonMovies: GetComingSoonMovies,
+    private val getRecentReleasedMovies: GetRecentReleasedMovies,
+    private val getShowcaseMovies: GetShowcaseMovies
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -62,6 +66,12 @@ class HomeViewModel(
     private fun getMoviesData() {
         _viewState.value = null
         viewModelScope.launch {
+            val data1 = async {
+                getShowcaseMovies().movies.filter { it.poster != null }.map {
+                    ImageShowcaseItem(url = it.posterUrl, label = it.title ?: it.originalTitle)
+                }
+            }
+
             val data2 = async {
                 ImageCarouselWithTitleData(
                     title = "Top Rated",
@@ -81,15 +91,13 @@ class HomeViewModel(
             val data4 = async {
                 ImageCarouselWithTitleData(
                     title = "Recently Released",
-                    images = listOf("asdasdasd", "adasdsa")
+                    images = getRecentReleasedMovies().movies.filter { it.poster != null }
+                        .map { it.posterUrl }
                 )
             }
 
             _viewState.value = HomeViewState(
-                showcase = listOf(
-                    ImageShowcaseItem("asdnjasd", label = "sskdaods"),
-                    ImageShowcaseItem("asdnjasd", label = "sskdaods")
-                ),
+                showcase = data1.await(),
                 topRated = data2.await(),
                 comingSoon = data3.await(),
                 recentReleased = data4.await()

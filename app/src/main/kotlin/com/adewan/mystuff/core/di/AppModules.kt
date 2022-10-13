@@ -10,7 +10,9 @@ import com.adewan.mystuff.core.repository.MovieRepository
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import com.adewan.mystuff.core.usecase.GetComingSoonMovies
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
+import com.adewan.mystuff.core.usecase.GetRecentReleasedMovies
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
+import com.adewan.mystuff.core.usecase.GetShowcaseMovies
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.core.usecase.GetTopRatedMovies
 import com.adewan.mystuff.ui.home.HomeViewModel
@@ -75,7 +77,7 @@ val appModule = module {
     }
 
     // ViewModel
-    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
 
     // UseCase
     single { GetShowcaseGames(get()) }
@@ -84,6 +86,8 @@ val appModule = module {
     single { GetRecentReleasedGames(get()) }
     single { GetTopRatedMovies(get()) }
     single { GetComingSoonMovies(get()) }
+    single { GetRecentReleasedMovies(get()) }
+    single { GetShowcaseMovies(get()) }
 
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }
