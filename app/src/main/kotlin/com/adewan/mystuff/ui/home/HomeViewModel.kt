@@ -6,6 +6,7 @@ import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
+import com.adewan.mystuff.core.usecase.GetTopRatedMovies
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
 import kotlinx.coroutines.async
@@ -30,7 +31,8 @@ class HomeViewModel(
     private val getShowcaseGames: GetShowcaseGames,
     private val getTopRatedGames: GetTopRatedGames,
     private val getComingSoonGames: GetComingSoonGames,
-    private val getRecentReleasedGames: GetRecentReleasedGames
+    private val getRecentReleasedGames: GetRecentReleasedGames,
+    private val getTopRatedMovies: GetTopRatedMovies
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -42,9 +44,7 @@ class HomeViewModel(
             _currentFilter.collect {
                 when (it) {
                     DataFilter.Games -> getGamesData()
-                    DataFilter.Movies -> {
-                        _viewState.value = null
-                    }
+                    DataFilter.Movies -> getMoviesData()
                     DataFilter.Tv -> {
                         _viewState.value = null
                     }
@@ -57,7 +57,45 @@ class HomeViewModel(
         _currentFilter.value = filter
     }
 
+    private fun getMoviesData() {
+        _viewState.value = null
+        viewModelScope.launch {
+            val data2 = async {
+                ImageCarouselWithTitleData(
+                    title = "Top Rated",
+                    images = getTopRatedMovies().movies.filter { it.poster != null }
+                        .map { it.posterUrl }
+                )
+            }
+
+            val data3 = async {
+                ImageCarouselWithTitleData(
+                    title = "Coming Soon",
+                    images = listOf("asdads", "asdasdad")
+                )
+            }
+
+            val data4 = async {
+                ImageCarouselWithTitleData(
+                    title = "Recently Released",
+                    images = listOf("asdasdasd", "adasdsa")
+                )
+            }
+
+            _viewState.value = HomeViewState(
+                showcase = listOf(
+                    ImageShowcaseItem("asdnjasd", label = "sskdaods"),
+                    ImageShowcaseItem("asdnjasd", label = "sskdaods")
+                ),
+                topRated = data2.await(),
+                comingSoon = data3.await(),
+                recentReleased = data4.await()
+            )
+        }
+    }
+
     private fun getGamesData() {
+        _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
                 getShowcaseGames().gamesList.filter { it.hasCover() && it.name.isNotEmpty() }

@@ -39,6 +39,11 @@ android {
             "ClientId",
             gradleLocalProperties(rootDir).getProperty("clientId")
         )
+        buildConfigField(
+            "String",
+            "TmdbClientId",
+            gradleLocalProperties(rootDir).getProperty("tmdbClientId")
+        )
     }
 
     // FIXME: Add a release target that minify's the build
