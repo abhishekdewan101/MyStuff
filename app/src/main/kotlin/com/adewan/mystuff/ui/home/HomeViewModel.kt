@@ -3,6 +3,7 @@ package com.adewan.mystuff.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
+import com.adewan.mystuff.core.usecase.GetComingSoonMovies
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
@@ -32,7 +33,8 @@ class HomeViewModel(
     private val getTopRatedGames: GetTopRatedGames,
     private val getComingSoonGames: GetComingSoonGames,
     private val getRecentReleasedGames: GetRecentReleasedGames,
-    private val getTopRatedMovies: GetTopRatedMovies
+    private val getTopRatedMovies: GetTopRatedMovies,
+    private val getComingSoonMovies: GetComingSoonMovies
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -71,7 +73,8 @@ class HomeViewModel(
             val data3 = async {
                 ImageCarouselWithTitleData(
                     title = "Coming Soon",
-                    images = listOf("asdads", "asdasdad")
+                    images = getComingSoonMovies().movies.filter { it.poster != null }
+                        .map { it.posterUrl }
                 )
             }
 
