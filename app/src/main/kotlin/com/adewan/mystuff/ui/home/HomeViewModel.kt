@@ -4,12 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import com.adewan.mystuff.core.usecase.GetComingSoonMovies
+import com.adewan.mystuff.core.usecase.GetComingSoonTv
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
 import com.adewan.mystuff.core.usecase.GetRecentReleasedMovies
+import com.adewan.mystuff.core.usecase.GetRecentReleasedTv
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
 import com.adewan.mystuff.core.usecase.GetShowcaseMovies
+import com.adewan.mystuff.core.usecase.GetShowcaseTv
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.core.usecase.GetTopRatedMovies
+import com.adewan.mystuff.core.usecase.GetTopRatedTv
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
 import kotlinx.coroutines.async
@@ -38,7 +42,11 @@ class HomeViewModel(
     private val getTopRatedMovies: GetTopRatedMovies,
     private val getComingSoonMovies: GetComingSoonMovies,
     private val getRecentReleasedMovies: GetRecentReleasedMovies,
-    private val getShowcaseMovies: GetShowcaseMovies
+    private val getShowcaseMovies: GetShowcaseMovies,
+    private val getShowcaseTv: GetShowcaseTv,
+    private val getRecentReleasedTv: GetRecentReleasedTv,
+    private val getComingSoonTv: GetComingSoonTv,
+    private val getTopRatedTv: GetTopRatedTv
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -51,9 +59,7 @@ class HomeViewModel(
                 when (it) {
                     DataFilter.Games -> getGamesData()
                     DataFilter.Movies -> getMoviesData()
-                    DataFilter.Tv -> {
-                        _viewState.value = null
-                    }
+                    DataFilter.Tv -> getTvData()
                 }
             }
         }
@@ -61,6 +67,48 @@ class HomeViewModel(
 
     fun changeFilter(filter: DataFilter) {
         _currentFilter.value = filter
+    }
+
+    private fun getTvData() {
+        _viewState.value = null
+        viewModelScope.launch {
+            val data1 = async {
+                getShowcaseTv().shows.filter { it.poster != null }.map {
+                    ImageShowcaseItem(url = it.posterUrl, label = it.name ?: it.originalName)
+                }
+            }
+
+            val data2 = async {
+                ImageCarouselWithTitleData(
+                    title = "Top Rated",
+                    images = getTopRatedTv().shows.filter { it.poster != null }
+                        .map { it.posterUrl }
+                )
+            }
+
+            val data3 = async {
+                ImageCarouselWithTitleData(
+                    title = "Popular",
+                    images = getComingSoonTv().shows.filter { it.poster != null }
+                        .map { it.posterUrl }
+                )
+            }
+
+            val data4 = async {
+                ImageCarouselWithTitleData(
+                    title = "Airing Today",
+                    images = getRecentReleasedTv().shows.filter { it.poster != null }
+                        .map { it.posterUrl }
+                )
+            }
+
+            _viewState.value = HomeViewState(
+                showcase = data1.await(),
+                topRated = data2.await(),
+                comingSoon = data3.await(),
+                recentReleased = data4.await()
+            )
+        }
     }
 
     private fun getMoviesData() {

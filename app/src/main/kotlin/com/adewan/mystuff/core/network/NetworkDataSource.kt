@@ -4,6 +4,8 @@ import com.adewan.mystuff.BuildConfig
 import com.adewan.mystuff.core.model.IgdbAuthenticationToken
 import com.adewan.mystuff.core.model.MovieList
 import com.adewan.mystuff.core.model.MovieListType
+import com.adewan.mystuff.core.model.TvListType
+import com.adewan.mystuff.core.model.TvShowList
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -37,6 +39,16 @@ class NetworkDataSource(private val client: HttpClient) {
             takeFrom("https://api.themoviedb.org/3${type.endPoint}")
             parameter("api_key", BuildConfig.TmdbClientId)
             parameter("language", "en-US")
+            parameter("region", "US")
+        }
+    }.body()
+
+    suspend fun requestTvShow(type: TvListType): TvShowList = client.get {
+        url {
+            takeFrom("https://api.themoviedb.org/3${type.endPoint}")
+            parameter("api_key", BuildConfig.TmdbClientId)
+            parameter("language", "en-US")
+            parameter("timezone", "America/Los_Angeles")
         }
     }.body()
 }

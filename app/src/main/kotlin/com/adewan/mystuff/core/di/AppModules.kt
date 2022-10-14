@@ -7,14 +7,19 @@ import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.core.repository.GameRepository
 import com.adewan.mystuff.core.repository.MovieRepository
+import com.adewan.mystuff.core.repository.TvRepository
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
 import com.adewan.mystuff.core.usecase.GetComingSoonMovies
+import com.adewan.mystuff.core.usecase.GetComingSoonTv
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
 import com.adewan.mystuff.core.usecase.GetRecentReleasedMovies
+import com.adewan.mystuff.core.usecase.GetRecentReleasedTv
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
 import com.adewan.mystuff.core.usecase.GetShowcaseMovies
+import com.adewan.mystuff.core.usecase.GetShowcaseTv
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.core.usecase.GetTopRatedMovies
+import com.adewan.mystuff.core.usecase.GetTopRatedTv
 import com.adewan.mystuff.ui.home.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -77,7 +82,22 @@ val appModule = module {
     }
 
     // ViewModel
-    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel {
+        HomeViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
 
     // UseCase
     single { GetShowcaseGames(get()) }
@@ -88,11 +108,16 @@ val appModule = module {
     single { GetComingSoonMovies(get()) }
     single { GetRecentReleasedMovies(get()) }
     single { GetShowcaseMovies(get()) }
+    single { GetTopRatedTv(get()) }
+    single { GetComingSoonTv(get()) }
+    single { GetRecentReleasedTv(get()) }
+    single { GetShowcaseTv(get()) }
 
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }
     single { GameRepository(get(), get()) }
     single { MovieRepository(get()) }
+    single { TvRepository(get()) }
 
     // DataSources
     single { PreferenceDataSource(get()) }
