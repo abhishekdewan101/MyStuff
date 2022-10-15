@@ -5,7 +5,7 @@ import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.network.NetworkDataSource
 import proto.GameResult
 
-class GameRepository(
+class IgdbRepository(
     private val networkDataSource: NetworkDataSource,
     private val preferenceDataSource: PreferenceDataSource,
     private val clientId: String = BuildConfig.ClientId

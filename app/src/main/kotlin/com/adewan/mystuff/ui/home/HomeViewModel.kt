@@ -2,13 +2,14 @@ package com.adewan.mystuff.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adewan.mystuff.core.model.COMING_SOON_GAMES_QUERY
+import com.adewan.mystuff.core.model.RECENT_RELEASED_GAMES_QUERY
+import com.adewan.mystuff.core.model.SHOWCASE_GAMES_QUERY
+import com.adewan.mystuff.core.model.TOP_RATED_GAMES_QUERY
 import com.adewan.mystuff.core.model.TmdbListType
-import com.adewan.mystuff.core.usecase.GetComingSoonGames
-import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
-import com.adewan.mystuff.core.usecase.GetShowcaseGames
+import com.adewan.mystuff.core.usecase.GetGamesPosterList
 import com.adewan.mystuff.core.usecase.GetTmdbMovieList
 import com.adewan.mystuff.core.usecase.GetTmdbShowList
-import com.adewan.mystuff.core.usecase.GetTopRatedGames
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
 import kotlinx.coroutines.async
@@ -30,10 +31,7 @@ enum class DataFilter {
 }
 
 class HomeViewModel(
-    private val getShowcaseGames: GetShowcaseGames,
-    private val getTopRatedGames: GetTopRatedGames,
-    private val getComingSoonGames: GetComingSoonGames,
-    private val getRecentReleasedGames: GetRecentReleasedGames,
+    private val getGamesPosterList: GetGamesPosterList,
     private val getTmdbMovieList: GetTmdbMovieList,
     private val getTmdbShowList: GetTmdbShowList
 ) : ViewModel() {
@@ -157,7 +155,7 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                getShowcaseGames().gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
+                getGamesPosterList(SHOWCASE_GAMES_QUERY).gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
                     .map {
                         ImageShowcaseItem(
                             url = "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg",
@@ -168,7 +166,7 @@ class HomeViewModel(
             val data2 = async {
                 ImageCarouselWithTitleData(
                     title = "Top Rated",
-                    images = getTopRatedGames().gamesList.filter { it.hasCover() }
+                    images = getGamesPosterList(TOP_RATED_GAMES_QUERY).gamesList.filter { it.hasCover() }
                         .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
                 )
             }
@@ -176,7 +174,7 @@ class HomeViewModel(
             val data3 = async {
                 ImageCarouselWithTitleData(
                     title = "Coming Soon",
-                    images = getComingSoonGames().gamesList.filter { it.hasCover() }
+                    images = getGamesPosterList(COMING_SOON_GAMES_QUERY).gamesList.filter { it.hasCover() }
                         .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
                 )
             }
@@ -184,7 +182,7 @@ class HomeViewModel(
             val data4 = async {
                 ImageCarouselWithTitleData(
                     title = "Recently Released",
-                    images = getRecentReleasedGames().gamesList.filter { it.hasCover() }
+                    images = getGamesPosterList(RECENT_RELEASED_GAMES_QUERY).gamesList.filter { it.hasCover() }
                         .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
                 )
             }
