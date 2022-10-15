@@ -2,18 +2,13 @@ package com.adewan.mystuff.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adewan.mystuff.core.model.TmdbListType
 import com.adewan.mystuff.core.usecase.GetComingSoonGames
-import com.adewan.mystuff.core.usecase.GetComingSoonMovies
-import com.adewan.mystuff.core.usecase.GetComingSoonTv
 import com.adewan.mystuff.core.usecase.GetRecentReleasedGames
-import com.adewan.mystuff.core.usecase.GetRecentReleasedMovies
-import com.adewan.mystuff.core.usecase.GetRecentReleasedTv
 import com.adewan.mystuff.core.usecase.GetShowcaseGames
-import com.adewan.mystuff.core.usecase.GetShowcaseMovies
-import com.adewan.mystuff.core.usecase.GetShowcaseTv
+import com.adewan.mystuff.core.usecase.GetTmdbMovieList
+import com.adewan.mystuff.core.usecase.GetTmdbShowList
 import com.adewan.mystuff.core.usecase.GetTopRatedGames
-import com.adewan.mystuff.core.usecase.GetTopRatedMovies
-import com.adewan.mystuff.core.usecase.GetTopRatedTv
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
 import kotlinx.coroutines.async
@@ -39,14 +34,8 @@ class HomeViewModel(
     private val getTopRatedGames: GetTopRatedGames,
     private val getComingSoonGames: GetComingSoonGames,
     private val getRecentReleasedGames: GetRecentReleasedGames,
-    private val getTopRatedMovies: GetTopRatedMovies,
-    private val getComingSoonMovies: GetComingSoonMovies,
-    private val getRecentReleasedMovies: GetRecentReleasedMovies,
-    private val getShowcaseMovies: GetShowcaseMovies,
-    private val getShowcaseTv: GetShowcaseTv,
-    private val getRecentReleasedTv: GetRecentReleasedTv,
-    private val getComingSoonTv: GetComingSoonTv,
-    private val getTopRatedTv: GetTopRatedTv
+    private val getTmdbMovieList: GetTmdbMovieList,
+    private val getTmdbShowList: GetTmdbShowList
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -73,15 +62,19 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                getShowcaseTv().shows.filter { it.poster != null }.map {
-                    ImageShowcaseItem(url = it.posterUrl, label = it.name ?: it.originalName)
-                }
+                getTmdbShowList(TmdbListType.ON_AIR_TV_SHOWS)
+                    .results
+                    .filter { it.poster != null }
+                    .map {
+                        ImageShowcaseItem(url = it.posterUrl, label = it.name ?: it.originalName)
+                    }
             }
 
             val data2 = async {
                 ImageCarouselWithTitleData(
                     title = "Top Rated",
-                    images = getTopRatedTv().shows.filter { it.poster != null }
+                    images = getTmdbShowList(TmdbListType.TOP_RATED_TV_SHOWS)
+                        .results.filter { it.poster != null }
                         .map { it.posterUrl }
                 )
             }
@@ -89,7 +82,8 @@ class HomeViewModel(
             val data3 = async {
                 ImageCarouselWithTitleData(
                     title = "Popular",
-                    images = getComingSoonTv().shows.filter { it.poster != null }
+                    images = getTmdbShowList(TmdbListType.POPULAR_TV_SHOWS)
+                        .results.filter { it.poster != null }
                         .map { it.posterUrl }
                 )
             }
@@ -97,7 +91,8 @@ class HomeViewModel(
             val data4 = async {
                 ImageCarouselWithTitleData(
                     title = "Airing Today",
-                    images = getRecentReleasedTv().shows.filter { it.poster != null }
+                    images = getTmdbShowList(TmdbListType.AIRING_TODAY_TV_SHOWS)
+                        .results.filter { it.poster != null }
                         .map { it.posterUrl }
                 )
             }
@@ -115,31 +110,36 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                getShowcaseMovies().movies.filter { it.poster != null }.map {
-                    ImageShowcaseItem(url = it.posterUrl, label = it.title ?: it.originalTitle)
-                }
+                getTmdbMovieList(TmdbListType.POPULAR_MOVIES)
+                    .results
+                    .filter { it.poster != null }.map {
+                        ImageShowcaseItem(url = it.posterUrl, label = it.title ?: it.originalTitle)
+                    }
             }
 
             val data2 = async {
                 ImageCarouselWithTitleData(
                     title = "Top Rated",
-                    images = getTopRatedMovies().movies.filter { it.poster != null }
+                    images = getTmdbMovieList(TmdbListType.TOP_RATED_MOVIES)
+                        .results.filter { it.poster != null }
                         .map { it.posterUrl }
                 )
             }
 
             val data3 = async {
                 ImageCarouselWithTitleData(
-                    title = "Coming Soon",
-                    images = getComingSoonMovies().movies.filter { it.poster != null }
+                    title = "Upcoming",
+                    images = getTmdbMovieList(TmdbListType.UPCOMING_MOVIES)
+                        .results.filter { it.poster != null }
                         .map { it.posterUrl }
                 )
             }
 
             val data4 = async {
                 ImageCarouselWithTitleData(
-                    title = "Recently Released",
-                    images = getRecentReleasedMovies().movies.filter { it.poster != null }
+                    title = "Now Playing",
+                    images = getTmdbMovieList(TmdbListType.NOW_PLAYING_MOVIES)
+                        .results.filter { it.poster != null }
                         .map { it.posterUrl }
                 )
             }
