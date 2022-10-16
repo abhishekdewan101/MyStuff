@@ -39,6 +39,7 @@ class HomeViewModel(
     val viewState = _viewState.asStateFlow()
 
     private val _currentFilter = MutableStateFlow(DataFilter.Games)
+    val currentFilter = _currentFilter.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -64,7 +65,11 @@ class HomeViewModel(
                     .results
                     .filter { it.poster != null }
                     .map {
-                        ImageShowcaseItem(url = it.posterUrl, label = it.name ?: it.originalName)
+                        ImageShowcaseItem(
+                            identifier = "",
+                            url = it.posterUrl,
+                            label = it.name ?: it.originalName
+                        )
                     }
             }
 
@@ -111,7 +116,11 @@ class HomeViewModel(
                 getTmdbMovieList(TmdbListType.POPULAR_MOVIES)
                     .results
                     .filter { it.poster != null }.map {
-                        ImageShowcaseItem(url = it.posterUrl, label = it.title ?: it.originalTitle)
+                        ImageShowcaseItem(
+                            identifier = "",
+                            url = it.posterUrl,
+                            label = it.title ?: it.originalTitle
+                        )
                     }
             }
 
@@ -158,6 +167,7 @@ class HomeViewModel(
                 getGamesPosterList(SHOWCASE_GAMES_QUERY).gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
                     .map {
                         ImageShowcaseItem(
+                            identifier = it.slug,
                             url = "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg",
                             label = it.name
                         )

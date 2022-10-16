@@ -43,7 +43,13 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 ImageShowcase(
                     modifier = Modifier.padding(top = 15.dp),
-                    items = viewState!!.showcase
+                    items = viewState!!.showcase,
+                    onImageTap = {
+                        when (viewModel.currentFilter.value) {
+                            DataFilter.Games -> navigationDirector.navigateToGameDetails(viewState!!.showcase[it].identifier)
+                            else -> {}
+                        }
+                    }
                 )
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),

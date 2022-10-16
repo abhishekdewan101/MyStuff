@@ -14,11 +14,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.ui.composables.ThemedContainer
+import com.adewan.mystuff.ui.gamedetails.GameDetailScreen
 import com.adewan.mystuff.ui.home.HomeScreen
 import com.adewan.mystuff.ui.library.LibraryScreen
 import com.adewan.mystuff.ui.search.SearchScreen
@@ -52,6 +55,17 @@ fun NavigationGraph() {
                 }
                 composable(NavDestination.Search.route) {
                     SearchScreen()
+                }
+                composable(
+                    NavDestination.GameDetail.route,
+                    arguments = listOf(navArgument("identifier") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    val identifier = backStackEntry.arguments?.getString("identifier")
+                        ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
+                    GameDetailScreen(
+                        navigationDirector = navigationDirector,
+                        identifier = identifier
+                    )
                 }
             }
         }

@@ -11,6 +11,9 @@ sealed class NavDestination(val route: String, val label: String, val icon: Imag
     object Search : NavDestination(route = "search", label = "Search", icon = Icons.Outlined.Search)
     object Library :
         NavDestination(route = "library", label = "My Stuff", icon = Icons.Outlined.Apps)
+
+    object GameDetail :
+        NavDestination(route = "game_detail/{identifier}", label = "", icon = Icons.Outlined.Apps)
 }
 
 val routes = listOf(NavDestination.Home, NavDestination.Search, NavDestination.Library)

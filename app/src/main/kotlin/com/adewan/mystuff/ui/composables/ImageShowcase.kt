@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 
-data class ImageShowcaseItem(val url: String, val label: String? = null)
+data class ImageShowcaseItem(val identifier: String, val url: String, val label: String? = null)
 
 @Composable
 fun ImageShowcase(
     modifier: Modifier = Modifier,
     items: List<ImageShowcaseItem>,
-    showLabel: Boolean = true
+    showLabel: Boolean = true,
+    onImageTap: (Int) -> Unit
 ) {
     val pagerState = rememberPagerState(initialPage = 1)
 
@@ -33,7 +34,8 @@ fun ImageShowcase(
         AnimatedImagePager(
             modifier = modifier,
             state = pagerState,
-            images = items.map { it.url }
+            images = items.map { it.url },
+            onImageTap = onImageTap
         )
         if (showLabel) {
             Text(

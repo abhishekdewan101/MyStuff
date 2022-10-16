@@ -2,6 +2,7 @@
 
 package com.adewan.mystuff.ui.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
@@ -23,7 +24,8 @@ import kotlin.math.absoluteValue
 fun AnimatedImagePager(
     modifier: Modifier = Modifier,
     state: PagerState,
-    images: List<String>
+    images: List<String>,
+    onImageTap: (Int) -> Unit
 ) {
     HorizontalPager(
         count = images.size,
@@ -55,6 +57,9 @@ fun AnimatedImagePager(
                         stop = 1.dp,
                         fraction = 1f - pageOffset.coerceIn(0f, 1f)
                     ).value
+                }
+                .clickable {
+                    onImageTap(page)
                 }
         ) {
             AsyncImage(
