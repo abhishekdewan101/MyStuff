@@ -7,9 +7,11 @@ import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.core.repository.IgdbRepository
 import com.adewan.mystuff.core.repository.TmdbRepository
+import com.adewan.mystuff.core.usecase.GetGameDetails
 import com.adewan.mystuff.core.usecase.GetGamesPosterList
 import com.adewan.mystuff.core.usecase.GetTmdbMovieList
 import com.adewan.mystuff.core.usecase.GetTmdbShowList
+import com.adewan.mystuff.ui.gamedetails.GameDetailViewModel
 import com.adewan.mystuff.ui.home.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -80,10 +82,15 @@ val appModule = module {
         )
     }
 
+    viewModel {
+        GameDetailViewModel(get())
+    }
+
     // UseCase
     single { GetTmdbMovieList(get()) }
     single { GetTmdbShowList(get()) }
     single { GetGamesPosterList(get()) }
+    single { GetGameDetails(get()) }
 
     // Repositories
     single { AuthenticationRepository(get(), get(), get()) }
@@ -92,7 +99,6 @@ val appModule = module {
 
     // DataSources
     single { PreferenceDataSource(get()) }
-
     single { NetworkDataSource(get()) }
 }
 

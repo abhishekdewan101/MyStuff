@@ -2,6 +2,7 @@
 
 package com.adewan.mystuff.ui.navigation
 
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,12 +41,14 @@ fun NavigationGraph() {
     ThemedContainer {
         Scaffold(
             bottomBar = { NavigationBottomBar(navHostController = navHostController) },
-            topBar = { NavigationTopBar() }
+            modifier = Modifier.navigationBarsPadding()
+//            topBar = { NavigationTopBar() }
         ) {
             NavHost(
                 navController = navHostController,
                 startDestination = NavDestination.Home.route,
-                modifier = Modifier.padding(it)
+                modifier = Modifier
+                    .padding(it)
             ) {
                 composable(NavDestination.Home.route) {
                     HomeScreen(navigationDirector = navigationDirector)
