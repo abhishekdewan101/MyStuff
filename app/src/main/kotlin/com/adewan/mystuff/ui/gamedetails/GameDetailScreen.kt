@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
@@ -76,10 +77,11 @@ fun GameDetailScreen(
                 ) {
                     Text(
                         text = viewState!!.name,
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        textAlign = TextAlign.Center
                     )
                     Row {
-                        viewState!!.genresList.map {
+                        viewState!!.themesList.map {
                             ElevatedAssistChip(
                                 onClick = { },
                                 label = { Text(text = it.name) },
