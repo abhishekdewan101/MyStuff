@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
+import com.adewan.mystuff.ui.composables.ExpandingText
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import org.koin.androidx.compose.get
@@ -102,6 +103,21 @@ fun GameDetailScreen(
                     rating = viewState!!.totalRating,
                     totalNumberOfRatings = viewState!!.totalRatingCount
                 )
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+                    .padding(horizontal = 15.dp)
+            ) {
+                Text(
+                    "Summary",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(bottom = 5.dp)
+                )
+                ExpandingText(text = viewState!!.summary, closedLineCount = 4)
             }
         }
     } else {

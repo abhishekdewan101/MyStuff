@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -50,7 +51,8 @@ fun RatingBar(rating: Double, totalNumberOfRatings: Int) {
                 Icon(
                     icon,
                     contentDescription = "",
-                    tint = Color.Yellow
+                    tint = Color.Yellow,
+                    modifier = Modifier.size(24.dp)
                 )
                 leftRating -= 20
             }
