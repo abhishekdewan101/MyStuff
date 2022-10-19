@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
+import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import org.koin.androidx.compose.get
 
@@ -90,6 +91,17 @@ fun GameDetailScreen(
                         }
                     }
                 }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                RatingBar(
+                    rating = viewState!!.totalRating,
+                    totalNumberOfRatings = viewState!!.totalRatingCount
+                )
             }
         }
     } else {
