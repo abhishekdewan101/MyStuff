@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -35,7 +36,9 @@ fun ImageShowcase(
             modifier = modifier,
             state = pagerState,
             images = items.map { it.url },
-            onImageTap = onImageTap
+            onImageTap = onImageTap,
+            imageSize = DpSize(width = 200.dp, height = 250.dp),
+            paddingSize = 100.dp
         )
         if (showLabel) {
             Text(

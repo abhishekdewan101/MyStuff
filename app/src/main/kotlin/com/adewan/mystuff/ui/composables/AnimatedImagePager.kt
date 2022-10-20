@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import coil.compose.AsyncImage
@@ -25,13 +27,15 @@ fun AnimatedImagePager(
     modifier: Modifier = Modifier,
     state: PagerState,
     images: List<String>,
+    imageSize: DpSize,
+    paddingSize: Dp,
     onImageTap: (Int) -> Unit
 ) {
     HorizontalPager(
         count = images.size,
         state = state,
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 100.dp)
+        contentPadding = PaddingValues(horizontal = paddingSize)
     ) { page ->
         Card(
             modifier = Modifier
@@ -64,7 +68,7 @@ fun AnimatedImagePager(
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .size(width = 200.dp, height = 250.dp),
+                    .size(imageSize),
                 model = images[page],
                 contentDescription = "",
                 contentScale = ContentScale.Crop

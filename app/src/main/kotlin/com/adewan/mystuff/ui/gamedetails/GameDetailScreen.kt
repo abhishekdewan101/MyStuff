@@ -1,10 +1,11 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 
 package com.adewan.mystuff.ui.gamedetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,12 +34,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
 import com.adewan.mystuff.ui.composables.ExpandingText
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.navigation.NavigationDirector
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.get
 
 @Composable
@@ -125,6 +130,45 @@ fun GameDetailScreen(
                     modifier = Modifier.padding(bottom = 5.dp)
                 )
                 ExpandingText(text = viewState!!.summary, closedLineCount = 4)
+            }
+
+            BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                val maxWidth = maxWidth
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                        .padding(horizontal = 15.dp)
+                ) {
+                    Text(
+                        "Screenshots",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                    )
+                    AnimatedImagePager(
+                        state = rememberPagerState(),
+                        images = viewState!!.screenshotsList.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.imageId}.jpg" },
+                        onImageTap = {},
+                        imageSize = DpSize(width = maxWidth, height = 250.dp),
+                        paddingSize = maxWidth.div(8)
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+                    .padding(horizontal = 15.dp)
+            ) {
+                Text(
+                    "Storyline",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(bottom = 5.dp)
+                )
+                ExpandingText(text = viewState!!.storyline, closedLineCount = 5)
             }
 
             Column(
