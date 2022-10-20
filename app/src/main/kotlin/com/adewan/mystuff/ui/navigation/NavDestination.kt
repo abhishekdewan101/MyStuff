@@ -6,7 +6,12 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class NavDestination(val route: String, val label: String, val icon: ImageVector) {
+sealed class NavDestination(
+    val route: String,
+    val label: String,
+    val icon: ImageVector,
+    val showBottomBar: Boolean = true
+) {
     object Home : NavDestination(route = "home", label = "Home", icon = Icons.Outlined.Home)
     object Search : NavDestination(route = "search", label = "Search", icon = Icons.Outlined.Search)
     object Library :
@@ -14,6 +19,14 @@ sealed class NavDestination(val route: String, val label: String, val icon: Imag
 
     object GameDetail :
         NavDestination(route = "game_detail/{identifier}", label = "", icon = Icons.Outlined.Apps)
+
+    object ExpandedImageViewer :
+        NavDestination(
+            route = "expandedImage/{url}",
+            label = "",
+            icon = Icons.Outlined.Apps,
+            showBottomBar = false
+        )
 }
 
 val routes = listOf(NavDestination.Home, NavDestination.Search, NavDestination.Library)

@@ -149,7 +149,9 @@ fun GameDetailScreen(
                     AnimatedImagePager(
                         state = rememberPagerState(),
                         images = viewState!!.screenshotsList.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.imageId}.jpg" },
-                        onImageTap = {},
+                        onImageTap = {
+                            navigationDirector.navigateToExpandedImageView(url = "https://images.igdb.com/igdb/image/upload/t_1080p/${viewState!!.screenshotsList[it].imageId}.jpg")
+                        },
                         imageSize = DpSize(width = maxWidth, height = 250.dp),
                         paddingSize = maxWidth.div(8)
                     )
