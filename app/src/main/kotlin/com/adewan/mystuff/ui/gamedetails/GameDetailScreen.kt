@@ -3,6 +3,7 @@
 package com.adewan.mystuff.ui.gamedetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -18,8 +19,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
@@ -42,6 +47,8 @@ import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
 import com.adewan.mystuff.ui.composables.ExpandingText
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.navigation.NavigationDirector
+import com.adewan.mystuff.ui.utils.buildYoutubeIntent
+import com.adewan.mystuff.ui.utils.buildYoutubeScreenshotUrl
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.get
@@ -53,6 +60,7 @@ fun GameDetailScreen(
     viewModel: GameDetailViewModel = get()
 ) {
     val viewState by viewModel.viewState.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = viewModel) {
         viewModel.requestGameDetailForIdentifier(identifier = identifier)
@@ -155,6 +163,69 @@ fun GameDetailScreen(
                         imageSize = DpSize(width = maxWidth, height = 250.dp),
                         paddingSize = maxWidth.div(8)
                     )
+                }
+            }
+
+            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                val maxWidth = maxWidth
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                        .padding(horizontal = 15.dp)
+                ) {
+                    Text(
+                        "Videos",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                    )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp)
+                    ) {
+                        items(viewState!!.videosList) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.clickable {
+                                    navigationDirector.navigateToExternalIntent(
+                                        it.buildYoutubeIntent(),
+                                        context
+                                    )
+                                }
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .padding(horizontal = 5.dp)
+                                ) {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .size(width = maxWidth - 40.dp, height = 200.dp),
+                                        model = it.buildYoutubeScreenshotUrl(),
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    Icon(
+                                        Icons.Default.PlayArrow,
+                                        contentDescription = "",
+                                        modifier = Modifier
+                                            .size(42.dp)
+                                            .align(Alignment.Center)
+                                            .clip(CircleShape)
+                                            .background(Color.Black.copy(alpha = 0.5f)),
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+
+                                Text(
+                                    it.name,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.padding(top = 5.dp)
+                                )
+                            }
+                        }
+                    }
                 }
             }
 
