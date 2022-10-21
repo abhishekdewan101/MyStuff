@@ -12,6 +12,7 @@ import com.adewan.mystuff.core.usecase.GetTmdbMovieList
 import com.adewan.mystuff.core.usecase.GetTmdbShowList
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
+import com.adewan.mystuff.ui.navigation.NavigationDirector
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -57,6 +58,13 @@ class HomeViewModel(
         _currentFilter.value = filter
     }
 
+    fun handleNavigation(navigationDirector: NavigationDirector, slug: String) {
+        when (currentFilter.value) {
+            DataFilter.Games -> navigationDirector.navigateToGameDetails(slug)
+            else -> {}
+        }
+    }
+
     private fun getTvData() {
         _viewState.value = null
         viewModelScope.launch {
@@ -74,30 +82,33 @@ class HomeViewModel(
             }
 
             val data2 = async {
-                ImageCarouselWithTitleData(
-                    title = "Top Rated",
-                    images = getTmdbShowList(TmdbListType.TOP_RATED_TV_SHOWS)
-                        .results.filter { it.poster != null }
-                        .map { it.posterUrl }
-                )
+                getTmdbShowList(TmdbListType.TOP_RATED_TV_SHOWS).run {
+                    ImageCarouselWithTitleData(
+                        title = "Top Rated",
+                        images = results.filter { it.poster != null }.map { it.posterUrl },
+                        identifier = results.map { it.id.toString() }
+                    )
+                }
             }
 
             val data3 = async {
-                ImageCarouselWithTitleData(
-                    title = "Popular",
-                    images = getTmdbShowList(TmdbListType.POPULAR_TV_SHOWS)
-                        .results.filter { it.poster != null }
-                        .map { it.posterUrl }
-                )
+                getTmdbShowList(TmdbListType.POPULAR_TV_SHOWS).run {
+                    ImageCarouselWithTitleData(
+                        title = "Popular",
+                        images = results.filter { it.poster != null }.map { it.posterUrl },
+                        identifier = results.map { it.id.toString() }
+                    )
+                }
             }
 
             val data4 = async {
-                ImageCarouselWithTitleData(
-                    title = "Airing Today",
-                    images = getTmdbShowList(TmdbListType.AIRING_TODAY_TV_SHOWS)
-                        .results.filter { it.poster != null }
-                        .map { it.posterUrl }
-                )
+                getTmdbShowList(TmdbListType.AIRING_TODAY_TV_SHOWS).run {
+                    ImageCarouselWithTitleData(
+                        title = "Airing Today",
+                        images = results.filter { it.poster != null }.map { it.posterUrl },
+                        identifier = results.map { it.id.toString() }
+                    )
+                }
             }
 
             _viewState.value = HomeViewState(
@@ -125,30 +136,33 @@ class HomeViewModel(
             }
 
             val data2 = async {
-                ImageCarouselWithTitleData(
-                    title = "Top Rated",
-                    images = getTmdbMovieList(TmdbListType.TOP_RATED_MOVIES)
-                        .results.filter { it.poster != null }
-                        .map { it.posterUrl }
-                )
+                getTmdbMovieList(TmdbListType.TOP_RATED_MOVIES).run {
+                    ImageCarouselWithTitleData(
+                        title = "Top Rated",
+                        images = results.filter { it.poster != null }.map { it.posterUrl },
+                        identifier = results.map { it.id.toString() }
+                    )
+                }
             }
 
             val data3 = async {
-                ImageCarouselWithTitleData(
-                    title = "Upcoming",
-                    images = getTmdbMovieList(TmdbListType.UPCOMING_MOVIES)
-                        .results.filter { it.poster != null }
-                        .map { it.posterUrl }
-                )
+                getTmdbMovieList(TmdbListType.UPCOMING_MOVIES).run {
+                    ImageCarouselWithTitleData(
+                        title = "Upcoming",
+                        images = results.filter { it.poster != null }.map { it.posterUrl },
+                        identifier = results.map { it.id.toString() }
+                    )
+                }
             }
 
             val data4 = async {
-                ImageCarouselWithTitleData(
-                    title = "Now Playing",
-                    images = getTmdbMovieList(TmdbListType.NOW_PLAYING_MOVIES)
-                        .results.filter { it.poster != null }
-                        .map { it.posterUrl }
-                )
+                getTmdbMovieList(TmdbListType.NOW_PLAYING_MOVIES).run {
+                    ImageCarouselWithTitleData(
+                        title = "Now Playing",
+                        images = results.filter { it.poster != null }.map { it.posterUrl },
+                        identifier = results.map { it.id.toString() }
+                    )
+                }
             }
 
             _viewState.value = HomeViewState(
@@ -174,27 +188,33 @@ class HomeViewModel(
                     }
             }
             val data2 = async {
-                ImageCarouselWithTitleData(
-                    title = "Top Rated",
-                    images = getGamesPosterList(TOP_RATED_GAMES_QUERY).gamesList.filter { it.hasCover() }
-                        .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
-                )
+                getGamesPosterList(TOP_RATED_GAMES_QUERY).gamesList.run {
+                    ImageCarouselWithTitleData(
+                        title = "Top Rated",
+                        images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
+                        identifier = map { it.slug }
+                    )
+                }
             }
 
             val data3 = async {
-                ImageCarouselWithTitleData(
-                    title = "Coming Soon",
-                    images = getGamesPosterList(COMING_SOON_GAMES_QUERY).gamesList.filter { it.hasCover() }
-                        .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
-                )
+                getGamesPosterList(COMING_SOON_GAMES_QUERY).gamesList.run {
+                    ImageCarouselWithTitleData(
+                        title = "Coming Soon",
+                        images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
+                        identifier = map { it.slug }
+                    )
+                }
             }
 
             val data4 = async {
-                ImageCarouselWithTitleData(
-                    title = "Recently Released",
-                    images = getGamesPosterList(RECENT_RELEASED_GAMES_QUERY).gamesList.filter { it.hasCover() }
-                        .map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" }
-                )
+                getGamesPosterList(RECENT_RELEASED_GAMES_QUERY).gamesList.run {
+                    ImageCarouselWithTitleData(
+                        title = "Recently Released",
+                        images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
+                        identifier = map { it.slug }
+                    )
+                }
             }
 
             _viewState.value =

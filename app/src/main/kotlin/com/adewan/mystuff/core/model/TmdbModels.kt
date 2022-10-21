@@ -17,7 +17,8 @@ enum class TmdbListType(val endpoint: String) {
 data class TmdbMovie(
     val title: String? = null,
     @SerialName("original_title") val originalTitle: String? = null,
-    @SerialName("poster_path") val poster: String? = null
+    @SerialName("poster_path") val poster: String? = null,
+    val id: Int
 ) {
     val posterUrl: String
         get() = "https://image.tmdb.org/t/p/w780$poster"
@@ -27,7 +28,8 @@ data class TmdbMovie(
 data class TmdbTvShow(
     val name: String? = null,
     @SerialName("original_name") val originalName: String? = null,
-    @SerialName("poster_path") val poster: String? = null
+    @SerialName("poster_path") val poster: String? = null,
+    val id: Int
 ) {
     val posterUrl: String
         get() = "https://image.tmdb.org/t/p/w780$poster"

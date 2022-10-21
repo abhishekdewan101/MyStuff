@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.adewan.mystuff.ui.composables
 
@@ -22,12 +22,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
-data class ImageCarouselWithTitleData(val title: String, val images: List<String>)
+data class ImageCarouselWithTitleData(
+    val title: String,
+    val images: List<String>,
+    val identifier: List<String>
+)
 
 @Composable
 fun ImageCarouselWithTitle(
     modifier: Modifier = Modifier,
     data: ImageCarouselWithTitleData,
+    onImageTapped: (String) -> Unit,
     onViewMore: () -> Unit
 ) {
     Column {
@@ -52,7 +57,10 @@ fun ImageCarouselWithTitle(
                 .padding(top = 10.dp)
         ) {
             items(data.images.size) {
-                Card(modifier = Modifier.padding(horizontal = 5.dp)) {
+                Card(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    onClick = { onImageTapped(data.identifier[it]) }
+                ) {
                     AsyncImage(
                         modifier = Modifier
                             .size(width = 150.dp, height = 200.dp),
