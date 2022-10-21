@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -270,6 +272,36 @@ fun GameDetailScreen(
                                 model = "https://images.igdb.com/igdb/image/upload/t_720p/${it.platformLogo.imageId}.png",
                                 contentDescription = "",
                                 contentScale = ContentScale.Inside
+                            )
+                        }
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
+                Text(
+                    "Similar games",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .padding(bottom = 5.dp)
+                        .padding(horizontal = 15.dp)
+                )
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(start = 5.dp)
+                ) {
+                    items(viewState!!.similarGamesList) {
+                        Card(onClick = { navigationDirector.navigateToGameDetails(it.slug) }) {
+                            AsyncImage(
+                                modifier = Modifier.size(100.dp, 150.dp),
+                                model = "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.png",
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop
                             )
                         }
                     }
