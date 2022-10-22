@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import com.adewan.mystuff.ui.splash.SplashScreen
+import com.adewan.mystuff.ui.navigation.NavigationGraph
 import com.adewan.mystuff.ui.theme.MyStuffTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             MyStuffTheme {
-                SplashScreen()
+                NavigationGraph()
             }
         }
     }

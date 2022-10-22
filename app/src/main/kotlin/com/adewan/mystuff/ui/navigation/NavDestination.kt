@@ -12,6 +12,13 @@ sealed class NavDestination(
     val icon: ImageVector,
     val showBottomBar: Boolean = true
 ) {
+    object Splash : NavDestination(
+        route = "splash",
+        label = "Splash",
+        icon = Icons.Outlined.Apps,
+        showBottomBar = false
+    )
+
     object Home : NavDestination(route = "home", label = "Home", icon = Icons.Outlined.Home)
     object Search : NavDestination(route = "search", label = "Search", icon = Icons.Outlined.Search)
     object Library :

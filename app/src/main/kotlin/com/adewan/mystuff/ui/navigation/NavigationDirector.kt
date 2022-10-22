@@ -6,6 +6,15 @@ import android.net.Uri
 import androidx.navigation.NavHostController
 
 class NavigationDirector(private val navHostController: NavHostController) {
+
+    fun navigateToHome() {
+        navHostController.navigate(NavDestination.Home.route) {
+            popUpTo(NavDestination.Splash.route) {
+                inclusive = true
+            }
+        }
+    }
+
     fun navigateToGameDetails(identifier: String) {
         val encodedRoute = NavDestination.GameDetail.route.replace("{identifier}", identifier)
         navHostController.navigate(encodedRoute)

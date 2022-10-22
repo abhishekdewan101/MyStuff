@@ -19,36 +19,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.adewan.mystuff.core.repository.AuthenticationRepository
 import com.adewan.mystuff.ui.composables.ThemedContainer
-import com.adewan.mystuff.ui.navigation.NavigationGraph
+import com.adewan.mystuff.ui.navigation.NavigationDirector
 import org.koin.androidx.compose.get
 
 @Composable
-fun SplashScreen(authenticationRepository: AuthenticationRepository = get()) {
+fun SplashScreen(
+    navigationDirector: NavigationDirector,
+    authenticationRepository: AuthenticationRepository = get()
+) {
     var isAuthenticated by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = authenticationRepository) {
         isAuthenticated = authenticationRepository.initializeIgdbAuthenticationToken()
     }
-    if (isAuthenticated) {
-        NavigationGraph()
-    } else {
-        ThemedContainer {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    "My Stuff",
-                    style = MaterialTheme.typography.displaySmall.copy(
-                        color = MaterialTheme.colorScheme.onBackground
-                    ),
-                    modifier = Modifier.padding(bottom = 20.dp)
-                )
-                CircularProgressIndicator()
-            }
+
+    LaunchedEffect(key1 = isAuthenticated) {
+        if (isAuthenticated) {
+            navigationDirector.navigateToHome()
+        }
+    }
+    ThemedContainer {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                "My Stuff",
+                style = MaterialTheme.typography.displaySmall.copy(
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+            CircularProgressIndicator()
         }
     }
 }

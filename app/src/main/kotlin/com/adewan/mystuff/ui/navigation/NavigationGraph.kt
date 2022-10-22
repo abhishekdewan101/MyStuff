@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.adewan.mystuff.ui.navigation
 
@@ -31,6 +31,7 @@ import com.adewan.mystuff.ui.gamedetails.GameDetailScreen
 import com.adewan.mystuff.ui.home.HomeScreen
 import com.adewan.mystuff.ui.library.LibraryScreen
 import com.adewan.mystuff.ui.search.SearchScreen
+import com.adewan.mystuff.ui.splash.SplashScreen
 import org.koin.androidx.compose.get
 
 @Composable
@@ -61,10 +62,14 @@ fun NavigationGraph() {
         ) {
             NavHost(
                 navController = navHostController,
-                startDestination = NavDestination.Home.route,
+                startDestination = NavDestination.Splash.route,
                 modifier = Modifier
                     .padding(it)
             ) {
+                composable(NavDestination.Splash.route) {
+                    showBottombar = NavDestination.Splash.showBottomBar
+                    SplashScreen(navigationDirector = navigationDirector)
+                }
                 composable(NavDestination.Home.route) {
                     showBottombar = NavDestination.Home.showBottomBar
                     HomeScreen(navigationDirector = navigationDirector)
