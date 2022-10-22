@@ -1,4 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.adewan.mystuff.ui.navigation
 
@@ -37,9 +41,9 @@ import org.koin.androidx.compose.get
 @Composable
 fun NavigationGraph() {
     val navHostController = rememberNavController()
-    val navigationDirector = NavigationDirector(navHostController = navHostController)
+    val navigationDirector = NavigationDirectorImpl(navHostController = navHostController)
     val authenticationRepository: AuthenticationRepository = get()
-    var showBottombar by remember { mutableStateOf(true) }
+    var showBottombar by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = authenticationRepository) {
         authenticationRepository.initializeIgdbAuthenticationToken()

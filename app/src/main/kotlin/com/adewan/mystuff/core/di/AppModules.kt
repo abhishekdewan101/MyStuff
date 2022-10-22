@@ -5,6 +5,7 @@ import com.adewan.mystuff.BuildConfig
 import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.AuthenticationRepository
+import com.adewan.mystuff.core.repository.AuthenticationRepositoryImpl
 import com.adewan.mystuff.core.repository.IgdbRepository
 import com.adewan.mystuff.core.repository.TmdbRepository
 import com.adewan.mystuff.ui.gamedetails.GameDetailViewModel
@@ -79,7 +80,7 @@ val appModule = module {
     }
 
     // Repositories
-    single { AuthenticationRepository(get(), get(), get()) }
+    single<AuthenticationRepository> { AuthenticationRepositoryImpl(get(), get(), get()) }
     single { IgdbRepository(get(), get()) }
     single { TmdbRepository(get()) }
 
