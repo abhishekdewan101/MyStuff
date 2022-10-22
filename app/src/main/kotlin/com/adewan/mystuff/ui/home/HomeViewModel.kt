@@ -7,9 +7,8 @@ import com.adewan.mystuff.core.model.RECENT_RELEASED_GAMES_QUERY
 import com.adewan.mystuff.core.model.SHOWCASE_GAMES_QUERY
 import com.adewan.mystuff.core.model.TOP_RATED_GAMES_QUERY
 import com.adewan.mystuff.core.model.TmdbListType
-import com.adewan.mystuff.core.usecase.GetGamesPosterList
-import com.adewan.mystuff.core.usecase.GetTmdbMovieList
-import com.adewan.mystuff.core.usecase.GetTmdbShowList
+import com.adewan.mystuff.core.repository.IgdbRepository
+import com.adewan.mystuff.core.repository.TmdbRepository
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
 import com.adewan.mystuff.ui.navigation.NavigationDirector
@@ -32,9 +31,8 @@ enum class DataFilter {
 }
 
 class HomeViewModel(
-    private val getGamesPosterList: GetGamesPosterList,
-    private val getTmdbMovieList: GetTmdbMovieList,
-    private val getTmdbShowList: GetTmdbShowList
+    private val igdbRepository: IgdbRepository,
+    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -69,7 +67,7 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                getTmdbShowList(TmdbListType.ON_AIR_TV_SHOWS)
+                tmdbRepository.getTmdbTvShowList(TmdbListType.ON_AIR_TV_SHOWS)
                     .results
                     .filter { it.poster != null }
                     .map {
@@ -82,7 +80,7 @@ class HomeViewModel(
             }
 
             val data2 = async {
-                getTmdbShowList(TmdbListType.TOP_RATED_TV_SHOWS).run {
+                tmdbRepository.getTmdbTvShowList(TmdbListType.TOP_RATED_TV_SHOWS).run {
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
@@ -92,7 +90,7 @@ class HomeViewModel(
             }
 
             val data3 = async {
-                getTmdbShowList(TmdbListType.POPULAR_TV_SHOWS).run {
+                tmdbRepository.getTmdbTvShowList(TmdbListType.POPULAR_TV_SHOWS).run {
                     ImageCarouselWithTitleData(
                         title = "Popular",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
@@ -102,7 +100,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                getTmdbShowList(TmdbListType.AIRING_TODAY_TV_SHOWS).run {
+                tmdbRepository.getTmdbTvShowList(TmdbListType.AIRING_TODAY_TV_SHOWS).run {
                     ImageCarouselWithTitleData(
                         title = "Airing Today",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
@@ -124,7 +122,7 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                getTmdbMovieList(TmdbListType.POPULAR_MOVIES)
+                tmdbRepository.getTmdbMovieList(TmdbListType.POPULAR_MOVIES)
                     .results
                     .filter { it.poster != null }.map {
                         ImageShowcaseItem(
@@ -136,7 +134,7 @@ class HomeViewModel(
             }
 
             val data2 = async {
-                getTmdbMovieList(TmdbListType.TOP_RATED_MOVIES).run {
+                tmdbRepository.getTmdbMovieList(TmdbListType.TOP_RATED_MOVIES).run {
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
@@ -146,7 +144,7 @@ class HomeViewModel(
             }
 
             val data3 = async {
-                getTmdbMovieList(TmdbListType.UPCOMING_MOVIES).run {
+                tmdbRepository.getTmdbMovieList(TmdbListType.UPCOMING_MOVIES).run {
                     ImageCarouselWithTitleData(
                         title = "Upcoming",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
@@ -156,7 +154,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                getTmdbMovieList(TmdbListType.NOW_PLAYING_MOVIES).run {
+                tmdbRepository.getTmdbMovieList(TmdbListType.NOW_PLAYING_MOVIES).run {
                     ImageCarouselWithTitleData(
                         title = "Now Playing",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
@@ -178,7 +176,7 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                getGamesPosterList(SHOWCASE_GAMES_QUERY).gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
+                igdbRepository.getGameCovers(SHOWCASE_GAMES_QUERY).gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
                     .map {
                         ImageShowcaseItem(
                             identifier = it.slug,
@@ -188,7 +186,7 @@ class HomeViewModel(
                     }
             }
             val data2 = async {
-                getGamesPosterList(TOP_RATED_GAMES_QUERY).gamesList.run {
+                igdbRepository.getGameCovers(TOP_RATED_GAMES_QUERY).gamesList.run {
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -198,7 +196,7 @@ class HomeViewModel(
             }
 
             val data3 = async {
-                getGamesPosterList(COMING_SOON_GAMES_QUERY).gamesList.run {
+                igdbRepository.getGameCovers(COMING_SOON_GAMES_QUERY).gamesList.run {
                     ImageCarouselWithTitleData(
                         title = "Coming Soon",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -208,7 +206,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                getGamesPosterList(RECENT_RELEASED_GAMES_QUERY).gamesList.run {
+                igdbRepository.getGameCovers(RECENT_RELEASED_GAMES_QUERY).gamesList.run {
                     ImageCarouselWithTitleData(
                         title = "Recently Released",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
