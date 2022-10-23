@@ -46,6 +46,7 @@ import coil.compose.AsyncImage
 import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
 import com.adewan.mystuff.ui.composables.FlowableTextChipRow
+import com.adewan.mystuff.ui.composables.GradientScrimContainer
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.composables.TitledTextBlock
 import com.adewan.mystuff.ui.navigation.NavigationDirector
@@ -70,43 +71,43 @@ fun GameDetailScreen(
 
     if (viewState != null) {
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(400.dp)
-            ) {
-                AsyncImage(
-                    modifier = Modifier.fillMaxSize(),
-                    model = "https://images.igdb.com/igdb/image/upload/t_720p/${viewState!!.artworksList.random().imageId}.jpg",
-                    contentDescription = "",
-                    contentScale = ContentScale.FillHeight
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Black.copy(alpha = 0.0f),
-                                    Color.Black
-                                )
-                            )
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = viewState!!.name,
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        textAlign = TextAlign.Center
+            GradientScrimContainer(
+                backgroundContent = {
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(400.dp),
+                        model = "https://images.igdb.com/igdb/image/upload/t_720p/${viewState!!.artworksList.random().imageId}.jpg",
+                        contentDescription = "",
+                        contentScale = ContentScale.FillHeight
                     )
-                    FlowableTextChipRow(chips = viewState!!.themesList.map { it.name })
-                }
-            }
+                },
+                foregroundContent = {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = viewState!!.name,
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 15.dp)
+                        )
+                        FlowableTextChipRow(chips = viewState!!.themesList.map { it.name })
+                    }
+                },
+                scrimHeight = 100.dp,
+                scrimGradient = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent,
+                        Color.Black
+                    )
+                )
+            )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
