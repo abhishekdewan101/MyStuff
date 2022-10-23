@@ -56,9 +56,10 @@ class HomeViewModel(
         _currentFilter.value = filter
     }
 
-    fun handleNavigation(navigationDirector: NavigationDirector, slug: String) {
+    fun handleNavigation(navigationDirector: NavigationDirector, identifier: String) {
         when (currentFilter.value) {
-            HomeViewFilters.Games -> navigationDirector.navigateToGameDetails(slug)
+            HomeViewFilters.Games -> navigationDirector.navigateToGameDetails(identifier)
+            HomeViewFilters.Movies -> navigationDirector.navigateToMovieDetails(identifier)
             else -> {}
         }
     }
@@ -126,7 +127,7 @@ class HomeViewModel(
                     .results
                     .filter { it.poster != null }.map {
                         ImageShowcaseItem(
-                            identifier = "",
+                            identifier = it.id.toString(),
                             url = it.posterUrl,
                             label = it.title ?: it.originalTitle
                         )

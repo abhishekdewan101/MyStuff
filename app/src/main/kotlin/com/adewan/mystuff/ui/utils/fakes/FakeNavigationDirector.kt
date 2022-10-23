@@ -11,6 +11,9 @@ class FakeNavigationDirector : NavigationDirector {
     override fun navigateToGameDetails(identifier: String) {
     }
 
+    override fun navigateToMovieDetails(identifier: String) {
+    }
+
     override fun navigateToExpandedImageview(url: String) {
     }
 

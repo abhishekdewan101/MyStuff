@@ -13,6 +13,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,10 +44,11 @@ fun SplashScreen(
         isAuthenticated = authenticationRepository.initializeIgdbAuthenticationToken()
     }
 
-    LaunchedEffect(key1 = authenticationRepository) {
+    DisposableEffect(key1 = isAuthenticated) {
         if (isAuthenticated) {
             navigationDirector.navigateToHome()
         }
+        onDispose { }
     }
     ThemedContainer {
         Column(

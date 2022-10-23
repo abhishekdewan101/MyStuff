@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 interface NavigationDirector {
     fun navigateToHome()
     fun navigateToGameDetails(identifier: String)
+    fun navigateToMovieDetails(identifier: String)
     fun navigateToExpandedImageview(url: String)
     fun navigateToExternalIntent(intent: Intent, context: Context)
 }
@@ -25,6 +26,14 @@ class NavigationDirectorImpl(private val navHostController: NavHostController) :
 
     override fun navigateToGameDetails(identifier: String) {
         val encodedRoute = NavDestination.GameDetail.route.replace("{identifier}", identifier)
+        navHostController.navigate(encodedRoute)
+    }
+
+    override fun navigateToMovieDetails(identifier: String) {
+        val encodedRoute = NavDestination.MovieDetail.route.replace(
+            oldValue = "{identifier}",
+            identifier
+        )
         navHostController.navigate(encodedRoute)
     }
 

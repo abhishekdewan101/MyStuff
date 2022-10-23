@@ -34,6 +34,7 @@ import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.gamedetails.GameDetailScreen
 import com.adewan.mystuff.ui.home.HomeScreen
 import com.adewan.mystuff.ui.library.LibraryScreen
+import com.adewan.mystuff.ui.moviedetails.MovieDetailScreen
 import com.adewan.mystuff.ui.search.SearchScreen
 import com.adewan.mystuff.ui.splash.SplashScreen
 import org.koin.androidx.compose.get
@@ -94,6 +95,19 @@ fun NavigationGraph() {
                     val identifier = backStackEntry.arguments?.getString("identifier")
                         ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
                     GameDetailScreen(
+                        navigationDirector = navigationDirector,
+                        identifier = identifier
+                    )
+                }
+
+                composable(
+                    NavDestination.MovieDetail.route,
+                    arguments = listOf(navArgument("identifier") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    showBottombar = NavDestination.MovieDetail.showBottomBar
+                    val identifier = backStackEntry.arguments?.getInt("identifier")
+                        ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
+                    MovieDetailScreen(
                         navigationDirector = navigationDirector,
                         identifier = identifier
                     )

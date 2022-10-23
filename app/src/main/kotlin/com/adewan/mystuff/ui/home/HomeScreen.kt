@@ -50,12 +50,10 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
                     modifier = Modifier.padding(top = 15.dp),
                     items = viewState!!.showcase,
                     onImageTap = {
-                        when (viewModel.currentFilter.value) {
-                            HomeViewFilters.Games -> navigationDirector.navigateToGameDetails(
-                                viewState!!.showcase[it].identifier
-                            )
-                            else -> {}
-                        }
+                        viewModel.handleNavigation(
+                            navigationDirector,
+                            viewState!!.showcase[it].identifier
+                        )
                     }
                 )
                 ImageCarouselWithTitle(
