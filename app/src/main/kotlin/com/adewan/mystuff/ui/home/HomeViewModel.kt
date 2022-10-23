@@ -24,7 +24,7 @@ data class HomeViewState(
     val recentReleased: ImageCarouselWithTitleData
 )
 
-enum class DataFilter {
+enum class HomeViewFilters {
     Games,
     Movies,
     Tv
@@ -37,28 +37,28 @@ class HomeViewModel(
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
 
-    private val _currentFilter = MutableStateFlow(DataFilter.Games)
+    private val _currentFilter = MutableStateFlow(HomeViewFilters.Games)
     val currentFilter = _currentFilter.asStateFlow()
 
     init {
         viewModelScope.launch {
             _currentFilter.collect {
                 when (it) {
-                    DataFilter.Games -> getGamesData()
-                    DataFilter.Movies -> getMoviesData()
-                    DataFilter.Tv -> getTvData()
+                    HomeViewFilters.Games -> getGamesData()
+                    HomeViewFilters.Movies -> getMoviesData()
+                    HomeViewFilters.Tv -> getTvData()
                 }
             }
         }
     }
 
-    fun changeFilter(filter: DataFilter) {
+    fun changeFilter(filter: HomeViewFilters) {
         _currentFilter.value = filter
     }
 
     fun handleNavigation(navigationDirector: NavigationDirector, slug: String) {
         when (currentFilter.value) {
-            DataFilter.Games -> navigationDirector.navigateToGameDetails(slug)
+            HomeViewFilters.Games -> navigationDirector.navigateToGameDetails(slug)
             else -> {}
         }
     }

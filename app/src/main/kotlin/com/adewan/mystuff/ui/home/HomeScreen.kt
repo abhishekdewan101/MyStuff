@@ -35,9 +35,9 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
         TextFilterRow(
             modifier = Modifier.padding(top = 10.dp),
             filters = listOf(
-                TextFilterRowItem(label = "Games", filter = DataFilter.Games),
-                TextFilterRowItem(label = "Movies", filter = DataFilter.Movies),
-                TextFilterRowItem(label = "TV Shows", filter = DataFilter.Tv)
+                TextFilterRowItem(label = "Games", filter = HomeViewFilters.Games),
+                TextFilterRowItem(label = "Movies", filter = HomeViewFilters.Movies),
+                TextFilterRowItem(label = "TV Shows", filter = HomeViewFilters.Tv)
             ),
             onFilterSelected = viewModel::changeFilter
         )
@@ -51,7 +51,9 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
                     items = viewState!!.showcase,
                     onImageTap = {
                         when (viewModel.currentFilter.value) {
-                            DataFilter.Games -> navigationDirector.navigateToGameDetails(viewState!!.showcase[it].identifier)
+                            HomeViewFilters.Games -> navigationDirector.navigateToGameDetails(
+                                viewState!!.showcase[it].identifier
+                            )
                             else -> {}
                         }
                     }
