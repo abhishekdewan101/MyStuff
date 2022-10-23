@@ -43,7 +43,7 @@ fun SplashScreen(
         isAuthenticated = authenticationRepository.initializeIgdbAuthenticationToken()
     }
 
-    LaunchedEffect(key1 = isAuthenticated) {
+    LaunchedEffect(key1 = authenticationRepository) {
         if (isAuthenticated) {
             navigationDirector.navigateToHome()
         }

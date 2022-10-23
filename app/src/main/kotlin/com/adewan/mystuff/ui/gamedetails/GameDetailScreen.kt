@@ -46,8 +46,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
-import com.adewan.mystuff.ui.composables.ExpandingText
 import com.adewan.mystuff.ui.composables.RatingBar
+import com.adewan.mystuff.ui.composables.TitledTextBlock
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import com.adewan.mystuff.ui.utils.buildYoutubeIntent
 import com.adewan.mystuff.ui.utils.buildYoutubeScreenshotUrl
@@ -127,20 +127,13 @@ fun GameDetailScreen(
                 )
             }
 
-            Column(
+            TitledTextBlock(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 15.dp)
-            ) {
-                Text(
-                    "Summary",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(bottom = 5.dp)
-                )
-                ExpandingText(text = viewState!!.summary, closedLineCount = 4)
-            }
+                    .padding(horizontal = 15.dp),
+                title = "Summary",
+                bodyText = viewState!!.summary
+            )
 
             BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
                 val maxWidth = maxWidth
@@ -231,20 +224,13 @@ fun GameDetailScreen(
                 }
             }
 
-            Column(
+            TitledTextBlock(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 15.dp)
-            ) {
-                Text(
-                    "Storyline",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(bottom = 5.dp)
-                )
-                ExpandingText(text = viewState!!.storyline, closedLineCount = 5)
-            }
+                    .padding(horizontal = 15.dp),
+                title = "Storyline",
+                bodyText = viewState!!.storyline
+            )
 
             Column(
                 modifier = Modifier
