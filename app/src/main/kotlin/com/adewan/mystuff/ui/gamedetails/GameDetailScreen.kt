@@ -3,7 +3,6 @@
 package com.adewan.mystuff.ui.gamedetails
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -20,11 +19,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,6 +45,7 @@ import com.adewan.mystuff.ui.composables.FlowableTextChipRow
 import com.adewan.mystuff.ui.composables.GradientScrimContainer
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.composables.TitledTextBlock
+import com.adewan.mystuff.ui.composables.VideoPreview
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import com.adewan.mystuff.ui.utils.buildYoutubeIntent
 import com.adewan.mystuff.ui.utils.buildYoutubeScreenshotUrl
@@ -174,42 +171,18 @@ fun GameDetailScreen(
                             .padding(top = 10.dp)
                     ) {
                         items(viewState!!.videosList) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.clickable {
-                                    navigationDirector.navigateToExternalIntent(
-                                        it.buildYoutubeIntent(),
-                                        context
-                                    )
-                                }
-                            ) {
-                                Box(
+                            VideoPreview(previewImage = {
+                                AsyncImage(
                                     modifier = Modifier
-                                        .padding(horizontal = 5.dp)
-                                ) {
-                                    AsyncImage(
-                                        modifier = Modifier
-                                            .size(width = maxWidth - 40.dp, height = 200.dp),
-                                        model = it.buildYoutubeScreenshotUrl(),
-                                        contentDescription = "",
-                                        contentScale = ContentScale.Crop
-                                    )
-                                    Icon(
-                                        Icons.Default.PlayArrow,
-                                        contentDescription = "",
-                                        modifier = Modifier
-                                            .size(42.dp)
-                                            .align(Alignment.Center)
-                                            .clip(CircleShape)
-                                            .background(Color.Black.copy(alpha = 0.5f)),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-                                }
-
-                                Text(
-                                    it.name,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(top = 5.dp)
+                                        .size(width = maxWidth - 40.dp, height = 200.dp),
+                                    model = it.buildYoutubeScreenshotUrl(),
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop
+                                )
+                            }, title = it.name) {
+                                navigationDirector.navigateToExternalIntent(
+                                    it.buildYoutubeIntent(),
+                                    context
                                 )
                             }
                         }
