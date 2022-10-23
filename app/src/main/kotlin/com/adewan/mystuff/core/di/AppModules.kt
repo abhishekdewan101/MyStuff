@@ -81,7 +81,7 @@ val appModule = module {
     }
 
     viewModel {
-        MovieDetailViewModel()
+        MovieDetailViewModel(get())
     }
 
     // Repositories

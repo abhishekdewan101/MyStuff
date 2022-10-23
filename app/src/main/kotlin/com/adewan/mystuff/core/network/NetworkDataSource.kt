@@ -55,4 +55,15 @@ class NetworkDataSource(private val client: HttpClient) {
             }
         }.body()
     }
+
+    suspend fun requestTmdbMovieDetails(identifier: String): TmdbMovie {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/movie/$identifier")
+                parameter("api_key", BuildConfig.TmdbClientId)
+                parameter("language", "en-US")
+                parameter("region", "US")
+            }
+        }.body()
+    }
 }

@@ -14,4 +14,8 @@ class TmdbRepository(private val networkDataSource: NetworkDataSource) {
     suspend fun getTmdbTvShowList(tmdbListType: TmdbListType): TmdbResultList<TmdbTvShow> {
         return networkDataSource.requestTmdbTvShowList(tmdbListType)
     }
+
+    suspend fun getTmdbMovieDetails(identifier: String): TmdbMovie {
+        return networkDataSource.requestTmdbMovieDetails(identifier = identifier)
+    }
 }

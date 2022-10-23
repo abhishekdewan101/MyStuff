@@ -102,10 +102,10 @@ fun NavigationGraph() {
 
                 composable(
                     NavDestination.MovieDetail.route,
-                    arguments = listOf(navArgument("identifier") { type = NavType.IntType })
+                    arguments = listOf(navArgument("identifier") { type = NavType.StringType })
                 ) { backStackEntry ->
                     showBottombar = NavDestination.MovieDetail.showBottomBar
-                    val identifier = backStackEntry.arguments?.getInt("identifier")
+                    val identifier = backStackEntry.arguments?.getString("identifier")
                         ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
                     MovieDetailScreen(
                         navigationDirector = navigationDirector,

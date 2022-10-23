@@ -18,11 +18,19 @@ data class TmdbMovie(
     val title: String? = null,
     @SerialName("original_title") val originalTitle: String? = null,
     @SerialName("poster_path") val poster: String? = null,
+    @SerialName("backdrop_path") val backdrop: String? = null,
+    val genres: List<TmdbGenre>? = null,
     val id: Int
 ) {
     val posterUrl: String
         get() = "https://image.tmdb.org/t/p/w780$poster"
+
+    val backdropUrl: String
+        get() = "https://image.tmdb.org/t/p/w1280$backdrop"
 }
+
+@kotlinx.serialization.Serializable
+data class TmdbGenre(val id: Int, val name: String)
 
 @kotlinx.serialization.Serializable
 data class TmdbTvShow(
