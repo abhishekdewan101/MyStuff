@@ -30,6 +30,7 @@ object Deps {
         const val systemUiController =
             "com.google.accompanist:accompanist-systemuicontroller:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
+        const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$version"
     }
 
     object koin {

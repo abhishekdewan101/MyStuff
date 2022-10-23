@@ -81,6 +81,7 @@ dependencies {
     implementation(Deps.androidx.compose.navigation)
     implementation(Deps.accompanist.systemUiController)
     implementation(Deps.accompanist.pager)
+    implementation(Deps.accompanist.flowLayout)
 
     testImplementation(Deps.testing.jUnit)
     androidTestImplementation(Deps.testing.jUnitExt)

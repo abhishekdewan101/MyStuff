@@ -23,7 +23,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
-import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
+import com.adewan.mystuff.ui.composables.FlowableTextChipRow
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.composables.TitledTextBlock
 import com.adewan.mystuff.ui.navigation.NavigationDirector
@@ -104,15 +104,7 @@ fun GameDetailScreen(
                         ),
                         textAlign = TextAlign.Center
                     )
-                    Row {
-                        viewState!!.themesList.map {
-                            ElevatedAssistChip(
-                                onClick = { },
-                                label = { Text(text = it.name) },
-                                modifier = Modifier.padding(horizontal = 5.dp)
-                            )
-                        }
-                    }
+                    FlowableTextChipRow(chips = viewState!!.themesList.map { it.name })
                 }
             }
             Row(
