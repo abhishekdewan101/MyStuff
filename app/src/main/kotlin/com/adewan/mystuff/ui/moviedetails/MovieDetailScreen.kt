@@ -1,11 +1,18 @@
+@file:OptIn(ExperimentalPagerApi::class)
+
 package com.adewan.mystuff.ui.moviedetails
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -19,13 +26,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.FlowableTextChipRow
 import com.adewan.mystuff.ui.composables.GradientScrimContainer
+import com.adewan.mystuff.ui.composables.RatingBar
+import com.adewan.mystuff.ui.composables.TitledTextBlock
+import com.adewan.mystuff.ui.composables.VideoPreview
 import com.adewan.mystuff.ui.navigation.NavigationDirector
+import com.adewan.mystuff.ui.utils.buildYoutubeIntent
+import com.adewan.mystuff.ui.utils.buildYoutubeScreenshotUrl
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -35,6 +52,7 @@ fun MovieDetailScreen(
     viewModel: MovieDetailViewModel = getViewModel()
 ) {
     val viewState by viewModel.viewState.collectAsState()
+    val context = LocalContext.current
 
     if (viewState != null) {
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -44,7 +62,7 @@ fun MovieDetailScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(400.dp),
-                        model = viewState!!.backdropUrl,
+                        model = viewState!!.tmdbMovie.backdropUrl,
                         contentDescription = "",
                         contentScale = ContentScale.FillHeight
                     )
@@ -56,14 +74,15 @@ fun MovieDetailScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = viewState!!.title!!,
+                            text = viewState!!.tmdbMovie.title!!,
                             style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
                             ),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(horizontal = 15.dp)
                         )
-                        viewState!!.genres?.let { genres ->
+                        viewState!!.tmdbMovie.genres?.let { genres ->
                             FlowableTextChipRow(chips = genres.map { it.name })
                         }
                     }
@@ -76,6 +95,97 @@ fun MovieDetailScreen(
                     )
                 )
             )
+
+            viewState!!.tmdbMovie.averageRating?.let {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    RatingBar(
+                        rating = it,
+                        maxRating = 10.0,
+                        totalNumberOfRatings = viewState!!.tmdbMovie.totalRatings!!
+                    )
+                }
+            }
+
+            viewState?.tmdbMovie?.overview?.let {
+                TitledTextBlock(
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .padding(horizontal = 15.dp),
+                    title = "Overview",
+                    bodyText = it
+                )
+            }
+
+            BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                val maxWidth = maxWidth
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                        .padding(horizontal = 15.dp)
+                ) {
+                    Text(
+                        "Backdrops",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                    )
+                    AnimatedImagePager(
+                        state = rememberPagerState(),
+                        images = viewState!!.screenshotList.screenshots.map { "https://image.tmdb.org/t/p/w780${it.filePath}" },
+                        onImageTap = {
+                            navigationDirector.navigateToExpandedImageview(url = "https://image.tmdb.org/t/p/original${viewState!!.screenshotList.screenshots[it].filePath}")
+                        },
+                        imageSize = DpSize(width = maxWidth, height = 250.dp),
+                        paddingSize = maxWidth.div(8)
+                    )
+                }
+            }
+
+            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                val maxWidth = maxWidth
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                        .padding(horizontal = 15.dp)
+                ) {
+                    Text(
+                        "Videos",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                    )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(viewState!!.videoList.results) {
+                            VideoPreview(previewImage = {
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .size(width = maxWidth - 40.dp, height = 200.dp),
+                                    model = it.buildYoutubeScreenshotUrl(),
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop
+                                )
+                            }, title = it.name) {
+                                navigationDirector.navigateToExternalIntent(
+                                    it.buildYoutubeIntent(),
+                                    context
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -5,7 +5,9 @@ import com.adewan.mystuff.core.model.IgdbAuthenticationToken
 import com.adewan.mystuff.core.model.TmdbListType
 import com.adewan.mystuff.core.model.TmdbMovie
 import com.adewan.mystuff.core.model.TmdbResultList
+import com.adewan.mystuff.core.model.TmdbScreenshotList
 import com.adewan.mystuff.core.model.TmdbTvShow
+import com.adewan.mystuff.core.model.TmdbVideoList
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -63,6 +65,25 @@ class NetworkDataSource(private val client: HttpClient) {
                 parameter("api_key", BuildConfig.TmdbClientId)
                 parameter("language", "en-US")
                 parameter("region", "US")
+            }
+        }.body()
+    }
+
+    suspend fun requestTmdbMovieScreenshots(identifier: String): TmdbScreenshotList {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/movie/$identifier/images")
+                parameter("api_key", BuildConfig.TmdbClientId)
+            }
+        }.body()
+    }
+
+    suspend fun requestTmdbMovieVideos(identifier: String): TmdbVideoList {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/movie/$identifier/videos")
+                parameter("language", "en-US")
+                parameter("api_key", BuildConfig.TmdbClientId)
             }
         }.body()
     }

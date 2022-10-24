@@ -20,6 +20,9 @@ data class TmdbMovie(
     @SerialName("poster_path") val poster: String? = null,
     @SerialName("backdrop_path") val backdrop: String? = null,
     val genres: List<TmdbGenre>? = null,
+    val overview: String? = null,
+    @SerialName("vote_average") val averageRating: Double? = null,
+    @SerialName("vote_count") val totalRatings: Int? = null,
     val id: Int
 ) {
     val posterUrl: String
@@ -28,6 +31,18 @@ data class TmdbMovie(
     val backdropUrl: String
         get() = "https://image.tmdb.org/t/p/w1280$backdrop"
 }
+
+@kotlinx.serialization.Serializable
+data class TmdbScreenshot(@SerialName("file_path") val filePath: String)
+
+@kotlinx.serialization.Serializable
+data class TmdbScreenshotList(@SerialName("backdrops") val screenshots: List<TmdbScreenshot>)
+
+@kotlinx.serialization.Serializable
+data class TmdbVideo(val key: String, val site: String, val name: String)
+
+@kotlinx.serialization.Serializable
+data class TmdbVideoList(val results: List<TmdbVideo>)
 
 @kotlinx.serialization.Serializable
 data class TmdbGenre(val id: Int, val name: String)

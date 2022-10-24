@@ -88,7 +88,8 @@ fun GameDetailScreen(
                         Text(
                             text = viewState!!.name,
                             style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
                             ),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(horizontal = 15.dp)
@@ -113,6 +114,7 @@ fun GameDetailScreen(
             ) {
                 RatingBar(
                     rating = viewState!!.totalRating,
+                    maxRating = 100.0,
                     totalNumberOfRatings = viewState!!.totalRatingCount
                 )
             }
@@ -168,7 +170,8 @@ fun GameDetailScreen(
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 10.dp)
+                            .padding(top = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         items(viewState!!.videosList) {
                             VideoPreview(previewImage = {

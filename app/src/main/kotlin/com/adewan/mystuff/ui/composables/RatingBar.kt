@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RatingBar(rating: Double, totalNumberOfRatings: Int) {
+fun RatingBar(rating: Double, maxRating: Double, totalNumberOfRatings: Int) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
             modifier = Modifier
@@ -40,9 +40,9 @@ fun RatingBar(rating: Double, totalNumberOfRatings: Int) {
         ) {
             var leftRating = rating
             repeat(5) {
-                val icon = if (leftRating > 20) {
+                val icon = if (leftRating > (maxRating * .2)) {
                     Icons.Filled.StarRate
-                } else if (leftRating < 20 && leftRating > 0) {
+                } else if (leftRating < (maxRating * .2) && leftRating > 0) {
                     Icons.Filled.StarHalf
                 } else {
                     Icons.Outlined.StarRate
@@ -54,7 +54,7 @@ fun RatingBar(rating: Double, totalNumberOfRatings: Int) {
                     tint = Color.Yellow,
                     modifier = Modifier.size(24.dp)
                 )
-                leftRating -= 20
+                leftRating -= (maxRating * .2)
             }
             Text(
                 text = String.format("%.1f", rating),
@@ -79,19 +79,19 @@ fun PreviewRatingBar() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RatingBar(88.0, 1000)
+        RatingBar(88.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
-        RatingBar(44.0, 1000)
+        RatingBar(44.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
-        RatingBar(90.0, 1000)
+        RatingBar(90.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
-        RatingBar(91.0, 1000)
+        RatingBar(91.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
-        RatingBar(85.0, 1000)
+        RatingBar(85.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
-        RatingBar(81.0, 1000)
+        RatingBar(81.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
-        RatingBar(79.0, 1000)
+        RatingBar(79.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))
     }
 }
