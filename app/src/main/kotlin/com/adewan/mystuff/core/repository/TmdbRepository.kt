@@ -2,11 +2,16 @@ package com.adewan.mystuff.core.repository
 
 import com.adewan.mystuff.core.model.TmdbListType
 import com.adewan.mystuff.core.model.TmdbMovie
+import com.adewan.mystuff.core.model.TmdbProvider
 import com.adewan.mystuff.core.model.TmdbResultList
 import com.adewan.mystuff.core.model.TmdbScreenshotList
 import com.adewan.mystuff.core.model.TmdbTvShow
 import com.adewan.mystuff.core.model.TmdbVideoList
 import com.adewan.mystuff.core.network.NetworkDataSource
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 
 class TmdbRepository(private val networkDataSource: NetworkDataSource) {
     suspend fun getTmdbMovieList(tmdbListType: TmdbListType): TmdbResultList<TmdbMovie> {
@@ -27,5 +32,24 @@ class TmdbRepository(private val networkDataSource: NetworkDataSource) {
 
     suspend fun getTmdbMovieVideos(identifier: String): TmdbVideoList {
         return networkDataSource.requestTmdbMovieVideos(identifier = identifier)
+    }
+
+    suspend fun getTmdbMovieProviders(identifier: String): List<TmdbProvider> {
+        val list = mutableListOf<TmdbProvider>()
+        val json = Json { ignoreUnknownKeys = true }
+        val providers = networkDataSource.requestTmdbMovieProviders(identifier = identifier)
+        val usProviders = providers["results"]?.jsonObject?.get("US")?.jsonObject
+        usProviders?.let {
+            it["flatrate"]?.jsonArray?.forEach { element ->
+                list.add(json.decodeFromJsonElement(element))
+            }
+            it["buy"]?.jsonArray?.forEach { element ->
+                list.add(json.decodeFromJsonElement(element))
+            }
+            it["rent"]?.jsonArray?.forEach { element ->
+                list.add(json.decodeFromJsonElement(element))
+            }
+        }
+        return list.distinct()
     }
 }

@@ -16,6 +16,9 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.takeFrom
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
 import proto.GameResult
 
 class NetworkDataSource(private val client: HttpClient) {
@@ -67,6 +70,17 @@ class NetworkDataSource(private val client: HttpClient) {
                 parameter("region", "US")
             }
         }.body()
+    }
+
+    suspend fun requestTmdbMovieProviders(identifier: String): JsonObject {
+        return Json.decodeFromJsonElement(
+            client.get {
+                url {
+                    takeFrom("https://api.themoviedb.org/3/movie/$identifier/watch/providers")
+                    parameter("api_key", BuildConfig.TmdbClientId)
+                }
+            }.body()
+        )
     }
 
     suspend fun requestTmdbMovieScreenshots(identifier: String): TmdbScreenshotList {

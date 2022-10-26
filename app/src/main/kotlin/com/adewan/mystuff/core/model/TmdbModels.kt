@@ -48,6 +48,12 @@ data class TmdbVideoList(val results: List<TmdbVideo>)
 data class TmdbGenre(val id: Int, val name: String)
 
 @kotlinx.serialization.Serializable
+data class TmdbProvider(
+    @SerialName("logo_path") val logo: String,
+    @SerialName("provider_name") val name: String
+)
+
+@kotlinx.serialization.Serializable
 data class TmdbTvShow(
     val name: String? = null,
     @SerialName("original_name") val originalName: String? = null,
