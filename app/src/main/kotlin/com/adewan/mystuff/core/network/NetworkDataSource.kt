@@ -83,6 +83,15 @@ class NetworkDataSource(private val client: HttpClient) {
         )
     }
 
+    suspend fun requestSimilarTmdbMovie(identifier: String): TmdbResultList<TmdbMovie> {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/movie/$identifier/similar")
+                parameter("api_key", BuildConfig.TmdbClientId)
+            }
+        }.body()
+    }
+
     suspend fun requestTmdbMovieScreenshots(identifier: String): TmdbScreenshotList {
         return client.get {
             url {

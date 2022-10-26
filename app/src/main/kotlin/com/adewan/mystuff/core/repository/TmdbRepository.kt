@@ -34,6 +34,10 @@ class TmdbRepository(private val networkDataSource: NetworkDataSource) {
         return networkDataSource.requestTmdbMovieVideos(identifier = identifier)
     }
 
+    suspend fun getSimilarTmdbMovies(identifier: String): TmdbResultList<TmdbMovie> {
+        return networkDataSource.requestSimilarTmdbMovie(identifier = identifier)
+    }
+
     suspend fun getTmdbMovieProviders(identifier: String): List<TmdbProvider> {
         val list = mutableListOf<TmdbProvider>()
         val json = Json { ignoreUnknownKeys = true }

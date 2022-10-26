@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalPagerApi::class)
+@file:OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 
 package com.adewan.mystuff.ui.moviedetails
 
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -217,6 +220,36 @@ fun MovieDetailScreen(
                                     contentScale = ContentScale.Inside
                                 )
                             }
+                        }
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
+                Text(
+                    "Similar movies",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .padding(bottom = 5.dp)
+                        .padding(horizontal = 15.dp)
+                )
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(start = 5.dp)
+                ) {
+                    items(viewState!!.similarMovies.results) {
+                        Card(onClick = { navigationDirector.navigateToMovieDetails(it.id.toString()) }) {
+                            AsyncImage(
+                                modifier = Modifier.size(100.dp, 150.dp),
+                                model = "https://image.tmdb.org/t/p/w780${it.posterUrl}",
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop
+                            )
                         }
                     }
                 }

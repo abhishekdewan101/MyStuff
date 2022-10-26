@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.model.TmdbMovie
 import com.adewan.mystuff.core.model.TmdbProvider
+import com.adewan.mystuff.core.model.TmdbResultList
 import com.adewan.mystuff.core.model.TmdbScreenshotList
 import com.adewan.mystuff.core.model.TmdbVideoList
 import com.adewan.mystuff.core.repository.TmdbRepository
@@ -17,7 +18,8 @@ data class MovieDetailState(
     val tmdbMovie: TmdbMovie,
     val screenshotList: TmdbScreenshotList,
     val videoList: TmdbVideoList,
-    val providersList: List<TmdbProvider>
+    val providersList: List<TmdbProvider>,
+    val similarMovies: TmdbResultList<TmdbMovie>
 )
 
 class MovieDetailViewModel(private val tmdbRepository: TmdbRepository) : ViewModel() {
@@ -30,12 +32,14 @@ class MovieDetailViewModel(private val tmdbRepository: TmdbRepository) : ViewMod
             val data2 = async { tmdbRepository.getTmdbMovieScreenshots(identifier = identifier) }
             val data3 = async { tmdbRepository.getTmdbMovieVideos(identifier = identifier) }
             val data4 = async { tmdbRepository.getTmdbMovieProviders(identifier = identifier) }
+            val data5 = async { tmdbRepository.getSimilarTmdbMovies(identifier = identifier) }
             _viewState.value = MovieDetailState(
                 tmdbMovie = data1.await(),
                 screenshotList = data2.await(),
                 videoList = data3.await(),
-                providersList = data4.await().also {
-                    Timber.tag("MovieDetailViewModel").d(it.toString())
+                providersList = data4.await(),
+                similarMovies = data5.await().also {
+                    Timber.tag(this.toString()).d(it.toString())
                 }
             )
         }
