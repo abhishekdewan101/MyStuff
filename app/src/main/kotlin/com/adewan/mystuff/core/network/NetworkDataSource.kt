@@ -61,6 +61,56 @@ class NetworkDataSource(private val client: HttpClient) {
         }.body()
     }
 
+    suspend fun requestTmdbTvShowDetails(identifier: String): TmdbTvShow {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/tv/$identifier")
+                parameter("api_key", BuildConfig.TmdbClientId)
+                parameter("language", "en-US")
+                parameter("region", "US")
+            }
+        }.body()
+    }
+
+    suspend fun requestTmdbTvShowProviders(identifier: String): JsonObject {
+        return Json.decodeFromJsonElement(
+            client.get {
+                url {
+                    takeFrom("https://api.themoviedb.org/3/tv/$identifier/watch/providers")
+                    parameter("api_key", BuildConfig.TmdbClientId)
+                }
+            }.body()
+        )
+    }
+
+    suspend fun requestSimilarTmdbTvShows(identifier: String): TmdbResultList<TmdbTvShow> {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/tv/$identifier/similar")
+                parameter("api_key", BuildConfig.TmdbClientId)
+            }
+        }.body()
+    }
+
+    suspend fun requestTmdbTvShowScreenshots(identifier: String): TmdbScreenshotList {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/tv/$identifier/images")
+                parameter("api_key", BuildConfig.TmdbClientId)
+            }
+        }.body()
+    }
+
+    suspend fun requestTmdbTvShowsVideos(identifier: String): TmdbVideoList {
+        return client.get {
+            url {
+                takeFrom("https://api.themoviedb.org/3/tv/$identifier/videos")
+                parameter("language", "en-US")
+                parameter("api_key", BuildConfig.TmdbClientId)
+            }
+        }.body()
+    }
+
     suspend fun requestTmdbMovieDetails(identifier: String): TmdbMovie {
         return client.get {
             url {

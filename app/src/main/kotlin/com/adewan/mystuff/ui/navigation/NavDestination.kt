@@ -37,6 +37,13 @@ sealed class NavDestination(
 
     object MovieDetail :
         NavDestination(route = "movie_detail/{identifier}", label = "", icon = Icons.Outlined.Apps)
+
+    object TvShowDetail :
+        NavDestination(
+            route = "tv_show_detail/{identifier}",
+            label = "",
+            icon = Icons.Outlined.Apps
+        )
 }
 
 val routes = listOf(NavDestination.Home, NavDestination.Search, NavDestination.Library)

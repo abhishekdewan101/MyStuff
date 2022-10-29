@@ -38,7 +38,7 @@ class HomeViewModel(
     val viewState = _viewState.asStateFlow()
 
     private val _currentFilter = MutableStateFlow(HomeViewFilters.Games)
-    val currentFilter = _currentFilter.asStateFlow()
+    private val currentFilter = _currentFilter.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -60,7 +60,7 @@ class HomeViewModel(
         when (currentFilter.value) {
             HomeViewFilters.Games -> navigationDirector.navigateToGameDetails(identifier)
             HomeViewFilters.Movies -> navigationDirector.navigateToMovieDetails(identifier)
-            else -> {}
+            HomeViewFilters.Tv -> navigationDirector.navigateToTvShowDetails(identifier)
         }
     }
 
@@ -73,7 +73,7 @@ class HomeViewModel(
                     .filter { it.poster != null }
                     .map {
                         ImageShowcaseItem(
-                            identifier = "",
+                            identifier = it.id.toString(),
                             url = it.posterUrl,
                             label = it.name ?: it.originalName
                         )

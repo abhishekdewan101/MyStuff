@@ -58,10 +58,18 @@ data class TmdbTvShow(
     val name: String? = null,
     @SerialName("original_name") val originalName: String? = null,
     @SerialName("poster_path") val poster: String? = null,
+    @SerialName("backdrop_path") val backdrop: String? = null,
+    val genres: List<TmdbGenre>? = null,
+    val overview: String? = null,
+    @SerialName("vote_average") val averageRating: Double? = null,
+    @SerialName("vote_count") val totalRatings: Int? = null,
     val id: Int
 ) {
     val posterUrl: String
         get() = "https://image.tmdb.org/t/p/w780$poster"
+
+    val backdropUrl: String
+        get() = "https://image.tmdb.org/t/p/w1280$backdrop"
 }
 
 @kotlinx.serialization.Serializable

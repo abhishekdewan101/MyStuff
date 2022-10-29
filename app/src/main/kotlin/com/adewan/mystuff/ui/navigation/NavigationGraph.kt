@@ -37,6 +37,7 @@ import com.adewan.mystuff.ui.library.LibraryScreen
 import com.adewan.mystuff.ui.moviedetails.MovieDetailScreen
 import com.adewan.mystuff.ui.search.SearchScreen
 import com.adewan.mystuff.ui.splash.SplashScreen
+import com.adewan.mystuff.ui.tvshowdetails.TvShowDetailScreen
 import org.koin.androidx.compose.get
 
 @Composable
@@ -108,6 +109,19 @@ fun NavigationGraph() {
                     val identifier = backStackEntry.arguments?.getString("identifier")
                         ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
                     MovieDetailScreen(
+                        navigationDirector = navigationDirector,
+                        identifier = identifier
+                    )
+                }
+
+                composable(
+                    NavDestination.TvShowDetail.route,
+                    arguments = listOf(navArgument("identifier") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    showBottombar = NavDestination.TvShowDetail.showBottomBar
+                    val identifier = backStackEntry.arguments?.getString("identifier")
+                        ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
+                    TvShowDetailScreen(
                         navigationDirector = navigationDirector,
                         identifier = identifier
                     )

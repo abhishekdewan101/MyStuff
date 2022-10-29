@@ -11,6 +11,7 @@ import com.adewan.mystuff.core.repository.TmdbRepository
 import com.adewan.mystuff.ui.gamedetails.GameDetailViewModel
 import com.adewan.mystuff.ui.home.HomeViewModel
 import com.adewan.mystuff.ui.moviedetails.MovieDetailViewModel
+import com.adewan.mystuff.ui.tvshowdetails.TvShowDetailViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.cache.HttpCache
@@ -82,6 +83,10 @@ val appModule = module {
 
     viewModel {
         MovieDetailViewModel(get())
+    }
+
+    viewModel {
+        TvShowDetailViewModel(get())
     }
 
     // Repositories

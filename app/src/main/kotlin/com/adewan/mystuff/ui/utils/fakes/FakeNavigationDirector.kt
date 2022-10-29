@@ -19,4 +19,7 @@ class FakeNavigationDirector : NavigationDirector {
 
     override fun navigateToExternalIntent(intent: Intent, context: Context) {
     }
+
+    override fun navigateToTvShowDetails(identifier: String) {
+    }
 }

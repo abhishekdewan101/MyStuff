@@ -11,6 +11,7 @@ interface NavigationDirector {
     fun navigateToMovieDetails(identifier: String)
     fun navigateToExpandedImageview(url: String)
     fun navigateToExternalIntent(intent: Intent, context: Context)
+    fun navigateToTvShowDetails(identifier: String)
 }
 
 class NavigationDirectorImpl(private val navHostController: NavHostController) :
@@ -45,5 +46,13 @@ class NavigationDirectorImpl(private val navHostController: NavHostController) :
 
     override fun navigateToExternalIntent(intent: Intent, context: Context) {
         context.startActivity(intent)
+    }
+
+    override fun navigateToTvShowDetails(identifier: String) {
+        val encodedRoute = NavDestination.TvShowDetail.route.replace(
+            oldValue = "{identifier}",
+            identifier
+        )
+        navHostController.navigate(encodedRoute)
     }
 }

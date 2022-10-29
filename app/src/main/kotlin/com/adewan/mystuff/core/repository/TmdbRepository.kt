@@ -56,4 +56,39 @@ class TmdbRepository(private val networkDataSource: NetworkDataSource) {
         }
         return list.distinct()
     }
+
+    suspend fun getTmdbTvShowDetails(identifier: String): TmdbTvShow {
+        return networkDataSource.requestTmdbTvShowDetails(identifier = identifier)
+    }
+
+    suspend fun getTmdbTvShowScreenshots(identifier: String): TmdbScreenshotList {
+        return networkDataSource.requestTmdbTvShowScreenshots(identifier = identifier)
+    }
+
+    suspend fun getTmdbTvShowVideos(identifier: String): TmdbVideoList {
+        return networkDataSource.requestTmdbTvShowsVideos(identifier = identifier)
+    }
+
+    suspend fun getSimilarTmdbTvShows(identifier: String): TmdbResultList<TmdbTvShow> {
+        return networkDataSource.requestSimilarTmdbTvShows(identifier = identifier)
+    }
+
+    suspend fun getTmdbTvShowProviders(identifier: String): List<TmdbProvider> {
+        val list = mutableListOf<TmdbProvider>()
+        val json = Json { ignoreUnknownKeys = true }
+        val providers = networkDataSource.requestTmdbMovieProviders(identifier = identifier)
+        val usProviders = providers["results"]?.jsonObject?.get("US")?.jsonObject
+        usProviders?.let {
+            it["flatrate"]?.jsonArray?.forEach { element ->
+                list.add(json.decodeFromJsonElement(element))
+            }
+            it["buy"]?.jsonArray?.forEach { element ->
+                list.add(json.decodeFromJsonElement(element))
+            }
+            it["rent"]?.jsonArray?.forEach { element ->
+                list.add(json.decodeFromJsonElement(element))
+            }
+        }
+        return list.distinct()
+    }
 }
