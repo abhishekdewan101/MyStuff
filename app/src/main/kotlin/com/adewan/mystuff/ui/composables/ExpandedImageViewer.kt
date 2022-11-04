@@ -36,7 +36,7 @@ fun ExpandedImageViewer(url: String) {
                         val minY = -maxY
                         offsetY = maxOf(minY, minOf(maxY, offsetY + pan.y))
                     }
-                }
+                },
         ) {
             AsyncImage(
                 modifier = Modifier
@@ -45,11 +45,11 @@ fun ExpandedImageViewer(url: String) {
                         translationX = offsetX,
                         translationY = offsetY,
                         scaleX = scale,
-                        scaleY = scale
+                        scaleY = scale,
                     ),
                 model = url,
                 contentDescription = "",
-                contentScale = ContentScale.Inside
+                contentScale = ContentScale.Inside,
             )
         }
     }

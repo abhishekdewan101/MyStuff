@@ -1,7 +1,7 @@
 @file:OptIn(
     ExperimentalMaterial3Api::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class,
 )
 
 package com.adewan.mystuff.ui.navigation
@@ -58,19 +58,19 @@ fun NavigationGraph() {
                 AnimatedVisibility(
                     visible = showBottombar,
                     enter = slideInVertically { it } + fadeIn(),
-                    exit = slideOutVertically { it } + fadeOut()
+                    exit = slideOutVertically { it } + fadeOut(),
                 ) {
                     NavigationBottomBar(navHostController = navHostController)
                 }
             },
-            modifier = Modifier.navigationBarsPadding()
+            modifier = Modifier.navigationBarsPadding(),
 //            topBar = { NavigationTopBar() }
         ) {
             NavHost(
                 navController = navHostController,
                 startDestination = NavDestination.Splash.route,
                 modifier = Modifier
-                    .padding(it)
+                    .padding(it),
             ) {
                 composable(NavDestination.Splash.route) {
                     showBottombar = NavDestination.Splash.showBottomBar
@@ -90,46 +90,46 @@ fun NavigationGraph() {
                 }
                 composable(
                     NavDestination.GameDetail.route,
-                    arguments = listOf(navArgument("identifier") { type = NavType.StringType })
+                    arguments = listOf(navArgument("identifier") { type = NavType.StringType }),
                 ) { backStackEntry ->
                     showBottombar = NavDestination.GameDetail.showBottomBar
                     val identifier = backStackEntry.arguments?.getString("identifier")
                         ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
                     GameDetailScreen(
                         navigationDirector = navigationDirector,
-                        identifier = identifier
+                        identifier = identifier,
                     )
                 }
 
                 composable(
                     NavDestination.MovieDetail.route,
-                    arguments = listOf(navArgument("identifier") { type = NavType.StringType })
+                    arguments = listOf(navArgument("identifier") { type = NavType.StringType }),
                 ) { backStackEntry ->
                     showBottombar = NavDestination.MovieDetail.showBottomBar
                     val identifier = backStackEntry.arguments?.getString("identifier")
                         ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
                     MovieDetailScreen(
                         navigationDirector = navigationDirector,
-                        identifier = identifier
+                        identifier = identifier,
                     )
                 }
 
                 composable(
                     NavDestination.TvShowDetail.route,
-                    arguments = listOf(navArgument("identifier") { type = NavType.StringType })
+                    arguments = listOf(navArgument("identifier") { type = NavType.StringType }),
                 ) { backStackEntry ->
                     showBottombar = NavDestination.TvShowDetail.showBottomBar
                     val identifier = backStackEntry.arguments?.getString("identifier")
                         ?: throw IllegalStateException("Cannot launch detail screen with null identifier")
                     TvShowDetailScreen(
                         navigationDirector = navigationDirector,
-                        identifier = identifier
+                        identifier = identifier,
                     )
                 }
 
                 composable(
                     NavDestination.ExpandedImageViewer.route,
-                    arguments = listOf(navArgument("url") { type = NavType.StringType })
+                    arguments = listOf(navArgument("url") { type = NavType.StringType }),
                 ) { backStackEntry ->
                     showBottombar = NavDestination.ExpandedImageViewer.showBottomBar
                     val url = backStackEntry.arguments?.getString("url")

@@ -16,7 +16,7 @@ fun GradientScrimContainer(
     backgroundContent: @Composable () -> Unit,
     foregroundContent: @Composable () -> Unit,
     scrimHeight: Dp,
-    scrimGradient: Brush
+    scrimGradient: Brush,
 ) {
     Box(modifier = modifier) {
         backgroundContent()
@@ -25,7 +25,7 @@ fun GradientScrimContainer(
                 .fillMaxWidth()
                 .height(scrimHeight)
                 .align(Alignment.BottomCenter)
-                .background(brush = scrimGradient)
+                .background(brush = scrimGradient),
         ) {
             foregroundContent()
         }

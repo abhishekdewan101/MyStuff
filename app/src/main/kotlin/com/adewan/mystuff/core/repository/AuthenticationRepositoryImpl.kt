@@ -4,8 +4,8 @@ import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.model.LocalIgdbAuthenticationToken
 import com.adewan.mystuff.core.model.isValid
 import com.adewan.mystuff.core.network.NetworkDataSource
-import timber.log.Timber
 import java.time.Clock
+import timber.log.Timber
 
 interface AuthenticationRepository {
     suspend fun initializeIgdbAuthenticationToken(): Boolean
@@ -14,7 +14,7 @@ interface AuthenticationRepository {
 class AuthenticationRepositoryImpl(
     private val preferenceDataSource: PreferenceDataSource,
     private val networkDataSource: NetworkDataSource,
-    private val clock: Clock
+    private val clock: Clock,
 ) : AuthenticationRepository {
     override suspend fun initializeIgdbAuthenticationToken(): Boolean {
         val currentToken = preferenceDataSource.getIgdbToken()
@@ -27,8 +27,8 @@ class AuthenticationRepositoryImpl(
             preferenceDataSource.writeIgdbToken(
                 LocalIgdbAuthenticationToken(
                     token = networkToken.token,
-                    expiration = networkToken.expiresIn + clock.millis()
-                )
+                    expiration = networkToken.expiresIn + clock.millis(),
+                ),
             )
             true
         }

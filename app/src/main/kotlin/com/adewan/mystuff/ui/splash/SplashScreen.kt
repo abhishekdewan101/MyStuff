@@ -36,7 +36,7 @@ import org.koin.androidx.compose.get
 @Composable
 fun SplashScreen(
     navigationDirector: NavigationDirector,
-    authenticationRepository: AuthenticationRepository = get()
+    authenticationRepository: AuthenticationRepository = get(),
 ) {
     var isAuthenticated by remember { mutableStateOf(false) }
 
@@ -56,26 +56,26 @@ fun SplashScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(40.dp)
+                modifier = Modifier.padding(40.dp),
             ) {
                 AsyncImage(
                     model = R.mipmap.ic_launcher,
                     contentDescription = "",
                     modifier = Modifier
-                        .size(72.dp)
+                        .size(72.dp),
 
                 )
                 Text(
                     "My Stuff",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     ),
-                    modifier = Modifier.padding(start = 10.dp)
+                    modifier = Modifier.padding(start = 10.dp),
                 )
             }
             LinearProgressIndicator(modifier = Modifier.width(100.dp))
@@ -88,6 +88,6 @@ fun SplashScreen(
 fun PreviewSplashScreen() {
     SplashScreen(
         navigationDirector = FakeNavigationDirector(),
-        authenticationRepository = FakeAuthenticationRepository()
+        authenticationRepository = FakeAuthenticationRepository(),
     )
 }

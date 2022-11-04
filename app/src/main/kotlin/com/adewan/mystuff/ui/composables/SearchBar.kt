@@ -54,8 +54,8 @@ fun SearchBar(onSearchExecuted: (String) -> Unit) {
                 onSearchExecuted(searchTerm.text)
                 focusManager.clearFocus()
                 keyboardController?.hide()
-            }
-        )
+            },
+        ),
     )
 }
 
@@ -65,7 +65,7 @@ fun PreviewSearchBar() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color.White),
     ) {
         Spacer(modifier = Modifier.padding(top = 15.dp))
         SearchBar {}

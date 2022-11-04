@@ -10,13 +10,13 @@ sealed class NavDestination(
     val route: String,
     val label: String,
     val icon: ImageVector,
-    val showBottomBar: Boolean = true
+    val showBottomBar: Boolean = true,
 ) {
     object Splash : NavDestination(
         route = "splash",
         label = "Splash",
         icon = Icons.Outlined.Apps,
-        showBottomBar = false
+        showBottomBar = false,
     )
 
     object Home : NavDestination(route = "home", label = "Home", icon = Icons.Outlined.Home)
@@ -32,7 +32,7 @@ sealed class NavDestination(
             route = "expandedImage/{url}",
             label = "",
             icon = Icons.Outlined.Apps,
-            showBottomBar = false
+            showBottomBar = false,
         )
 
     object MovieDetail :
@@ -42,7 +42,7 @@ sealed class NavDestination(
         NavDestination(
             route = "tv_show_detail/{identifier}",
             label = "",
-            icon = Icons.Outlined.Apps
+            icon = Icons.Outlined.Apps,
         )
 }
 

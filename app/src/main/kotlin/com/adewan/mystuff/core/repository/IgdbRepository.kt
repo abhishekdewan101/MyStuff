@@ -10,7 +10,7 @@ import proto.GameResult
 class IgdbRepository(
     private val networkDataSource: NetworkDataSource,
     private val preferenceDataSource: PreferenceDataSource,
-    private val clientId: String = BuildConfig.ClientId
+    private val clientId: String = BuildConfig.ClientId,
 ) {
     suspend fun getGameCovers(forQuery: String): GameResult {
         val token = preferenceDataSource.getIgdbToken()?.token
@@ -18,7 +18,7 @@ class IgdbRepository(
         return networkDataSource.requestGames(
             clientId = clientId,
             token = token,
-            forQuery = forQuery
+            forQuery = forQuery,
         )
     }
 
@@ -28,7 +28,7 @@ class IgdbRepository(
         return networkDataSource.requestGames(
             clientId = clientId,
             token = token,
-            forQuery = buildGameDetailQuery(slug = forIdentifier)
+            forQuery = buildGameDetailQuery(slug = forIdentifier),
         ).gamesList.first()
     }
 }

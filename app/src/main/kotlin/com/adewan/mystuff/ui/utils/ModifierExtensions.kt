@@ -4,7 +4,7 @@ import androidx.compose.ui.Modifier
 
 fun Modifier.conditional(
     condition: Boolean,
-    conditionalModifier: Modifier.() -> Modifier
+    conditionalModifier: Modifier.() -> Modifier,
 ): Modifier {
     return if (condition) {
         then(conditionalModifier(Modifier))

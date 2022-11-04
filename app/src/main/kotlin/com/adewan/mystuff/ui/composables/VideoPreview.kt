@@ -33,11 +33,11 @@ fun VideoPreview(
     modifier: Modifier = Modifier,
     previewImage: @Composable () -> Unit,
     title: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.clickable(onClick = onClick),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box {
             previewImage()
@@ -46,7 +46,7 @@ fun VideoPreview(
                     .size(20.dp)
                     .align(Alignment.Center)
                     .clip(CircleShape)
-                    .background(Color.Black.copy(alpha = 0.5f))
+                    .background(Color.Black.copy(alpha = 0.5f)),
             )
             Icon(
                 Icons.Default.PlayCircleFilled,
@@ -54,7 +54,7 @@ fun VideoPreview(
                 modifier = Modifier
                     .size(64.dp)
                     .align(Alignment.Center),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
         Text(
@@ -64,7 +64,7 @@ fun VideoPreview(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .padding(top = 5.dp)
-                .width(200.dp)
+                .width(200.dp),
         )
     }
 }
@@ -79,7 +79,7 @@ fun PreviewVideoPreview() {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(200.dp),
         )
-    }, title = "Test Title") {}
+    }, title = "Test Title",) {}
 }

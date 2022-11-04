@@ -30,16 +30,16 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
+            .statusBarsPadding(),
     ) {
         TextFilterRow(
             modifier = Modifier.padding(top = 10.dp),
             filters = listOf(
                 TextFilterRowItem(label = "Games", filter = HomeViewFilters.Games),
                 TextFilterRowItem(label = "Movies", filter = HomeViewFilters.Movies),
-                TextFilterRowItem(label = "TV Shows", filter = HomeViewFilters.Tv)
+                TextFilterRowItem(label = "TV Shows", filter = HomeViewFilters.Tv),
             ),
-            onFilterSelected = viewModel::changeFilter
+            onFilterSelected = viewModel::changeFilter,
         )
 
         if (viewState == null) {
@@ -52,27 +52,27 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
                     onImageTap = {
                         viewModel.handleNavigation(
                             navigationDirector,
-                            viewState!!.showcase[it].identifier
+                            viewState!!.showcase[it].identifier,
                         )
-                    }
+                    },
                 )
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),
                     data = viewState!!.topRated,
                     onImageTapped = { viewModel.handleNavigation(navigationDirector, it) },
-                    onViewMore = {}
+                    onViewMore = {},
                 )
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),
                     data = viewState!!.comingSoon,
                     onImageTapped = { viewModel.handleNavigation(navigationDirector, it) },
-                    onViewMore = {}
+                    onViewMore = {},
                 )
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),
                     data = viewState!!.recentReleased,
                     onImageTapped = { viewModel.handleNavigation(navigationDirector, it) },
-                    onViewMore = {}
+                    onViewMore = {},
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))

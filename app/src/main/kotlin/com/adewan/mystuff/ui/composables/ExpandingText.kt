@@ -29,6 +29,6 @@ fun ExpandingText(text: String, closedLineCount: Int) {
                 } else {
                     closedLineCount
                 }
-            }
+            },
     )
 }

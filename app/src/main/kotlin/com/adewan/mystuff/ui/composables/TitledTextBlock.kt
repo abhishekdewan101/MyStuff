@@ -17,7 +17,7 @@ fun TitledTextBlock(modifier: Modifier = Modifier, title: String, bodyText: Stri
             title,
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(bottom = 5.dp)
+            modifier = Modifier.padding(bottom = 5.dp),
         )
         ExpandingText(text = bodyText, closedLineCount = 4)
     }

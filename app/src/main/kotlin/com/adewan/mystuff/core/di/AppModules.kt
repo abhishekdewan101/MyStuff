@@ -26,13 +26,13 @@ import io.ktor.util.reflect.TypeInfo
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.charsets.Charset
 import io.ktor.utils.io.core.readBytes
+import java.time.Clock
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import proto.GameResult
-import java.time.Clock
 
 /**
  * AppModule defines app level declarations of dependencies that can be used everywhere in the app.
@@ -46,7 +46,7 @@ val appModule = module {
                         isLenient = true
                         prettyPrint = true
                         ignoreUnknownKeys = true
-                    }
+                    },
                 )
                 register(ContentType.Application.ProtoBuf, ProtobufConverter())
             }
@@ -103,7 +103,7 @@ class ProtobufConverter : ContentConverter {
     override suspend fun deserialize(
         charset: Charset,
         typeInfo: TypeInfo,
-        content: ByteReadChannel
+        content: ByteReadChannel,
     ): Any {
         val byteArray = content.readRemaining().readBytes()
         return GameResult.parseFrom(byteArray)

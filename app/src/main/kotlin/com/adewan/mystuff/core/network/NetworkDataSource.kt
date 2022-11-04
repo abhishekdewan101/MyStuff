@@ -79,7 +79,7 @@ class NetworkDataSource(private val client: HttpClient) {
                     takeFrom("https://api.themoviedb.org/3/tv/$identifier/watch/providers")
                     parameter("api_key", BuildConfig.TmdbClientId)
                 }
-            }.body()
+            }.body(),
         )
     }
 
@@ -129,7 +129,7 @@ class NetworkDataSource(private val client: HttpClient) {
                     takeFrom("https://api.themoviedb.org/3/movie/$identifier/watch/providers")
                     parameter("api_key", BuildConfig.TmdbClientId)
                 }
-            }.body()
+            }.body(),
         )
     }
 

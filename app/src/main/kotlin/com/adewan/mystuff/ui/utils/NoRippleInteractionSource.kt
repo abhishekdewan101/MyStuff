@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 object NoRippleInteractionSource : MutableInteractionSource {
     override val interactions = MutableSharedFlow<Interaction>(
         extraBufferCapacity = 2,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
     override suspend fun emit(interaction: Interaction) {

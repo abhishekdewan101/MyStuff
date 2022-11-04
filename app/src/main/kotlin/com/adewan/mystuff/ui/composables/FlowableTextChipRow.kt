@@ -18,7 +18,7 @@ fun FlowableTextChipRow(modifier: Modifier = Modifier, chips: List<String>) {
         chips.map {
             ElevatedAssistChip(
                 onClick = { },
-                label = { Text(text = it) }
+                label = { Text(text = it) },
             )
         }
     }
@@ -38,7 +38,7 @@ fun PreviewFlowableTextChipRow() {
             "Thriller2",
             "Horror2",
             "Sci-Fi2",
-            "Cyberpunk"
-        )
+            "Cyberpunk",
+        ),
     )
 }

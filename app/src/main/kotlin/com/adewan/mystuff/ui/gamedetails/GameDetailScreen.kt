@@ -57,7 +57,7 @@ import org.koin.androidx.compose.get
 fun GameDetailScreen(
     navigationDirector: NavigationDirector,
     identifier: String,
-    viewModel: GameDetailViewModel = get()
+    viewModel: GameDetailViewModel = get(),
 ) {
     val viewState by viewModel.viewState.collectAsState()
     val context = LocalContext.current
@@ -76,23 +76,23 @@ fun GameDetailScreen(
                             .height(400.dp),
                         model = "https://images.igdb.com/igdb/image/upload/t_720p/${viewState!!.artworksList.random().imageId}.jpg",
                         contentDescription = "",
-                        contentScale = ContentScale.FillHeight
+                        contentScale = ContentScale.FillHeight,
                     )
                 },
                 foregroundContent = {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Bottom,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
                             text = viewState!!.name,
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = Color.White,
                             ),
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = 15.dp)
+                            modifier = Modifier.padding(horizontal = 15.dp),
                         )
                         FlowableTextChipRow(chips = viewState!!.themesList.map { it.name })
                     }
@@ -101,21 +101,21 @@ fun GameDetailScreen(
                 scrimGradient = Brush.verticalGradient(
                     colors = listOf(
                         Color.Transparent,
-                        Color.Black
-                    )
-                )
+                        Color.Black,
+                    ),
+                ),
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 RatingBar(
                     rating = viewState!!.totalRating,
                     maxRating = 100.0,
-                    totalNumberOfRatings = viewState!!.totalRatingCount
+                    totalNumberOfRatings = viewState!!.totalRatingCount,
                 )
             }
 
@@ -124,7 +124,7 @@ fun GameDetailScreen(
                     .padding(top = 10.dp)
                     .padding(horizontal = 15.dp),
                 title = "Summary",
-                bodyText = viewState!!.summary
+                bodyText = viewState!!.summary,
             )
 
             BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
@@ -133,13 +133,13 @@ fun GameDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 ) {
                     Text(
                         "Screenshots",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp),
                     )
                     AnimatedImagePager(
                         state = rememberPagerState(),
@@ -148,7 +148,7 @@ fun GameDetailScreen(
                             navigationDirector.navigateToExpandedImageview(url = "https://images.igdb.com/igdb/image/upload/t_1080p/${viewState!!.screenshotsList[it].imageId}.jpg")
                         },
                         imageSize = DpSize(width = maxWidth, height = 250.dp),
-                        paddingSize = maxWidth.div(8)
+                        paddingSize = maxWidth.div(8),
                     )
                 }
             }
@@ -159,19 +159,19 @@ fun GameDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 ) {
                     Text(
                         "Videos",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp),
                     )
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         items(viewState!!.videosList) {
                             VideoPreview(previewImage = {
@@ -180,12 +180,12 @@ fun GameDetailScreen(
                                         .size(width = maxWidth - 40.dp, height = 200.dp),
                                     model = it.buildYoutubeScreenshotUrl(),
                                     contentDescription = "",
-                                    contentScale = ContentScale.Crop
+                                    contentScale = ContentScale.Crop,
                                 )
-                            }, title = it.name) {
+                            }, title = it.name,) {
                                 navigationDirector.navigateToExternalIntent(
                                     it.buildYoutubeIntent(),
-                                    context
+                                    context,
                                 )
                             }
                         }
@@ -198,20 +198,20 @@ fun GameDetailScreen(
                     .padding(top = 10.dp)
                     .padding(horizontal = 15.dp),
                 title = "Storyline",
-                bodyText = viewState!!.storyline
+                bodyText = viewState!!.storyline,
             )
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 15.dp)
+                    .padding(horizontal = 15.dp),
             ) {
                 Text(
                     "Available on",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(bottom = 5.dp)
+                    modifier = Modifier.padding(bottom = 5.dp),
                 )
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     items(viewState!!.platformsList) {
@@ -220,13 +220,13 @@ fun GameDetailScreen(
                                 .size(100.dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.colorScheme.secondaryContainer)
-                                .padding(15.dp)
+                                .padding(15.dp),
                         ) {
                             AsyncImage(
                                 modifier = Modifier.fillMaxSize(),
                                 model = "https://images.igdb.com/igdb/image/upload/t_720p/${it.platformLogo.imageId}.png",
                                 contentDescription = "",
-                                contentScale = ContentScale.Inside
+                                contentScale = ContentScale.Inside,
                             )
                         }
                     }
@@ -236,7 +236,7 @@ fun GameDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp)
+                    .padding(top = 10.dp),
             ) {
                 Text(
                     "Similar games",
@@ -244,11 +244,11 @@ fun GameDetailScreen(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .padding(bottom = 5.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 )
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(start = 5.dp)
+                    contentPadding = PaddingValues(start = 5.dp),
                 ) {
                     items(viewState!!.similarGamesList) {
                         Card(onClick = { navigationDirector.navigateToGameDetails(it.slug) }) {
@@ -256,7 +256,7 @@ fun GameDetailScreen(
                                 modifier = Modifier.size(100.dp, 150.dp),
                                 model = "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.png",
                                 contentDescription = "",
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.Crop,
                             )
                         }
                     }

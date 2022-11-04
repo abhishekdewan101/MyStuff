@@ -55,7 +55,7 @@ import org.koin.androidx.compose.getViewModel
 fun TvShowDetailScreen(
     navigationDirector: NavigationDirector,
     identifier: String,
-    viewModel: TvShowDetailViewModel = getViewModel()
+    viewModel: TvShowDetailViewModel = getViewModel(),
 ) {
     val viewState by viewModel.viewState.collectAsState()
     val context = LocalContext.current
@@ -70,23 +70,23 @@ fun TvShowDetailScreen(
                             .height(400.dp),
                         model = viewState!!.tmdbTvShow.backdropUrl,
                         contentDescription = "",
-                        contentScale = ContentScale.FillHeight
+                        contentScale = ContentScale.FillHeight,
                     )
                 },
                 foregroundContent = {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Bottom,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
                             text = viewState!!.tmdbTvShow.name!!,
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = Color.White,
                             ),
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = 15.dp)
+                            modifier = Modifier.padding(horizontal = 15.dp),
                         )
                         viewState!!.tmdbTvShow.genres?.let { genres ->
                             FlowableTextChipRow(chips = genres.map { it.name })
@@ -97,9 +97,9 @@ fun TvShowDetailScreen(
                 scrimGradient = Brush.verticalGradient(
                     colors = listOf(
                         Color.Transparent,
-                        Color.Black
-                    )
-                )
+                        Color.Black,
+                    ),
+                ),
             )
 
             viewState!!.tmdbTvShow.averageRating?.let {
@@ -107,12 +107,12 @@ fun TvShowDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp),
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     RatingBar(
                         rating = it,
                         maxRating = 10.0,
-                        totalNumberOfRatings = viewState!!.tmdbTvShow.totalRatings!!
+                        totalNumberOfRatings = viewState!!.tmdbTvShow.totalRatings!!,
                     )
                 }
             }
@@ -123,7 +123,7 @@ fun TvShowDetailScreen(
                         .padding(top = 10.dp)
                         .padding(horizontal = 15.dp),
                     title = "Overview",
-                    bodyText = it
+                    bodyText = it,
                 )
             }
 
@@ -133,13 +133,13 @@ fun TvShowDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 ) {
                     Text(
                         "Backdrops",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp),
                     )
                     AnimatedImagePager(
                         state = rememberPagerState(),
@@ -148,7 +148,7 @@ fun TvShowDetailScreen(
                             navigationDirector.navigateToExpandedImageview(url = "https://image.tmdb.org/t/p/original${viewState!!.screenshotList.screenshots[it].filePath}")
                         },
                         imageSize = DpSize(width = maxWidth, height = 250.dp),
-                        paddingSize = maxWidth.div(8)
+                        paddingSize = maxWidth.div(8),
                     )
                 }
             }
@@ -159,19 +159,19 @@ fun TvShowDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 ) {
                     Text(
                         "Videos",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp),
                     )
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         items(viewState!!.videoList.results) {
                             VideoPreview(previewImage = {
@@ -180,12 +180,12 @@ fun TvShowDetailScreen(
                                         .size(width = maxWidth - 40.dp, height = 200.dp),
                                     model = it.buildYoutubeScreenshotUrl(),
                                     contentDescription = "",
-                                    contentScale = ContentScale.Crop
+                                    contentScale = ContentScale.Crop,
                                 )
-                            }, title = it.name) {
+                            }, title = it.name,) {
                                 navigationDirector.navigateToExternalIntent(
                                     it.buildYoutubeIntent(),
-                                    context
+                                    context,
                                 )
                             }
                         }
@@ -198,26 +198,26 @@ fun TvShowDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 ) {
                     Text(
                         "Available on",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp),
                     )
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         items(viewState!!.providersList) {
                             Box(
                                 modifier = Modifier
                                     .size(75.dp)
-                                    .clip(RoundedCornerShape(10.dp))
+                                    .clip(RoundedCornerShape(10.dp)),
                             ) {
                                 AsyncImage(
                                     modifier = Modifier.fillMaxSize(),
                                     model = "https://image.tmdb.org/t/p/w780${it.logo}",
                                     contentDescription = "",
-                                    contentScale = ContentScale.Inside
+                                    contentScale = ContentScale.Inside,
                                 )
                             }
                         }
@@ -228,7 +228,7 @@ fun TvShowDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp)
+                    .padding(top = 10.dp),
             ) {
                 Text(
                     "Similar movies",
@@ -236,11 +236,11 @@ fun TvShowDetailScreen(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .padding(bottom = 5.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 15.dp),
                 )
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(start = 5.dp)
+                    contentPadding = PaddingValues(start = 5.dp),
                 ) {
                     items(viewState!!.similarMovies.results) {
                         Card(onClick = { navigationDirector.navigateToTvShowDetails(it.id.toString()) }) {
@@ -248,7 +248,7 @@ fun TvShowDetailScreen(
                                 modifier = Modifier.size(100.dp, 150.dp),
                                 model = "https://image.tmdb.org/t/p/w780${it.posterUrl}",
                                 contentDescription = "",
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.Crop,
                             )
                         }
                     }

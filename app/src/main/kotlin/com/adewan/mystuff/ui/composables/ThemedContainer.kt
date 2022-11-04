@@ -10,7 +10,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun ThemedContainer(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val uiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
@@ -19,7 +19,7 @@ fun ThemedContainer(
         uiController.setStatusBarColor(color = Color.Transparent, darkIcons = useDarkIcons)
         uiController.setNavigationBarColor(
             color = backgroundColor,
-            darkIcons = useDarkIcons
+            darkIcons = useDarkIcons,
         )
     }
     content()

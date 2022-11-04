@@ -18,7 +18,7 @@ data class TvDetailState(
     val screenshotList: TmdbScreenshotList,
     val videoList: TmdbVideoList,
     val providersList: List<TmdbProvider>,
-    val similarMovies: TmdbResultList<TmdbTvShow>
+    val similarMovies: TmdbResultList<TmdbTvShow>,
 )
 
 class TvShowDetailViewModel(private val tmdbRepository: TmdbRepository) : ViewModel() {
@@ -37,7 +37,7 @@ class TvShowDetailViewModel(private val tmdbRepository: TmdbRepository) : ViewMo
                 screenshotList = data2.await(),
                 videoList = data3.await(),
                 providersList = data4.await(),
-                similarMovies = data5.await()
+                similarMovies = data5.await(),
             )
         }
     }

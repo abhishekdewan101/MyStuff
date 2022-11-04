@@ -33,7 +33,7 @@ class NavigationDirectorImpl(private val navHostController: NavHostController) :
     override fun navigateToMovieDetails(identifier: String) {
         val encodedRoute = NavDestination.MovieDetail.route.replace(
             oldValue = "{identifier}",
-            identifier
+            identifier,
         )
         navHostController.navigate(encodedRoute)
     }
@@ -51,7 +51,7 @@ class NavigationDirectorImpl(private val navHostController: NavHostController) :
     override fun navigateToTvShowDetails(identifier: String) {
         val encodedRoute = NavDestination.TvShowDetail.route.replace(
             oldValue = "{identifier}",
-            identifier
+            identifier,
         )
         navHostController.navigate(encodedRoute)
     }

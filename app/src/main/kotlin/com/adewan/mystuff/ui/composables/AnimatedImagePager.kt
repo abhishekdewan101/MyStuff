@@ -29,13 +29,13 @@ fun AnimatedImagePager(
     images: List<String>,
     imageSize: DpSize,
     paddingSize: Dp,
-    onImageTap: (Int) -> Unit
+    onImageTap: (Int) -> Unit,
 ) {
     HorizontalPager(
         count = images.size,
         state = state,
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = paddingSize)
+        contentPadding = PaddingValues(horizontal = paddingSize),
     ) { page ->
         Card(
             modifier = Modifier
@@ -49,7 +49,7 @@ fun AnimatedImagePager(
                     lerp(
                         start = 0.85.dp,
                         stop = 1.dp,
-                        fraction = 1 - pageOffset.coerceIn(0f, 1f)
+                        fraction = 1 - pageOffset.coerceIn(0f, 1f),
                     ).also { scale ->
                         scaleX = scale.value
                         scaleY = scale.value
@@ -59,19 +59,19 @@ fun AnimatedImagePager(
                     alpha = lerp(
                         start = 0.5.dp,
                         stop = 1.dp,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f),
                     ).value
                 }
                 .clickable {
                     onImageTap(page)
-                }
+                },
         ) {
             AsyncImage(
                 modifier = Modifier
                     .size(imageSize),
                 model = images[page],
                 contentDescription = "",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
         }
     }

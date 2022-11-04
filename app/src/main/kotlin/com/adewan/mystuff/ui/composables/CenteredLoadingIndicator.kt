@@ -13,7 +13,7 @@ fun CenteredLoadingIndicator() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CircularProgressIndicator()
     }

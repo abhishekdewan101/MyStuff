@@ -25,13 +25,13 @@ fun <T> TextFilterRow(
     modifier: Modifier = Modifier,
     filters: List<TextFilterRowItem<T>>,
     initialSelectedIndex: Int = 0,
-    onFilterSelected: (T) -> Unit
+    onFilterSelected: (T) -> Unit,
 ) {
     var selectedIndex by rememberSaveable { mutableStateOf(initialSelectedIndex) }
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         filters.forEachIndexed { index, filter ->
             val color = if (index == selectedIndex) {
@@ -43,7 +43,7 @@ fun <T> TextFilterRow(
                 filter.label,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     color = color,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 ),
                 modifier = Modifier
                     .clickable(
@@ -52,9 +52,9 @@ fun <T> TextFilterRow(
                         onClick = {
                             selectedIndex = index
                             onFilterSelected(filter.filter)
-                        }
+                        },
                     )
-                    .padding(10.dp)
+                    .padding(10.dp),
             )
         }
     }

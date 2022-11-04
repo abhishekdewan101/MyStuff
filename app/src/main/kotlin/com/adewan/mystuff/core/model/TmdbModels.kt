@@ -10,7 +10,7 @@ enum class TmdbListType(val endpoint: String) {
     ON_AIR_TV_SHOWS("/tv/on_the_air"),
     TOP_RATED_TV_SHOWS("/tv/top_rated"),
     POPULAR_TV_SHOWS("/tv/popular"),
-    AIRING_TODAY_TV_SHOWS("/tv/airing_today")
+    AIRING_TODAY_TV_SHOWS("/tv/airing_today"),
 }
 
 @kotlinx.serialization.Serializable
@@ -23,7 +23,7 @@ data class TmdbMovie(
     val overview: String? = null,
     @SerialName("vote_average") val averageRating: Double? = null,
     @SerialName("vote_count") val totalRatings: Int? = null,
-    val id: Int
+    val id: Int,
 ) {
     val posterUrl: String
         get() = "https://image.tmdb.org/t/p/w780$poster"
@@ -50,7 +50,7 @@ data class TmdbGenre(val id: Int, val name: String)
 @kotlinx.serialization.Serializable
 data class TmdbProvider(
     @SerialName("logo_path") val logo: String,
-    @SerialName("provider_name") val name: String
+    @SerialName("provider_name") val name: String,
 )
 
 @kotlinx.serialization.Serializable
@@ -63,7 +63,7 @@ data class TmdbTvShow(
     val overview: String? = null,
     @SerialName("vote_average") val averageRating: Double? = null,
     @SerialName("vote_count") val totalRatings: Int? = null,
-    val id: Int
+    val id: Int,
 ) {
     val posterUrl: String
         get() = "https://image.tmdb.org/t/p/w780$poster"

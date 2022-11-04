@@ -36,7 +36,7 @@ fun RatingBar(rating: Double, maxRating: Double, totalNumberOfRatings: Int) {
                 .background(MaterialTheme.colorScheme.secondaryContainer)
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceAround,
         ) {
             var leftRating = rating
             repeat(5) {
@@ -52,21 +52,21 @@ fun RatingBar(rating: Double, maxRating: Double, totalNumberOfRatings: Int) {
                     icon,
                     contentDescription = "",
                     tint = Color.Yellow,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
                 leftRating -= (maxRating * .2)
             }
             Text(
                 text = String.format("%.1f", rating),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
         }
         Text(
             "$totalNumberOfRatings ratings",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(top = 5.dp)
+            modifier = Modifier.padding(top = 5.dp),
         )
     }
 }
@@ -77,7 +77,7 @@ fun PreviewRatingBar() {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         RatingBar(88.0, 100.0, 1000)
         Spacer(modifier = Modifier.height(10.dp))

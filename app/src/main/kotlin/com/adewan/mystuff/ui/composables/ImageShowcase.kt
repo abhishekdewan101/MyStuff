@@ -24,13 +24,13 @@ fun ImageShowcase(
     modifier: Modifier = Modifier,
     items: List<ImageShowcaseItem>,
     showLabel: Boolean = true,
-    onImageTap: (Int) -> Unit
+    onImageTap: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 1)
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AnimatedImagePager(
             modifier = modifier,
@@ -38,7 +38,7 @@ fun ImageShowcase(
             images = items.map { it.url },
             onImageTap = onImageTap,
             imageSize = DpSize(width = 200.dp, height = 250.dp),
-            paddingSize = 100.dp
+            paddingSize = 100.dp,
         )
         if (showLabel) {
             Text(
@@ -50,8 +50,8 @@ fun ImageShowcase(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight =
-                    FontWeight.Bold
-                )
+                    FontWeight.Bold,
+                ),
             )
         }
     }

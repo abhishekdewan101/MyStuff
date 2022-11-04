@@ -21,18 +21,18 @@ data class HomeViewState(
     val showcase: List<ImageShowcaseItem>,
     val topRated: ImageCarouselWithTitleData,
     val comingSoon: ImageCarouselWithTitleData,
-    val recentReleased: ImageCarouselWithTitleData
+    val recentReleased: ImageCarouselWithTitleData,
 )
 
 enum class HomeViewFilters {
     Games,
     Movies,
-    Tv
+    Tv,
 }
 
 class HomeViewModel(
     private val igdbRepository: IgdbRepository,
-    private val tmdbRepository: TmdbRepository
+    private val tmdbRepository: TmdbRepository,
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
     val viewState = _viewState.asStateFlow()
@@ -75,7 +75,7 @@ class HomeViewModel(
                         ImageShowcaseItem(
                             identifier = it.id.toString(),
                             url = it.posterUrl,
-                            label = it.name ?: it.originalName
+                            label = it.name ?: it.originalName,
                         )
                     }
             }
@@ -85,7 +85,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
-                        identifier = results.map { it.id.toString() }
+                        identifier = results.map { it.id.toString() },
                     )
                 }
             }
@@ -95,7 +95,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Popular",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
-                        identifier = results.map { it.id.toString() }
+                        identifier = results.map { it.id.toString() },
                     )
                 }
             }
@@ -105,7 +105,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Airing Today",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
-                        identifier = results.map { it.id.toString() }
+                        identifier = results.map { it.id.toString() },
                     )
                 }
             }
@@ -114,7 +114,7 @@ class HomeViewModel(
                 showcase = data1.await(),
                 topRated = data2.await(),
                 comingSoon = data3.await(),
-                recentReleased = data4.await()
+                recentReleased = data4.await(),
             )
         }
     }
@@ -129,7 +129,7 @@ class HomeViewModel(
                         ImageShowcaseItem(
                             identifier = it.id.toString(),
                             url = it.posterUrl,
-                            label = it.title ?: it.originalTitle
+                            label = it.title ?: it.originalTitle,
                         )
                     }
             }
@@ -139,7 +139,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
-                        identifier = results.map { it.id.toString() }
+                        identifier = results.map { it.id.toString() },
                     )
                 }
             }
@@ -149,7 +149,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Upcoming",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
-                        identifier = results.map { it.id.toString() }
+                        identifier = results.map { it.id.toString() },
                     )
                 }
             }
@@ -159,7 +159,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Now Playing",
                         images = results.filter { it.poster != null }.map { it.posterUrl },
-                        identifier = results.map { it.id.toString() }
+                        identifier = results.map { it.id.toString() },
                     )
                 }
             }
@@ -168,7 +168,7 @@ class HomeViewModel(
                 showcase = data1.await(),
                 topRated = data2.await(),
                 comingSoon = data3.await(),
-                recentReleased = data4.await()
+                recentReleased = data4.await(),
             )
         }
     }
@@ -182,7 +182,7 @@ class HomeViewModel(
                         ImageShowcaseItem(
                             identifier = it.slug,
                             url = "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg",
-                            label = it.name
+                            label = it.name,
                         )
                     }
             }
@@ -191,7 +191,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
-                        identifier = map { it.slug }
+                        identifier = map { it.slug },
                     )
                 }
             }
@@ -201,7 +201,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Coming Soon",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
-                        identifier = map { it.slug }
+                        identifier = map { it.slug },
                     )
                 }
             }
@@ -211,7 +211,7 @@ class HomeViewModel(
                     ImageCarouselWithTitleData(
                         title = "Recently Released",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
-                        identifier = map { it.slug }
+                        identifier = map { it.slug },
                     )
                 }
             }
@@ -221,7 +221,7 @@ class HomeViewModel(
                     showcase = data1.await(),
                     topRated = data2.await(),
                     comingSoon = data3.await(),
-                    recentReleased = data4.await()
+                    recentReleased = data4.await(),
                 )
         }
     }
