@@ -59,7 +59,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Deps.androidx.compose.version
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
     packagingOptions {
         resources {
@@ -70,50 +70,48 @@ android {
 
 dependencies {
 
-    implementation(Deps.androidx.coreKtx)
-    implementation(Deps.androidx.lifecycleRuntime)
-    implementation(Deps.androidx.compose.activityCompose)
-    implementation(Deps.androidx.compose.ui)
-    implementation(Deps.androidx.compose.toolingPreview)
-    implementation(Deps.androidx.compose.material3)
-    implementation(Deps.androidx.compose.iconsExtended)
+    implementation(libs.androidx.coreKtx)
+    implementation(libs.androidx.lifecycle.runtime)
 
-    implementation(Deps.androidx.compose.navigation)
-    implementation(Deps.accompanist.systemUiController)
-    implementation(Deps.accompanist.pager)
-    implementation(Deps.accompanist.flowLayout)
-
-    testImplementation(Deps.testing.jUnit)
-    androidTestImplementation(Deps.testing.jUnitExt)
-    androidTestImplementation(Deps.testing.espressoCore)
-    androidTestImplementation(Deps.androidx.compose.uiTestJunit4)
-    debugImplementation(Deps.androidx.compose.tooling)
-    debugImplementation(Deps.androidx.compose.uiTestManifest)
-
-    implementation(Deps.protobuf.javalite)
-    implementation(Deps.protobuf.kotlinlite)
-
-    implementation(Deps.coil)
-
-    with(Deps.ktor) {
-        implementation(core)
-        implementation(cio)
-        implementation(logging)
-        implementation(contentNegotiation)
-        implementation(kotlinx_json)
+    with(libs.compose) {
+        implementation(activity)
+        implementation(ui)
+        implementation(tooling.preview)
+        implementation(material3)
+        implementation(icons.extended)
+        implementation(navigation)
+        implementation(tooling)
     }
 
-    with(Deps.koin) {
+    with(libs.accompanist) {
+        implementation(pager)
+        implementation(system.ui.controller)
+        implementation(flowlayout)
+    }
+
+    implementation(libs.protobuf.javalite)
+    implementation(libs.protobuf.kotlin.lite)
+
+    implementation(libs.coil)
+
+    with(libs.ktor) {
+        implementation(cio)
+        implementation(logging)
+        implementation(content.negotiation)
+        implementation(kotlinx.json)
+    }
+
+    with(libs.koin) {
         implementation(android)
         implementation(compose)
     }
 
-    with(Deps.kotlinx) {
+    with(libs.kotlinx) {
         implementation(serialization)
         implementation(protobuf)
     }
 
-    implementation(Deps.timber)
+    implementation(libs.timber)
 }
 
 protobuf {
