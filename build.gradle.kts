@@ -1,5 +1,12 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// The errors shown here are an AS bug https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-    id("com.android.application") version "7.4.0-beta01" apply false
-    id("com.android.library") version "7.4.0-beta01" apply false
-    id("org.jetbrains.kotlin.android") version "1.7.0" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
 }

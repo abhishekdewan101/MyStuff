@@ -16,3 +16,4 @@ local.properties
 
 buildSrc/build
 ux-common/build
+build-logic/convention/build
