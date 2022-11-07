@@ -1,13 +1,8 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 
 plugins {
     id("mystuff.android.application")
     id("mystuff.android.application.compose")
-    id("com.google.protobuf") version "0.8.12"
     kotlin("plugin.serialization") version "1.7.10"
 }
 
@@ -46,6 +41,8 @@ android {
 
 dependencies {
 
+    implementation(project(mapOf("path" to ":core:models")))
+
     implementation(libs.androidx.coreKtx)
     implementation(libs.androidx.lifecycle.runtime)
 
@@ -54,9 +51,6 @@ dependencies {
         implementation(system.ui.controller)
         implementation(flowlayout)
     }
-
-    implementation(libs.protobuf.javalite)
-    implementation(libs.protobuf.kotlin.lite)
 
     implementation(libs.coil)
 
@@ -78,22 +72,4 @@ dependencies {
     }
 
     implementation(libs.timber)
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.21.5"
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.plugins {
-                create("kotlin") {
-                    option("lite")
-                }
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
 }

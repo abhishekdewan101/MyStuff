@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MyStuff"
 include(":app")
+
+include(":core:models")
