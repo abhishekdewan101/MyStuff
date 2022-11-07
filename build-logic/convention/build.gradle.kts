@@ -24,5 +24,14 @@ gradlePlugin {
             id = "mystuff.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
+        register("androidComposeLibrary") {
+            id = "mystuff.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+
+        register("androidLibrary") {
+            id = "mystuff.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
     }
 }
