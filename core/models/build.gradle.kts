@@ -9,7 +9,9 @@ plugins {
     id("java")
     id("kotlin")
     // The errors shown here are an AS bug https://youtrack.jetbrains.com/issue/KTIJ-19369
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.google.protobuf)
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 sourceSets {
@@ -22,8 +24,15 @@ sourceSets {
 dependencies {
     // Both of these needs to be api to allow for the consuming modules to be able to access
     // supertypes
-    api(libs.protobuf.javalite)
-    api(libs.protobuf.kotlin.lite)
+    with(libs.protobuf) {
+        api(javalite)
+        api(kotlin.lite)
+    }
+
+    with(libs.kotlinx) {
+        implementation(serialization)
+        implementation(protobuf)
+    }
 }
 
 java {

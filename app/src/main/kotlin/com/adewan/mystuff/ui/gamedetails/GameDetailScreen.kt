@@ -1,4 +1,7 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
+@file:OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalPagerApi::class,
+)
 
 package com.adewan.mystuff.ui.gamedetails
 
@@ -174,15 +177,18 @@ fun GameDetailScreen(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         items(viewState!!.videosList) {
-                            VideoPreview(previewImage = {
-                                AsyncImage(
-                                    modifier = Modifier
-                                        .size(width = maxWidth - 40.dp, height = 200.dp),
-                                    model = it.buildYoutubeScreenshotUrl(),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Crop,
-                                )
-                            }, title = it.name,) {
+                            VideoPreview(
+                                previewImage = {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .size(width = maxWidth - 40.dp, height = 200.dp),
+                                        model = it.buildYoutubeScreenshotUrl(),
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop,
+                                    )
+                                },
+                                title = it.name,
+                            ) {
                                 navigationDirector.navigateToExternalIntent(
                                     it.buildYoutubeIntent(),
                                     context,
