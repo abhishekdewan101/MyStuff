@@ -1,7 +1,6 @@
 package com.adewan.mystuff.core.di
 
 import android.content.Context
-import com.adewan.mystuff.core.local.PreferenceDataSource
 import com.adewan.mystuff.core.network.NetworkDataSource
 import com.adewan.mystuff.core.repository.IgdbRepository
 import com.adewan.mystuff.core.repository.TmdbRepository
@@ -48,6 +47,5 @@ val appModule = module {
     single { TmdbRepository(get()) }
 
     // DataSources
-    single { PreferenceDataSource(get()) }
     single { NetworkDataSource(get()) }
 }

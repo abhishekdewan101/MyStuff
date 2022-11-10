@@ -6,14 +6,14 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-interface DataSource {
+interface LocalDataStore {
     suspend fun storeLocalAuthentication(localAuthentication: LocalAuthentication)
     suspend fun getLocalAuthentication(): LocalAuthentication?
 }
 
 private const val LOCAL_AUTHENTICATION_KEY = "LOCAL_AUTHENTICATION_KEY"
 
-class PreferenceDataSource(private val dataSource: SharedPreferences) : DataSource {
+class PreferenceDataStore(private val dataSource: SharedPreferences) : LocalDataStore {
 
     override suspend fun storeLocalAuthentication(localAuthentication: LocalAuthentication) {
         dataSource.edit().putString(

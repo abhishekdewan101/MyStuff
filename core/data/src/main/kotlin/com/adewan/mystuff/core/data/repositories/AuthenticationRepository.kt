@@ -1,6 +1,6 @@
 package com.adewan.mystuff.core.data.repositories
 
-import com.adewan.mystuff.datastore.DataSource
+import com.adewan.mystuff.datastore.LocalDataStore
 import com.adewan.mystuff.models.LocalAuthentication
 import com.adewan.mystuff.models.NetworkAuthentication
 import com.adewan.mystuff.models.isValid
@@ -13,16 +13,20 @@ interface AuthenticationRepository {
 
 class IgdbAuthenticationRepository(
     private val networkDataSource: NetworkDataSource,
-    private val dataSource: DataSource,
+    private val localDataStore: LocalDataStore,
     private val clock: Clock
 ) : AuthenticationRepository {
     override suspend fun getAndSaveAuthenticationToken(): Boolean {
-        val localAuthentication = dataSource.getLocalAuthentication()
+        val localAuthentication = localDataStore.getLocalAuthentication()
         return if (localAuthentication != null && localAuthentication.isValid(clock.millis())) {
             true
         } else {
             val networkAuthentication = networkDataSource.authenticateAndReturnAuthentication()
-            dataSource.storeLocalAuthentication(networkAuthentication.toLocalAuthentication(clock.millis()))
+            localDataStore.storeLocalAuthentication(
+                networkAuthentication.toLocalAuthentication(
+                    clock.millis()
+                )
+            )
             true
         }
     }
