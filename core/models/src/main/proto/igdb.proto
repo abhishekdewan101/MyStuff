@@ -25,11 +25,6 @@ message AgeRatingResult {
   repeated AgeRating ageratings = 1;
 }
 
-message Authentication {
-  string accessToken = 1;
-  int64 expiresIn = 2;
-}
-
 message AgeRating {
   uint64 id = 1;
   AgeRatingCategoryEnum category = 2;

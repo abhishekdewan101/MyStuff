@@ -17,3 +17,7 @@ rootProject.name = "MyStuff"
 include(":app")
 
 include(":core:models")
+include(":core:data")
+include(":core:di")
+include(":core:datastore")
+include(":core:network")

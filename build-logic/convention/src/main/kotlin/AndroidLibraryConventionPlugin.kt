@@ -1,5 +1,5 @@
 import com.android.build.api.dsl.CommonExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,7 +14,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
 
-            extensions.configure<BaseAppModuleExtension> {
+            extensions.configure<LibraryExtension> {
                 val commonExtension = this as CommonExtension<*, *, *, *>
 
                 commonExtension.apply {

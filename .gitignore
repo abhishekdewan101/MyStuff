@@ -18,3 +18,7 @@ buildSrc/build
 ux-common/build
 build-logic/convention/build
 core/models/build
+core/data/build
+core/datastore/build
+core/di/build
+core/network/build

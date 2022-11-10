@@ -16,6 +16,7 @@ androidGradlePlugin = "7.3.1"
 kotlin = "1.7.0"
 protobufPlugin = "0.8.12"
 protoBuf = "3.21.8"
+datastore = "1.0.0"
 
 [libraries]
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
@@ -35,6 +36,7 @@ kotlinx-protobuf = { group = "org.jetbrains.kotlinx", name = "kotlinx-serializat
 accompanist-system-ui-controller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version = "3.2.1" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
@@ -47,6 +49,7 @@ protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite",
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 google-protobuf-compiler = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }

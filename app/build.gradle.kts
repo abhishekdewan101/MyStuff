@@ -41,7 +41,9 @@ android {
 
 dependencies {
 
+    implementation(project(mapOf("path" to ":core:di")))
     implementation(project(mapOf("path" to ":core:models")))
+    implementation(project(mapOf("path" to ":core:data")))
 
     implementation(libs.androidx.coreKtx)
     implementation(libs.androidx.lifecycle.runtime)

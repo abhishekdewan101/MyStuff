@@ -13,7 +13,7 @@ class IgdbRepository(
     private val clientId: String = BuildConfig.ClientId,
 ) {
     suspend fun getGameCovers(forQuery: String): GameResult {
-        val token = preferenceDataSource.getIgdbToken()?.token
+        val token = preferenceDataSource.getIgdbToken()?.accessToken
             ?: throw IllegalStateException("Cannot get games if you don't have a igdb token")
         return networkDataSource.requestGames(
             clientId = clientId,
@@ -23,7 +23,7 @@ class IgdbRepository(
     }
 
     suspend fun getGameDetails(forIdentifier: String): Game {
-        val token = preferenceDataSource.getIgdbToken()?.token
+        val token = preferenceDataSource.getIgdbToken()?.accessToken
             ?: throw IllegalStateException("Cannot get games if you don't have a igdb token")
         return networkDataSource.requestGames(
             clientId = clientId,

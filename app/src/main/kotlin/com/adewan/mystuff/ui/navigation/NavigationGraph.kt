@@ -28,7 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.adewan.mystuff.core.repository.AuthenticationRepository
+import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
 import com.adewan.mystuff.ui.composables.ExpandedImageViewer
 import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.gamedetails.GameDetailScreen
@@ -48,7 +48,7 @@ fun NavigationGraph() {
     var showBottombar by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = authenticationRepository) {
-        authenticationRepository.initializeIgdbAuthenticationToken()
+        authenticationRepository.getAndSaveAuthenticationToken()
     }
 
     ThemedContainer {

@@ -6,7 +6,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-const val IGDB_TOKEN = "IGDB_TOKEN_KEY"
+const val IGDB_TOKEN = "LOCAL_AUTHENTICATION_KEY"
 
 class PreferenceDataSource(private val sharedPreferences: SharedPreferences) {
     fun getIgdbToken(): LocalIgdbAuthenticationToken? {

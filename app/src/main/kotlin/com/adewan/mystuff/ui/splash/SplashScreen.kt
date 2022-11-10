@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.R
-import com.adewan.mystuff.core.repository.AuthenticationRepository
+import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
 import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import com.adewan.mystuff.ui.utils.fakes.FakeAuthenticationRepository
@@ -41,7 +41,7 @@ fun SplashScreen(
     var isAuthenticated by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = authenticationRepository) {
-        isAuthenticated = authenticationRepository.initializeIgdbAuthenticationToken()
+        isAuthenticated = authenticationRepository.getAndSaveAuthenticationToken()
     }
 
     DisposableEffect(key1 = isAuthenticated) {

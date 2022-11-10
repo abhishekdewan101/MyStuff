@@ -9,8 +9,8 @@ data class IgdbAuthenticationToken(
 )
 
 @kotlinx.serialization.Serializable
-data class LocalIgdbAuthenticationToken(val token: String, val expiration: Long)
+data class LocalIgdbAuthenticationToken(val accessToken: String, val expiresIn: Long)
 
 fun LocalIgdbAuthenticationToken.isValid(currentDateInMillis: Long): Boolean {
-    return currentDateInMillis <= expiration
+    return currentDateInMillis <= expiresIn
 }

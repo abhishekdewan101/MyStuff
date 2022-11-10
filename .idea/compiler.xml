@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="MyStuff.core.data.test" target="11" />
+      <module name="MyStuff.core.di.test" target="11" />
+      <module name="MyStuff.core.domain" target="11" />
+      <module name="MyStuff.core.network.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
