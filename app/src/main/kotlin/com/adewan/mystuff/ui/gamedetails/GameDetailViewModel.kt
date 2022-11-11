@@ -1,16 +1,18 @@
 package com.adewan.mystuff.ui.gamedetails
 
 import androidx.lifecycle.ViewModel
-import com.adewan.mystuff.core.repository.IgdbRepository
+import com.adewan.mystuff.core.data.repositories.GameRepository
+import com.adewan.mystuff.core.model.buildGameDetailQuery
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import proto.Game
 
-class GameDetailViewModel(private val igdbRepository: IgdbRepository) : ViewModel() {
+class GameDetailViewModel(private val gameRepository: GameRepository) : ViewModel() {
     private val _viewState = MutableStateFlow<Game?>(null)
     val viewState = _viewState.asStateFlow()
 
     suspend fun requestGameDetailForIdentifier(identifier: String) {
-        _viewState.value = igdbRepository.getGameDetails(forIdentifier = identifier)
+        _viewState.value =
+            gameRepository.getGameForQuery(buildGameDetailQuery(slug = identifier))
     }
 }

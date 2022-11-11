@@ -1,6 +1,8 @@
 package com.adewan.mystuff.core.data.di
 
 import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
+import com.adewan.mystuff.core.data.repositories.GameRepository
+import com.adewan.mystuff.core.data.repositories.GameRepositoryImpl
 import com.adewan.mystuff.core.data.repositories.IgdbAuthenticationRepository
 import com.adewan.mystuff.datastore.LocalDataStore
 import com.adewan.mystuff.network.NetworkDataSource
@@ -15,6 +17,13 @@ val dataModule = module {
             get(NetworkDataSource::class.java),
             get(LocalDataStore::class.java),
             Clock.systemDefaultZone()
+        )
+    }
+
+    singleOf<GameRepository> {
+        GameRepositoryImpl(
+            get(NetworkDataSource::class.java),
+            get(LocalDataStore::class.java)
         )
     }
 }

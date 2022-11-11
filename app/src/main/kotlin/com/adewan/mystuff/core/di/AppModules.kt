@@ -2,7 +2,6 @@ package com.adewan.mystuff.core.di
 
 import android.content.Context
 import com.adewan.mystuff.core.network.NetworkDataSource
-import com.adewan.mystuff.core.repository.IgdbRepository
 import com.adewan.mystuff.core.repository.TmdbRepository
 import com.adewan.mystuff.ui.gamedetails.GameDetailViewModel
 import com.adewan.mystuff.ui.home.HomeViewModel
@@ -43,7 +42,6 @@ val appModule = module {
     }
 
     // Repositories
-    single { IgdbRepository(get(), get()) }
     single { TmdbRepository(get()) }
 
     // DataSources

@@ -2,12 +2,12 @@ package com.adewan.mystuff.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.model.COMING_SOON_GAMES_QUERY
 import com.adewan.mystuff.core.model.RECENT_RELEASED_GAMES_QUERY
 import com.adewan.mystuff.core.model.SHOWCASE_GAMES_QUERY
 import com.adewan.mystuff.core.model.TOP_RATED_GAMES_QUERY
 import com.adewan.mystuff.core.model.TmdbListType
-import com.adewan.mystuff.core.repository.IgdbRepository
 import com.adewan.mystuff.core.repository.TmdbRepository
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
@@ -31,7 +31,7 @@ enum class HomeViewFilters {
 }
 
 class HomeViewModel(
-    private val igdbRepository: IgdbRepository,
+    private val gameRepository: GameRepository,
     private val tmdbRepository: TmdbRepository,
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<HomeViewState?>(null)
@@ -177,7 +177,8 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                igdbRepository.getGameCovers(SHOWCASE_GAMES_QUERY).gamesList.filter { it.hasCover() && it.name.isNotEmpty() }
+                gameRepository.getGameListForQuery(SHOWCASE_GAMES_QUERY)
+                    .filter { it.hasCover() && it.name.isNotEmpty() }
                     .map {
                         ImageShowcaseItem(
                             identifier = it.slug,
@@ -187,7 +188,7 @@ class HomeViewModel(
                     }
             }
             val data2 = async {
-                igdbRepository.getGameCovers(TOP_RATED_GAMES_QUERY).gamesList.run {
+                gameRepository.getGameListForQuery(TOP_RATED_GAMES_QUERY).run {
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -197,7 +198,7 @@ class HomeViewModel(
             }
 
             val data3 = async {
-                igdbRepository.getGameCovers(COMING_SOON_GAMES_QUERY).gamesList.run {
+                gameRepository.getGameListForQuery(COMING_SOON_GAMES_QUERY).run {
                     ImageCarouselWithTitleData(
                         title = "Coming Soon",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -207,7 +208,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                igdbRepository.getGameCovers(RECENT_RELEASED_GAMES_QUERY).gamesList.run {
+                gameRepository.getGameListForQuery(RECENT_RELEASED_GAMES_QUERY).run {
                     ImageCarouselWithTitleData(
                         title = "Recently Released",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
