@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("mystuff.android.library")
     kotlin("plugin.serialization") version "1.7.10"
@@ -5,7 +7,18 @@ plugins {
 
 android {
     namespace = "com.adewan.mystuff.network"
-    buildFeatures { buildConfig = true }
+    buildFeatures {
+        buildConfig = true
+    }
+
+    defaultConfig {
+        resValue("string", "clientId", gradleLocalProperties(rootDir).getProperty("clientId"))
+        resValue(
+            "string",
+            "tmdbClientId",
+            gradleLocalProperties(rootDir).getProperty("tmdbClientId")
+        )
+    }
 }
 
 dependencies {
@@ -24,6 +37,6 @@ dependencies {
     }
 
     with(libs.koin) {
-        implementation(core)
+        implementation(android)
     }
 }

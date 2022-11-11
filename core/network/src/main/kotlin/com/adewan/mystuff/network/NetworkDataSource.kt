@@ -1,5 +1,6 @@
 package com.adewan.mystuff.network
 
+import com.adewan.mystuff.models.DataSourceCredentials
 import com.adewan.mystuff.models.NetworkAuthentication
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -10,7 +11,10 @@ interface NetworkDataSource {
     suspend fun authenticateAndReturnAuthentication(): NetworkAuthentication
 }
 
-class KtorNetworkDataSource(private val client: HttpClient) : NetworkDataSource {
+class KtorNetworkDataSource(
+    private val client: HttpClient,
+    credentials: DataSourceCredentials
+) : NetworkDataSource {
     override suspend fun authenticateAndReturnAuthentication(): NetworkAuthentication {
         return client.get {
             url {

@@ -1,8 +1,10 @@
 package com.adewan.mystuff.di
 
+import com.adewan.mystuff.models.DataSourceCredentials
 import com.adewan.mystuff.network.BuildConfig
 import com.adewan.mystuff.network.KtorNetworkDataSource
 import com.adewan.mystuff.network.NetworkDataSource
+import com.adewan.mystuff.network.R
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.cache.HttpCache
@@ -18,13 +20,12 @@ import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.charsets.Charset
 import io.ktor.utils.io.core.readBytes
 import kotlinx.serialization.json.Json
-import org.koin.core.module.dsl.singleOf
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.get
 import proto.GameResult
 
 val networkModule = module {
-
     single {
         HttpClient(CIO) {
             install(ContentNegotiation) {
@@ -50,8 +51,15 @@ val networkModule = module {
         }
     }
 
-    singleOf<NetworkDataSource> {
-        KtorNetworkDataSource(client = get(HttpClient::class.java))
+    single<NetworkDataSource> {
+        val resources = androidContext().resources
+        KtorNetworkDataSource(
+            client = get(HttpClient::class.java),
+            credentials = DataSourceCredentials(
+                igdbClientId = resources.getString(R.string.clientId),
+                tmdbClientId = resources.getString(R.string.tmdbClientId)
+            )
+        )
     }
 }
 
