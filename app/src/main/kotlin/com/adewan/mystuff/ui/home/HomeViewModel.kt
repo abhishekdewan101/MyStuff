@@ -3,11 +3,11 @@ package com.adewan.mystuff.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.data.repositories.GameRepository
-import com.adewan.mystuff.core.model.COMING_SOON_GAMES_QUERY
-import com.adewan.mystuff.core.model.RECENT_RELEASED_GAMES_QUERY
-import com.adewan.mystuff.core.model.SHOWCASE_GAMES_QUERY
-import com.adewan.mystuff.core.model.TOP_RATED_GAMES_QUERY
 import com.adewan.mystuff.core.model.TmdbListType
+import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
+import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
+import com.adewan.mystuff.core.models.games.mostHypedGamesForNext6Months
+import com.adewan.mystuff.core.models.games.topRatedGamesForLast12Months
 import com.adewan.mystuff.core.repository.TmdbRepository
 import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
@@ -177,7 +177,7 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                gameRepository.getGameListForQuery(SHOWCASE_GAMES_QUERY)
+                gameRepository.getGameListForQuery(mostHypedGamesForNext6Months)
                     .filter { it.hasCover() && it.name.isNotEmpty() }
                     .map {
                         ImageShowcaseItem(
@@ -188,7 +188,7 @@ class HomeViewModel(
                     }
             }
             val data2 = async {
-                gameRepository.getGameListForQuery(TOP_RATED_GAMES_QUERY).run {
+                gameRepository.getGameListForQuery(topRatedGamesForLast12Months).run {
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -198,7 +198,7 @@ class HomeViewModel(
             }
 
             val data3 = async {
-                gameRepository.getGameListForQuery(COMING_SOON_GAMES_QUERY).run {
+                gameRepository.getGameListForQuery(gamesComingInTheNext6Months).run {
                     ImageCarouselWithTitleData(
                         title = "Coming Soon",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -208,7 +208,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                gameRepository.getGameListForQuery(RECENT_RELEASED_GAMES_QUERY).run {
+                gameRepository.getGameListForQuery(gamesReleasedInTheLast2Month).run {
                     ImageCarouselWithTitleData(
                         title = "Recently Released",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },

@@ -20,12 +20,10 @@ class GameConditionGenerator(private val conditions: MutableList<Condition>) {
         conditions.add(Condition(lhs = null, condition = condition, rhs = null))
     }
 
-    companion object {
-        inline fun queryConditions(block: GameConditionGenerator.() -> Unit) =
-            GameConditionGenerator(mutableListOf()).apply(block)
-    }
-
     override fun toString(): String {
         return conditions.joinToString(" ") { it.toString() }
     }
 }
+
+inline fun queryConditions(block: GameConditionGenerator.() -> Unit) =
+    GameConditionGenerator(mutableListOf()).apply(block)
