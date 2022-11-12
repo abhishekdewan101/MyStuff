@@ -33,6 +33,8 @@ dependencies {
         implementation(serialization)
         implementation(protobuf)
     }
+
+    testImplementation(libs.junit4)
 }
 
 java {

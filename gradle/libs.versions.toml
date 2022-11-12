@@ -17,6 +17,7 @@ kotlin = "1.7.0"
 protobufPlugin = "0.8.12"
 protoBuf = "3.21.8"
 datastore = "1.0.0"
+junit4 = "4.13.2"
 
 [libraries]
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
@@ -53,6 +54,8 @@ androidx-datastore = { group = "androidx.datastore", name = "datastore-preferenc
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
