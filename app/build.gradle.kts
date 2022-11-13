@@ -44,7 +44,7 @@ dependencies {
     implementation(project(mapOf("path" to ":core:di")))
     implementation(project(mapOf("path" to ":core:models")))
     implementation(project(mapOf("path" to ":core:data")))
-    implementation(project(mapOf("path" to ":core:datastore"))) // FIXME: This should be temporary.
+    implementation(project(mapOf("path" to ":core:navigation")))
 
     implementation(libs.androidx.coreKtx)
     implementation(libs.androidx.lifecycle.runtime)

@@ -20,4 +20,8 @@ include(":core:models")
 include(":core:data")
 include(":core:di")
 include(":core:datastore")
+include(":core:navigation")
 include(":core:network")
+include(":core:utils")
+
+include(":feature:explore")

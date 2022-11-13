@@ -6,6 +6,7 @@
       <module name="MyStuff.core.di.test" target="11" />
       <module name="MyStuff.core.domain" target="11" />
       <module name="MyStuff.core.network.test" target="11" />
+      <module name="MyStuff.core.utils.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

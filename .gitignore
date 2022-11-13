@@ -22,3 +22,6 @@ core/data/build
 core/datastore/build
 core/di/build
 core/network/build
+core/navigation/build
+core/utils/build
+feature/explore/build
