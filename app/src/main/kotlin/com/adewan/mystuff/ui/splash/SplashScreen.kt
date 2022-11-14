@@ -26,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.R
+import com.adewan.mystuff.common.ux.ThemedContainer
 import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
-import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import com.adewan.mystuff.ui.utils.fakes.FakeAuthenticationRepository
 import com.adewan.mystuff.ui.utils.fakes.FakeNavigationDirector

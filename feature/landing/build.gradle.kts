@@ -4,12 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.adewan.mystuff.core.navigation"
+    namespace = "com.adewan.mystuff.feature.landing"
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":feature:explore")))
-    implementation(project(mapOf("path" to ":feature:landing")))
+    implementation(project(mapOf("path" to ":common:ux")))
     with(libs.compose) {
         implementation(navigation)
     }

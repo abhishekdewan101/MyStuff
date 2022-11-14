@@ -25,3 +25,5 @@ core/network/build
 core/navigation/build
 core/utils/build
 feature/explore/build
+common/ux/build
+feature/landing/build

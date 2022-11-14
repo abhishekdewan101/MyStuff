@@ -28,9 +28,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.adewan.mystuff.common.ux.ThemedContainer
 import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
 import com.adewan.mystuff.ui.composables.ExpandedImageViewer
-import com.adewan.mystuff.ui.composables.ThemedContainer
 import com.adewan.mystuff.ui.gamedetails.GameDetailScreen
 import com.adewan.mystuff.ui.home.HomeScreen
 import com.adewan.mystuff.ui.library.LibraryScreen

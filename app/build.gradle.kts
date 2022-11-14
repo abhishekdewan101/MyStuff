@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation(project(mapOf("path" to ":common:ux")))
     implementation(project(mapOf("path" to ":core:di")))
     implementation(project(mapOf("path" to ":core:models")))
     implementation(project(mapOf("path" to ":core:data")))

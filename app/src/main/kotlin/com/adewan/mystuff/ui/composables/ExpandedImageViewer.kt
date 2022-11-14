@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
+import com.adewan.mystuff.common.ux.ThemedContainer
 
 @Composable
 fun ExpandedImageViewer(url: String) {

@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.adewan.mystuff.feature.explore.navigation.exploreGraph
-import com.adewan.mystuff.feature.explore.navigation.exploreRoute
+import com.adewan.mystuff.features.landing.navigation.landingRoute
+import com.adewan.mystuff.features.landing.navigation.landingScreen
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = exploreRoute
+    startDestination: String = landingRoute
 ) {
     Scaffold {
         NavHost(
@@ -24,6 +25,7 @@ fun AppNavHost(
             modifier = Modifier.padding(it),
             startDestination = startDestination
         ) {
+            landingScreen()
             exploreGraph { }
         }
     }

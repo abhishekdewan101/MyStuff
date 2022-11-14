@@ -16,6 +16,8 @@ dependencyResolutionManagement {
 rootProject.name = "MyStuff"
 include(":app")
 
+include(":common:ux")
+
 include(":core:models")
 include(":core:data")
 include(":core:di")
@@ -25,3 +27,4 @@ include(":core:network")
 include(":core:utils")
 
 include(":feature:explore")
+include(":feature:landing")

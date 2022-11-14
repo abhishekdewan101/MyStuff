@@ -4,13 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.adewan.mystuff.core.navigation"
+    namespace = "com.adewan.mystuff.common.ux"
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":feature:explore")))
-    implementation(project(mapOf("path" to ":feature:landing")))
     with(libs.compose) {
         implementation(navigation)
+    }
+
+    with(libs.accompanist) {
+        implementation(system.ui.controller)
     }
 }
