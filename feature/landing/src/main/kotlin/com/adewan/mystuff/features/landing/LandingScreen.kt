@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +28,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
 
 internal val slideData = listOf(
     SlideData(
@@ -48,8 +51,9 @@ internal val slideData = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
-fun LandingScreen(navigateToExplore: () -> Unit) {
+fun LandingScreen(viewModel: LandingScreenViewModel = get(), navigateToExplore: () -> Unit) {
     val pagerState = rememberPagerState()
+    val coroutineScope = rememberCoroutineScope()
     ThemedContainer {
         Scaffold {
             Column(
@@ -88,7 +92,9 @@ fun LandingScreen(navigateToExplore: () -> Unit) {
                 Spacer(modifier = Modifier.weight(0.5f))
 
                 FilledTonalButton(
-                    onClick = navigateToExplore,
+                    onClick = {
+                        coroutineScope.launch { viewModel.checkAuthentication(whenAuthenticated = navigateToExplore) }
+                    },
                     modifier = Modifier
                         .padding(bottom = 50.dp)
                 ) {

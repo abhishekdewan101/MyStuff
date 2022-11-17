@@ -9,8 +9,14 @@ android {
 
 dependencies {
     implementation(project(mapOf("path" to ":common:ux")))
+    implementation(project(mapOf("path" to ":core:data")))
     with(libs.compose) {
         implementation(navigation)
+    }
+
+    with(libs.koin) {
+        implementation(android)
+        implementation(compose)
     }
     with(libs.accompanist) {
         implementation(pager)

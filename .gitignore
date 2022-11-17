@@ -27,3 +27,4 @@ core/utils/build
 feature/explore/build
 common/ux/build
 feature/landing/build
+feature/di/build

@@ -14,6 +14,6 @@ fun NavController.navigateToLandingRoute(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.landingScreen(navigateToExplore: () -> Unit) {
     composable(landingRoute) {
-        LandingScreen(navigateToExplore)
+        LandingScreen(navigateToExplore = navigateToExplore)
     }
 }

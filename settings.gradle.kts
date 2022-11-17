@@ -28,3 +28,4 @@ include(":core:utils")
 
 include(":feature:explore")
 include(":feature:landing")
+include(":feature:di")
