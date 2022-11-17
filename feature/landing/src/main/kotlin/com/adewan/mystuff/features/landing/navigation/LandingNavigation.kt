@@ -12,8 +12,8 @@ fun NavController.navigateToLandingRoute(navOptions: NavOptions? = null) {
     this.navigate(landingRoute, navOptions)
 }
 
-fun NavGraphBuilder.landingScreen() {
+fun NavGraphBuilder.landingScreen(navigateToExplore: () -> Unit) {
     composable(landingRoute) {
-        LandingScreen()
+        LandingScreen(navigateToExplore)
     }
 }

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.adewan.mystuff.core.navigation
 
 import androidx.compose.foundation.layout.padding
@@ -9,10 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import com.adewan.mystuff.feature.explore.navigation.exploreGraph
+import com.adewan.mystuff.feature.explore.navigation.navigateToExploreRoute
 import com.adewan.mystuff.features.landing.navigation.landingRoute
 import com.adewan.mystuff.features.landing.navigation.landingScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavHost(
     navController: NavHostController,
@@ -22,10 +23,20 @@ fun AppNavHost(
     Scaffold {
         NavHost(
             navController = navController,
-            modifier = Modifier.padding(it),
+            modifier = modifier.padding(it),
             startDestination = startDestination
         ) {
-            landingScreen()
+            landingScreen(
+                navigateToExplore = {
+                    navController.navigateToExploreRoute(
+                        navOptions = navOptions {
+                            popUpTo(landingRoute) {
+                                inclusive = true
+                            }
+                        }
+                    )
+                }
+            )
             exploreGraph { }
         }
     }

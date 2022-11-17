@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import com.adewan.mystuff.ui.navigation.NavigationGraph
-import com.adewan.mystuff.ui.theme.MyStuffTheme
+import androidx.navigation.compose.rememberNavController
+import com.adewan.mystuff.common.theme.MyStuffTheme
+import com.adewan.mystuff.core.navigation.AppNavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             MyStuffTheme {
-                NavigationGraph()
+                AppNavHost(navController = rememberNavController())
             }
         }
     }

@@ -12,4 +12,8 @@ dependencies {
     with(libs.compose) {
         implementation(navigation)
     }
+    with(libs.accompanist) {
+        implementation(pager)
+        implementation(pager.indicators)
+    }
 }

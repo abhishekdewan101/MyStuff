@@ -1,4 +1,4 @@
-package com.adewan.mystuff.ui.theme
+package com.adewan.mystuff.common.theme
 
 import androidx.compose.ui.graphics.Color
 
