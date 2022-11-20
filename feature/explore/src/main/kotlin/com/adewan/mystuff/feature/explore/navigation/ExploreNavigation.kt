@@ -14,7 +14,7 @@ fun NavController.navigateToExploreRoute(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.exploreGraph(nestedGraph: NavGraphBuilder.() -> Unit) {
     composable(exploreRoute) {
-        ExploreScreen()
+        ExploreScreen(navigateToSearchScreen = {}, navigateToAccountScreen = {})
     }
     nestedGraph()
 }

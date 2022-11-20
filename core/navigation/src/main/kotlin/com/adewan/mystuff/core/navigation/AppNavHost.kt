@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.adewan.mystuff.feature.explore.navigation.exploreGraph
+import com.adewan.mystuff.feature.explore.navigation.exploreRoute
 import com.adewan.mystuff.feature.explore.navigation.navigateToExploreRoute
 import com.adewan.mystuff.features.landing.navigation.landingRoute
 import com.adewan.mystuff.features.landing.navigation.landingScreen
@@ -18,7 +19,7 @@ import com.adewan.mystuff.features.landing.navigation.landingScreen
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = landingRoute
+    startDestination: String = exploreRoute
 ) {
     Scaffold {
         NavHost(

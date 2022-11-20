@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":common:ux")))
     with(libs.compose) {
         implementation(navigation)
     }

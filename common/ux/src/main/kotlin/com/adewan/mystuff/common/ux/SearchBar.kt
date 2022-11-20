@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeUiApi::class)
 
-package com.adewan.mystuff.ui.composables
+package com.adewan.mystuff.common.ux
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -54,8 +54,8 @@ fun SearchBar(onSearchExecuted: (String) -> Unit) {
                 onSearchExecuted(searchTerm.text)
                 focusManager.clearFocus()
                 keyboardController?.hide()
-            },
-        ),
+            }
+        )
     )
 }
 
@@ -65,7 +65,7 @@ fun PreviewSearchBar() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.White)
     ) {
         Spacer(modifier = Modifier.padding(top = 15.dp))
         SearchBar {}

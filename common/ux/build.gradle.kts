@@ -10,6 +10,7 @@ android {
 dependencies {
     with(libs.compose) {
         implementation(navigation)
+        implementation(icons.extended)
     }
 
     with(libs.accompanist) {
