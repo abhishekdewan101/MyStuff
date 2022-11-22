@@ -15,5 +15,8 @@ dependencies {
 
     with(libs.accompanist) {
         implementation(system.ui.controller)
+        implementation(flowlayout)
+        implementation(pager)
     }
+    implementation(libs.coil)
 }

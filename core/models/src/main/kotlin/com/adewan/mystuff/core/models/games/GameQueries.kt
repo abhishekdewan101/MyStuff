@@ -38,6 +38,9 @@ val topRatedGamesForLast12Months = gameQuery {
         field(QueryField.SLUG)
         field(QueryField.NAME)
         field(QueryField.COVER_IMAGE_ID)
+        field(QueryField.RATING)
+        field(QueryField.TOTAL_RATING)
+        field(QueryField.THEMES_NAME)
     }
     condition = queryConditions {
         addCondition(

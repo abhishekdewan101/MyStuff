@@ -59,7 +59,7 @@ fun ExploreScreen(navigateToSearchScreen: () -> Unit, navigateToAccountScreen: (
                     updateSelectedTab = { newSelectedTab -> selectedTab = newSelectedTab }
                 )
                 when (selectedTab) {
-                    0 -> GameExploreScreen()
+                    0 -> GameExploreScreen(modifier = Modifier.padding(top = 10.dp))
                     1 -> MovieExploreScreen()
                     2 -> ShowExploreScreen()
                 }
