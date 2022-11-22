@@ -58,6 +58,11 @@ fun ExploreScreen(navigateToSearchScreen: () -> Unit, navigateToAccountScreen: (
                     currentTab = selectedTab,
                     updateSelectedTab = { newSelectedTab -> selectedTab = newSelectedTab }
                 )
+                when (selectedTab) {
+                    0 -> GameExploreScreen()
+                    1 -> MovieExploreScreen()
+                    2 -> ShowExploreScreen()
+                }
             }
         }
     }
