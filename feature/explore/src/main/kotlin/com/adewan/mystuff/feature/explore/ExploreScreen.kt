@@ -21,7 +21,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,13 +41,44 @@ import com.adewan.mystuff.common.ux.ThemedContainer
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreScreen(navigateToSearchScreen: () -> Unit, navigateToAccountScreen: () -> Unit) {
+    var selectedTab by remember { mutableStateOf(0) }
     ThemedContainer {
-        Scaffold(topBar = { TopBarRow(navigateToSearchScreen, navigateToAccountScreen) }) {
+        Scaffold(topBar = {
+            TopBarRow(
+                navigateToSearchScreen,
+                navigateToAccountScreen
+            )
+        }) { paddingValue ->
             Column(
                 modifier = Modifier
-                    .padding(it)
+                    .padding(paddingValue)
                     .verticalScroll(rememberScrollState())
             ) {
+                ExploreTabs(
+                    currentTab = selectedTab,
+                    updateSelectedTab = { newSelectedTab -> selectedTab = newSelectedTab }
+                )
+            }
+        }
+    }
+}
+
+val tabList = listOf("Games", "Movies", "Shows")
+
+@Composable
+private fun ExploreTabs(
+    modifier: Modifier = Modifier,
+    currentTab: Int,
+    updateSelectedTab: (Int) -> Unit
+) {
+    TabRow(selectedTabIndex = currentTab, modifier = modifier) {
+        tabList.forEachIndexed { index, title ->
+            Tab(
+                selected = index == currentTab,
+                onClick = { updateSelectedTab(index) },
+                modifier = Modifier.height(48.dp)
+            ) {
+                Text(text = title)
             }
         }
     }
@@ -75,9 +113,9 @@ private fun TopBarRow(navigateToSearchScreen: () -> Unit, navigateToAccountScree
                     modifier = Modifier
                         .size(64.dp)
                         .clip(CircleShape)
+                        .clickable { }
                         .background(MaterialTheme.colorScheme.primary)
                         .padding(10.dp)
-                        .clickable { }
                 )
             }
         }
