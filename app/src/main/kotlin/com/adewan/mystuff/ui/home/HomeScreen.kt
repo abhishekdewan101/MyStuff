@@ -15,8 +15,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.adewan.mystuff.common.ux.ImageCarouselWithTitle
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
-import com.adewan.mystuff.ui.composables.ImageCarouselWithTitle
 import com.adewan.mystuff.ui.composables.ImageShowcase
 import com.adewan.mystuff.ui.composables.TextFilterRow
 import com.adewan.mystuff.ui.composables.TextFilterRowItem

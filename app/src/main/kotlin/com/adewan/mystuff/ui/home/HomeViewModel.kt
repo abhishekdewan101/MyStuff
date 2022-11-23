@@ -2,6 +2,7 @@ package com.adewan.mystuff.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adewan.mystuff.common.ux.ImageCarouselWithTitleData
 import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.model.TmdbListType
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
@@ -9,7 +10,6 @@ import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
 import com.adewan.mystuff.core.models.games.mostHypedGamesForNext6Months
 import com.adewan.mystuff.core.models.games.topRatedGamesForLast12Months
 import com.adewan.mystuff.core.repository.TmdbRepository
-import com.adewan.mystuff.ui.composables.ImageCarouselWithTitleData
 import com.adewan.mystuff.ui.composables.ImageShowcaseItem
 import com.adewan.mystuff.ui.navigation.NavigationDirector
 import kotlinx.coroutines.async

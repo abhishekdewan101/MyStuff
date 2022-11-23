@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package com.adewan.mystuff.ui.composables
+package com.adewan.mystuff.common.ux
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,7 @@ import coil.compose.AsyncImage
 data class ImageCarouselWithTitleData(
     val title: String,
     val images: List<String>,
-    val identifier: List<String>,
+    val identifier: List<String>
 )
 
 @Composable
@@ -33,7 +33,7 @@ fun ImageCarouselWithTitle(
     modifier: Modifier = Modifier,
     data: ImageCarouselWithTitleData,
     onImageTapped: (String) -> Unit,
-    onViewMore: () -> Unit,
+    onViewMore: () -> Unit
 ) {
     Column {
         Row(
@@ -41,11 +41,11 @@ fun ImageCarouselWithTitle(
                 .fillMaxWidth()
                 .padding(horizontal = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 data.title,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
             )
             TextButton(onClick = onViewMore) {
                 Text("See all", style = MaterialTheme.typography.titleSmall)
@@ -54,19 +54,19 @@ fun ImageCarouselWithTitle(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp),
+                .padding(top = 10.dp)
         ) {
             items(data.images.size) {
                 Card(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    onClick = { onImageTapped(data.identifier[it]) },
+                    onClick = { onImageTapped(data.identifier[it]) }
                 ) {
                     AsyncImage(
                         modifier = Modifier
                             .size(width = 150.dp, height = 200.dp),
                         model = data.images[it],
                         contentDescription = "",
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
