@@ -23,4 +23,6 @@ dependencies {
         implementation(android)
         implementation(compose)
     }
+
+    implementation(libs.coil)
 }

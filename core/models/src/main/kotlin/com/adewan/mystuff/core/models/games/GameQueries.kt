@@ -67,6 +67,7 @@ val gamesComingInTheNext6Months = gameQuery {
         field(QueryField.SLUG)
         field(QueryField.NAME)
         field(QueryField.COVER_IMAGE_ID)
+        field(QueryField.HYPES)
     }
     condition = queryConditions {
         addCondition(

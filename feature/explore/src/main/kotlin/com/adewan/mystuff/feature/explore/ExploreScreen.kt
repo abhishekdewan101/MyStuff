@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,20 +42,18 @@ fun ExploreScreen(navigateToSearchScreen: () -> Unit, navigateToAccountScreen: (
     var selectedTab by remember { mutableStateOf(0) }
     ThemedContainer {
         Scaffold(topBar = {
-            TopBarRow(
-                navigateToSearchScreen,
-                navigateToAccountScreen
-            )
-        }) { paddingValue ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValue)
-                    .verticalScroll(rememberScrollState())
-            ) {
+            Column {
+                TopBarRow(
+                    navigateToSearchScreen,
+                    navigateToAccountScreen
+                )
                 ExploreTabs(
                     currentTab = selectedTab,
                     updateSelectedTab = { newSelectedTab -> selectedTab = newSelectedTab }
                 )
+            }
+        }) { paddingValue ->
+            Column(modifier = Modifier.padding(paddingValue)) {
                 when (selectedTab) {
                     0 -> GameExploreScreen(modifier = Modifier.padding(top = 10.dp))
                     1 -> MovieExploreScreen()
