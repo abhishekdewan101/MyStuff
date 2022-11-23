@@ -5,7 +5,9 @@ package com.adewan.mystuff.common.ux
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -32,38 +34,33 @@ data class ImageCarouselWithTitleData(
 fun ImageCarouselWithTitle(
     modifier: Modifier = Modifier,
     data: ImageCarouselWithTitleData,
-    onImageTapped: (String) -> Unit,
-    onViewMore: () -> Unit
+    onTap: (String) -> Unit,
+    onSeeAllTap: () -> Unit
 ) {
-    Column {
+    Column(modifier = modifier.fillMaxWidth()) {
         Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 data.title,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
             )
-            TextButton(onClick = onViewMore) {
-                Text("See all", style = MaterialTheme.typography.titleSmall)
+            TextButton(onClick = onSeeAllTap) {
+                Text("See all")
             }
         }
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp)
-        ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        LazyRow(modifier = Modifier.fillMaxWidth()) {
             items(data.images.size) {
                 Card(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    onClick = { onImageTapped(data.identifier[it]) }
+                    onClick = { onTap(data.identifier[it]) }
                 ) {
                     AsyncImage(
                         modifier = Modifier
-                            .size(width = 150.dp, height = 200.dp),
+                            .size(width = 125.dp, height = 175.dp),
                         model = data.images[it],
                         contentDescription = "",
                         contentScale = ContentScale.Crop

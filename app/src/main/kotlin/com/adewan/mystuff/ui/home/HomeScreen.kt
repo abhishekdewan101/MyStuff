@@ -59,20 +59,20 @@ fun HomeScreen(navigationDirector: NavigationDirector, viewModel: HomeViewModel 
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),
                     data = viewState!!.topRated,
-                    onImageTapped = { viewModel.handleNavigation(navigationDirector, it) },
-                    onViewMore = {},
+                    onTap = { viewModel.handleNavigation(navigationDirector, it) },
+                    onSeeAllTap = {},
                 )
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),
                     data = viewState!!.comingSoon,
-                    onImageTapped = { viewModel.handleNavigation(navigationDirector, it) },
-                    onViewMore = {},
+                    onTap = { viewModel.handleNavigation(navigationDirector, it) },
+                    onSeeAllTap = {},
                 )
                 ImageCarouselWithTitle(
                     modifier = Modifier.padding(top = 15.dp),
                     data = viewState!!.recentReleased,
-                    onImageTapped = { viewModel.handleNavigation(navigationDirector, it) },
-                    onViewMore = {},
+                    onTap = { viewModel.handleNavigation(navigationDirector, it) },
+                    onSeeAllTap = {},
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.common.ux.PosterReelItemData
 import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
+import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
 import com.adewan.mystuff.core.models.games.posterUrl
 import com.adewan.mystuff.core.models.games.topRatedGamesForLast12Months
 import kotlinx.coroutines.async
@@ -39,10 +40,19 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                 )
             }
 
+            val posterGrid2 = async {
+                PosterGridData(
+                    title = "Recently Released",
+                    games = repository.getGameListForQuery(gamesReleasedInTheLast2Month)
+                        .sortedByDescending { it.rating }
+                )
+            }
+
             _viewState.value =
                 GameExploreViewState.Result(
                     posterReelItems = data.await(),
-                    posterGrid1 = posterGrid1.await()
+                    posterGrid1 = posterGrid1.await(),
+                    posterGrid2 = posterGrid2.await()
                 )
         }
     }
@@ -52,7 +62,8 @@ sealed interface GameExploreViewState {
     object Loading : GameExploreViewState
     data class Result(
         val posterReelItems: List<PosterReelItemData>,
-        val posterGrid1: PosterGridData
+        val posterGrid1: PosterGridData,
+        val posterGrid2: PosterGridData
     ) : GameExploreViewState
 }
 

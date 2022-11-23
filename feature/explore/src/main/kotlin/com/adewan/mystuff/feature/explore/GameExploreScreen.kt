@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
+import com.adewan.mystuff.common.ux.ImageCarouselWithTitle
+import com.adewan.mystuff.common.ux.ImageCarouselWithTitleData
 import com.adewan.mystuff.common.ux.PosterGridWithTitle
 import com.adewan.mystuff.common.ux.PosterGridWithTitleData
 import com.adewan.mystuff.common.ux.PosterReelItem
@@ -67,6 +69,20 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
                 data = posterGridData,
                 onSeeAllTap = { },
                 onTap = {}
+            )
+        }
+
+        item {
+            val carouselWithTitleData = ImageCarouselWithTitleData(
+                title = data.posterGrid2.title,
+                images = data.posterGrid2.games.map { it.posterUrl() },
+                identifier = data.posterGrid2.games.map { it.slug }
+            )
+            ImageCarouselWithTitle(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                data = carouselWithTitleData,
+                onTap = {},
+                onSeeAllTap = {}
             )
         }
 
