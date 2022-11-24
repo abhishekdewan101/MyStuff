@@ -8,4 +8,8 @@ class FakeAuthenticationRepository : AuthenticationRepository {
     override suspend fun getAndSaveAuthenticationToken(): Boolean {
         return authenticationState
     }
+
+    override fun isUserAuthenticated(): Boolean {
+        return authenticationState
+    }
 }

@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.adewan.mystuff.common.theme.MyStuffTheme
+import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
 import com.adewan.mystuff.core.navigation.AppNavHost
+import org.koin.androidx.compose.get
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +16,8 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             MyStuffTheme {
-                AppNavHost(navController = rememberNavController())
+                val authRepo: AuthenticationRepository = get()
+                AppNavHost(navController = rememberNavController(), authenticatedUser = authRepo.isUserAuthenticated())
             }
         }
     }

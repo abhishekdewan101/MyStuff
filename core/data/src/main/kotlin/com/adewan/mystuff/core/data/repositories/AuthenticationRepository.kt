@@ -9,6 +9,7 @@ import java.time.Clock
 
 interface AuthenticationRepository {
     suspend fun getAndSaveAuthenticationToken(): Boolean
+    fun isUserAuthenticated(): Boolean
 }
 
 class IgdbAuthenticationRepository(
@@ -29,6 +30,11 @@ class IgdbAuthenticationRepository(
             )
             true
         }
+    }
+
+    override fun isUserAuthenticated(): Boolean {
+        return localDataStore.getLocalAuthentication() != null && localDataStore.getLocalAuthentication()!!
+            .isValid(clock.millis())
     }
 }
 
