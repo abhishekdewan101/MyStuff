@@ -14,6 +14,7 @@ enum class QueryField(val fieldName: String) {
     THEMES_NAME("themes.name"),
     RATING("rating"),
     HYPES("hypes"),
+    PLATFORM("platforms"),
     VIDEOS_NAME("videos.name"),
     VIDEOS_ID("videos.video_id"),
     SUMMARY("summary"),

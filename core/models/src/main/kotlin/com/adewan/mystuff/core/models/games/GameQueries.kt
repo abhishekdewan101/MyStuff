@@ -6,6 +6,8 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 
 private val localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC"))
+private val platformString =
+    PlatformIds.run { "($IOS, $ANDROID,$PS5, $PS4, $SWITCH,$XBOX, $XBOX_ONE)" }
 
 val mostHypedGamesForNext6Months = gameQuery {
     fields = queryFields {
@@ -33,7 +35,7 @@ val mostHypedGamesForNext6Months = gameQuery {
     limit = 20
 }.toString()
 
-val topRatedGamesForLast12Months = gameQuery {
+val topRatedGamesForLast2Years = gameQuery {
     fields = queryFields {
         field(QueryField.SLUG)
         field(QueryField.NAME)
@@ -52,7 +54,13 @@ val topRatedGamesForLast12Months = gameQuery {
         addCondition(
             lhs = QueryField.FIRST_RELEASE_DATE,
             condition = QueryCondition.GREATER_THAN_EQUAL,
-            rhs = localDateTime.minusMonths(12).toEpochSecond(ZoneOffset.UTC).toString()
+            rhs = localDateTime.minusMonths(24).toEpochSecond(ZoneOffset.UTC).toString()
+        )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.PLATFORM,
+            condition = QueryCondition.EQUAL,
+            rhs = platformString
         )
     }
     sort = querySort {
@@ -81,6 +89,12 @@ val gamesComingInTheNext6Months = gameQuery {
             condition = QueryCondition.GREATER_THAN_EQUAL,
             rhs = localDateTime.plusMonths(6).toEpochSecond(ZoneOffset.UTC).toString()
         )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.PLATFORM,
+            condition = QueryCondition.EQUAL,
+            rhs = platformString
+        )
     }
     sort = querySort {
         field = QueryField.RATING
@@ -106,6 +120,12 @@ val gamesReleasedInTheLast2Month = gameQuery {
             lhs = QueryField.RATING,
             condition = QueryCondition.GREATER_THAN,
             rhs = "70"
+        )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.PLATFORM,
+            condition = QueryCondition.EQUAL,
+            rhs = platformString
         )
     }
     sort = querySort {

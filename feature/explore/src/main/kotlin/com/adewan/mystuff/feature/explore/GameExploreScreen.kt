@@ -62,7 +62,7 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
         item {
             val posterGridData = PosterGridWithTitleData(
                 title = data.posterGrid1.title,
-                urlIdPairs = data.posterGrid1.games.map { it.posterUrl() to it.slug }.toMap()
+                urlIdPairs = data.posterGrid1.games.associate { it.posterUrl() to it.slug }
             )
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
@@ -83,6 +83,19 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
                 data = carouselWithTitleData,
                 onTap = {},
                 onSeeAllTap = {}
+            )
+        }
+
+        item {
+            val posterGridData = PosterGridWithTitleData(
+                title = data.posterGrid3.title,
+                urlIdPairs = data.posterGrid3.games.associate { it.posterUrl() to it.slug }
+            )
+            PosterGridWithTitle(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                data = posterGridData,
+                onSeeAllTap = { },
+                onTap = {}
             )
         }
 
