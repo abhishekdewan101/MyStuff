@@ -11,10 +11,10 @@ import androidx.navigation.navOptions
 import com.adewan.mystuff.feature.explore.navigation.exploreGraph
 import com.adewan.mystuff.feature.explore.navigation.exploreRoute
 import com.adewan.mystuff.feature.explore.navigation.navigateToExploreRoute
-import com.adewan.mystuff.feature.gameslist.navigation.gamesListScreen
-import com.adewan.mystuff.feature.gameslist.navigation.navigateToGamesList
 import com.adewan.mystuff.features.landing.navigation.landingRoute
 import com.adewan.mystuff.features.landing.navigation.landingScreen
+import com.adewan.mystyuff.feature.games.navigation.gameListScreen
+import com.adewan.mystyuff.feature.games.navigation.navigateToGamesList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,8 +41,9 @@ fun AppNavHost(
                     )
                 }
             )
-            exploreGraph(navigateToGamesList = { navController.navigateToGamesList() }) { }
-            gamesListScreen()
+            exploreGraph(navigateToGamesList = navController::navigateToGamesList) {
+                gameListScreen()
+            }
         }
     }
 }

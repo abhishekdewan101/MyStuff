@@ -10,7 +10,7 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":feature:explore")))
     implementation(project(mapOf("path" to ":feature:landing")))
-    implementation(project(mapOf("path" to ":feature:gameslist")))
+    implementation(project(mapOf("path" to ":feature:games")))
     with(libs.compose) {
         implementation(navigation)
     }

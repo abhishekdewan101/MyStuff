@@ -35,13 +35,15 @@ import androidx.compose.ui.unit.dp
 import com.adewan.mystuff.common.theme.MyStuffTheme
 import com.adewan.mystuff.common.ux.TappableSearchBar
 import com.adewan.mystuff.common.ux.ThemedContainer
+import com.adewan.mystyuff.feature.games.GameExploreScreen
+import com.adewan.mystyuff.feature.games.navigation.GameListNavArgs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreScreen(
     navigateToSearchScreen: () -> Unit,
     navigateToAccountScreen: () -> Unit,
-    navigateToGamesList: () -> Unit
+    navigateToGamesList: (GameListNavArgs) -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     ThemedContainer {

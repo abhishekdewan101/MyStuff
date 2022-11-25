@@ -1,10 +1,11 @@
 plugins {
     id("mystuff.android.library")
     id("mystuff.android.library.compose")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 android {
-    namespace = "com.adewan.mystuff.feature.gameslist"
+    namespace = "com.adewan.mystuff.feature.games"
 }
 
 dependencies {
@@ -13,6 +14,11 @@ dependencies {
     implementation(project(mapOf("path" to ":core:models")))
     with(libs.compose) {
         implementation(navigation)
+    }
+
+    with(libs.kotlinx) {
+        implementation(serialization)
+        implementation(protobuf)
     }
 
     with(libs.accompanist) {

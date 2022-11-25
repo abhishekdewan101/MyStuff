@@ -1,4 +1,4 @@
-package com.adewan.mystuff.feature.explore
+package com.adewan.mystyuff.feature.games
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
@@ -19,15 +19,16 @@ import com.adewan.mystuff.common.ux.PosterGridWithTitle
 import com.adewan.mystuff.common.ux.PosterGridWithTitleData
 import com.adewan.mystuff.common.ux.PosterReelItem
 import com.adewan.mystuff.core.models.games.posterUrl
+import com.adewan.mystyuff.feature.games.navigation.GameListNavArgs
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-internal fun GameExploreScreen(
+fun GameExploreScreen(
     modifier: Modifier = Modifier,
     viewModel: GameExploreViewModel = getViewModel(),
-    navigateToGamesList: () -> Unit
+    navigateToGamesList: (GameListNavArgs) -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
@@ -38,6 +39,7 @@ internal fun GameExploreScreen(
             data = viewState as GameExploreViewState.Result,
             navigateToGamesList = navigateToGamesList
         )
+        else -> {}
     }
 }
 
@@ -46,7 +48,7 @@ internal fun GameExploreScreen(
 internal fun GameExploreScreenWithData(
     modifier: Modifier,
     data: GameExploreViewState.Result,
-    navigateToGamesList: () -> Unit
+    navigateToGamesList: (GameListNavArgs) -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         item {
@@ -72,7 +74,14 @@ internal fun GameExploreScreenWithData(
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = posterGridData,
-                onSeeAllTap = { navigateToGamesList() },
+                onSeeAllTap = {
+                    navigateToGamesList(
+                        GameListNavArgs(
+                            title = data.posterGrid1.title,
+                            query = data.posterGrid1.dataQuery.copy(limit = 103).buildQuery()
+                        )
+                    )
+                },
                 onTap = {}
             )
         }
@@ -87,7 +96,14 @@ internal fun GameExploreScreenWithData(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = carouselWithTitleData,
                 onTap = {},
-                onSeeAllTap = { navigateToGamesList() }
+                onSeeAllTap = {
+                    navigateToGamesList(
+                        GameListNavArgs(
+                            title = data.posterGrid2.title,
+                            query = data.posterGrid2.dataQuery.copy(limit = 103).buildQuery()
+                        )
+                    )
+                }
             )
         }
 
@@ -99,7 +115,14 @@ internal fun GameExploreScreenWithData(
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = posterGridData,
-                onSeeAllTap = { navigateToGamesList() },
+                onSeeAllTap = {
+                    navigateToGamesList(
+                        GameListNavArgs(
+                            title = data.posterGrid3.title,
+                            query = data.posterGrid3.dataQuery.copy(limit = 103).buildQuery()
+                        )
+                    )
+                },
                 onTap = {}
             )
         }

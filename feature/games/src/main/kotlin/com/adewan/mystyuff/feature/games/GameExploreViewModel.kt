@@ -1,9 +1,10 @@
-package com.adewan.mystuff.feature.explore
+package com.adewan.mystyuff.feature.games
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.common.ux.PosterReelItemData
 import com.adewan.mystuff.core.data.repositories.GameRepository
+import com.adewan.mystuff.core.models.games.GameQuery
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
 import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
 import com.adewan.mystuff.core.models.games.posterUrl
@@ -17,6 +18,9 @@ import proto.Game
 class GameExploreViewModel(private val repository: GameRepository) : ViewModel() {
     private val _viewState = MutableStateFlow<GameExploreViewState>(GameExploreViewState.Loading)
     val viewState = _viewState.asStateFlow()
+
+    private val _listViewState = MutableStateFlow<GameListViewState>(GameListViewState.Loading)
+    val listViewState = _listViewState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -41,7 +45,7 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                         gamesComingInTheNext6Months.copy(limit = 9).buildQuery()
                     )
                         .sortedByDescending { it.hypes }.take(9),
-                    dataQuery = gamesComingInTheNext6Months.buildQuery() // FIXME: This is a dumb way to pass data to the screen
+                    dataQuery = gamesComingInTheNext6Months
                 )
             }
 
@@ -52,7 +56,7 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                         gamesReleasedInTheLast2Month.copy(limit = 9).buildQuery()
                     )
                         .sortedByDescending { it.rating }.take(9),
-                    dataQuery = gamesReleasedInTheLast2Month.buildQuery() // FIXME: This is a dumb way to pass data to the screen
+                    dataQuery = gamesReleasedInTheLast2Month
                 )
             }
 
@@ -63,7 +67,7 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                         topRatedGamesForLast2Years.copy(limit = 9).buildQuery()
                     )
                         .sortedByDescending { it.rating }.take(9),
-                    dataQuery = topRatedGamesForLast2Years.buildQuery() // FIXME: This is a dumb way to pass data to the screen
+                    dataQuery = topRatedGamesForLast2Years
                 )
             }
 
@@ -74,6 +78,13 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                     posterGrid2 = posterGrid2.await(),
                     posterGrid3 = posterGrid3.await()
                 )
+        }
+    }
+
+    fun getGamesListForQuery(query: String) {
+        viewModelScope.launch {
+            _listViewState.value =
+                GameListViewState.Result(data = repository.getGameListForQuery(query))
         }
     }
 }
@@ -88,4 +99,11 @@ sealed interface GameExploreViewState {
     ) : GameExploreViewState
 }
 
-data class PosterGridData(val title: String, val games: List<Game>, val dataQuery: String)
+sealed interface GameListViewState {
+    object Loading : GameListViewState
+    data class Result(
+        val data: List<Game>
+    ) : GameListViewState
+}
+
+data class PosterGridData(val title: String, val games: List<Game>, val dataQuery: GameQuery)

@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.adewan.mystuff.feature.explore.ExploreScreen
+import com.adewan.mystyuff.feature.games.navigation.GameListNavArgs
 
 const val exploreRoute = "explore_route"
 
@@ -13,7 +14,7 @@ fun NavController.navigateToExploreRoute(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.exploreGraph(
-    navigateToGamesList: () -> Unit,
+    navigateToGamesList: (GameListNavArgs) -> Unit,
     nestedGraph: NavGraphBuilder.() -> Unit
 ) {
     composable(exploreRoute) {
