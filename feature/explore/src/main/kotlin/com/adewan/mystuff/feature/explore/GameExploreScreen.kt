@@ -21,12 +21,12 @@ import com.adewan.mystuff.common.ux.PosterReelItem
 import com.adewan.mystuff.core.models.games.posterUrl
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 internal fun GameExploreScreen(
     modifier: Modifier = Modifier,
-    viewModel: GameExploreViewModel = get(),
+    viewModel: GameExploreViewModel = getViewModel(),
     navigateToGamesList: (String) -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
