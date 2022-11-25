@@ -16,7 +16,7 @@ fun ThemedContainer(
     val useDarkIcons = !isSystemInDarkTheme()
 
     SideEffect {
-        uiController.setStatusBarColor(color = Color.Transparent, darkIcons = useDarkIcons)
+        uiController.setStatusBarColor(color = backgroundColor, darkIcons = useDarkIcons)
         uiController.setNavigationBarColor(
             color = backgroundColor,
             darkIcons = useDarkIcons

@@ -30,3 +30,5 @@ feature/landing/build
 feature/di/build
 feature/gameslist/build
 feature/games/build
+feature/library/build
+feature/search/build

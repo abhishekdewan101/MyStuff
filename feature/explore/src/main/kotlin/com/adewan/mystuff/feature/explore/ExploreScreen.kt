@@ -40,7 +40,7 @@ import com.adewan.mystyuff.feature.games.navigation.GameListNavArgs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExploreScreen(
+fun Exploreview(
     navigateToSearchScreen: () -> Unit,
     navigateToAccountScreen: () -> Unit,
     navigateToGamesList: (GameListNavArgs) -> Unit
@@ -136,7 +136,7 @@ private fun TopBarRow(navigateToSearchScreen: () -> Unit, navigateToAccountScree
 @Composable
 fun PreviewExploreScreen() {
     MyStuffTheme {
-        ExploreScreen(
+        Exploreview(
             navigateToSearchScreen = {},
             navigateToAccountScreen = {},
             navigateToGamesList = {}

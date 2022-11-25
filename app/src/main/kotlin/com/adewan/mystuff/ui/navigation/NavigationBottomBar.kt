@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.adewan.mystuff.ui.utils.NoRippleInteractionSource
+import com.adewan.mystuff.common.ux.NoRippleInteractionSource
 
 @Composable
 fun NavigationBottomBar(navHostController: NavHostController) {

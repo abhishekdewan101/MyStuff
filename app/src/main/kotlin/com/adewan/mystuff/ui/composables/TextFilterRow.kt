@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.adewan.mystuff.ui.utils.NoRippleInteractionSource
+import com.adewan.mystuff.common.ux.NoRippleInteractionSource
 
 data class TextFilterRowItem<T>(val label: String, val filter: T)
 
