@@ -23,20 +23,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.adewan.mystuff.common.ux.NoRippleInteractionSource
+import com.adewan.mystuff.feature.explore.exploreRoute
 import com.adewan.mystuff.feature.explore.exploreView
 import com.adewan.mystuff.feature.explore.navigateToExploreView
 import com.adewan.mystuff.feature.library.libraryRoute
 import com.adewan.mystuff.feature.library.libraryView
 import com.adewan.mystuff.feature.library.navigateToLibraryView
 import com.adewan.mystuff.feature.search.navigateToSearchView
+import com.adewan.mystuff.feature.search.searchRoute
 import com.adewan.mystuff.feature.search.searchView
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,9 +76,20 @@ fun MsApp(modifier: Modifier = Modifier) {
     }
 }
 
+val topLevelNavOptions = { id: Int ->
+    navOptions {
+        launchSingleTop = true
+        restoreState = true
+        popUpTo(id) {
+            saveState = true
+        }
+    }
+}
+
 @Composable
 internal fun MsAppBottomBar(navController: NavController, bottomBarPresent: Boolean) {
-    var selectedIndex by rememberSaveable { mutableStateOf(1) }
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = backStackEntry?.destination
     AnimatedVisibility(
         visible = bottomBarPresent,
         enter = slideInVertically { it } + fadeIn(),
@@ -82,31 +97,22 @@ internal fun MsAppBottomBar(navController: NavController, bottomBarPresent: Bool
     ) {
         NavigationBar(modifier = Modifier.fillMaxWidth(), containerColor = Color.Transparent) {
             NavigationBarItem(
-                selected = selectedIndex == 0,
-                onClick = {
-                    selectedIndex = 0
-                    navController.navigateToSearchView()
-                },
+                selected = currentDestination?.hierarchy?.any { it.route == searchRoute } == true,
+                onClick = { navController.navigateToSearchView(topLevelNavOptions(navController.graph.startDestinationId)) },
                 interactionSource = NoRippleInteractionSource,
                 icon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search") },
                 label = { Text(text = "Search") }
             )
             NavigationBarItem(
-                selected = selectedIndex == 1,
-                onClick = {
-                    selectedIndex = 1
-                    navController.navigateToLibraryView()
-                },
+                selected = currentDestination?.hierarchy?.any { it.route == libraryRoute } == true,
+                onClick = { navController.navigateToLibraryView(topLevelNavOptions(navController.graph.startDestinationId)) },
                 interactionSource = NoRippleInteractionSource,
                 icon = { Icon(imageVector = Icons.Default.Apps, contentDescription = "Library") },
                 label = { Text(text = "Library") }
             )
             NavigationBarItem(
-                selected = selectedIndex == 2,
-                onClick = {
-                    selectedIndex = 2
-                    navController.navigateToExploreView()
-                },
+                selected = currentDestination?.hierarchy?.any { it.route == exploreRoute } == true,
+                onClick = { navController.navigateToExploreView(topLevelNavOptions(navController.graph.startDestinationId)) },
                 interactionSource = NoRippleInteractionSource,
                 icon = {
                     Icon(
