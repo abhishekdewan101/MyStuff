@@ -41,7 +41,7 @@ import com.adewan.mystuff.common.ux.ThemedContainer
 fun ExploreScreen(
     navigateToSearchScreen: () -> Unit,
     navigateToAccountScreen: () -> Unit,
-    navigateToGamesList: (String) -> Unit
+    navigateToGamesList: () -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     ThemedContainer {

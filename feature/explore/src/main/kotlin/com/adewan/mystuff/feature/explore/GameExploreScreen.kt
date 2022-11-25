@@ -27,7 +27,7 @@ import org.koin.androidx.compose.getViewModel
 internal fun GameExploreScreen(
     modifier: Modifier = Modifier,
     viewModel: GameExploreViewModel = getViewModel(),
-    navigateToGamesList: (String) -> Unit
+    navigateToGamesList: () -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
@@ -46,7 +46,7 @@ internal fun GameExploreScreen(
 internal fun GameExploreScreenWithData(
     modifier: Modifier,
     data: GameExploreViewState.Result,
-    navigateToGamesList: (String) -> Unit
+    navigateToGamesList: () -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         item {
@@ -72,7 +72,7 @@ internal fun GameExploreScreenWithData(
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = posterGridData,
-                onSeeAllTap = { navigateToGamesList(data.posterGrid1.dataQuery) },
+                onSeeAllTap = { navigateToGamesList() },
                 onTap = {}
             )
         }
@@ -87,7 +87,7 @@ internal fun GameExploreScreenWithData(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = carouselWithTitleData,
                 onTap = {},
-                onSeeAllTap = { navigateToGamesList(data.posterGrid2.dataQuery) }
+                onSeeAllTap = { navigateToGamesList() }
             )
         }
 
@@ -99,7 +99,7 @@ internal fun GameExploreScreenWithData(
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = posterGridData,
-                onSeeAllTap = { navigateToGamesList(data.posterGrid3.dataQuery) },
+                onSeeAllTap = { navigateToGamesList() },
                 onTap = {}
             )
         }

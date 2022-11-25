@@ -13,7 +13,7 @@ fun NavController.navigateToExploreRoute(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.exploreGraph(
-    navigateToGamesList: (String) -> Unit,
+    navigateToGamesList: () -> Unit,
     nestedGraph: NavGraphBuilder.() -> Unit
 ) {
     composable(exploreRoute) {

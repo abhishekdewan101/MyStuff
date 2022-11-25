@@ -41,7 +41,7 @@ fun AppNavHost(
                     )
                 }
             )
-            exploreGraph(navigateToGamesList = navController::navigateToGamesList) { }
+            exploreGraph(navigateToGamesList = { navController.navigateToGamesList() }) { }
             gamesListScreen()
         }
     }
