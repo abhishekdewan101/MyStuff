@@ -6,8 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,7 +45,12 @@ fun GameListScreen(
 
     val viewState by viewModel.listViewState.collectAsState()
 
-    Scaffold(modifier = modifier.fillMaxSize(), topBar = { GameListTitleBar(title = args.title) }) {
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
+        topBar = { GameListTitleBar(title = args.title) }
+    ) {
         when (viewState) {
             GameListViewState.Loading -> CenteredLoadingIndicator()
             is GameListViewState.Result -> FullGameList(
@@ -60,9 +65,7 @@ fun GameListScreen(
 internal fun FullGameList(modifier: Modifier, data: List<Game>) {
     LazyVerticalGrid(
         modifier = modifier
-            .padding(top = 10.dp)
             .padding(horizontal = 10.dp)
-            .navigationBarsPadding()
             .fillMaxSize(),
         columns = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(5.dp),
