@@ -36,7 +36,8 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                 PosterGridData(
                     title = "Coming Soon",
                     games = repository.getGameListForQuery(gamesComingInTheNext6Months)
-                        .sortedByDescending { it.hypes }.take(9)
+                        .sortedByDescending { it.hypes }.take(9),
+                    dataQuery = gamesComingInTheNext6Months
                 )
             }
 
@@ -44,7 +45,8 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                 PosterGridData(
                     title = "Recently Released",
                     games = repository.getGameListForQuery(gamesReleasedInTheLast2Month)
-                        .sortedByDescending { it.rating }
+                        .sortedByDescending { it.rating }.take(9),
+                    dataQuery = gamesReleasedInTheLast2Month
                 )
             }
 
@@ -52,7 +54,8 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
                 PosterGridData(
                     title = "Critically Acclaimed",
                     games = repository.getGameListForQuery(topRatedGamesForLast2Years)
-                        .sortedByDescending { it.rating }.take(9)
+                        .sortedByDescending { it.rating }.take(9),
+                    dataQuery = topRatedGamesForLast2Years
                 )
             }
 
@@ -77,4 +80,4 @@ sealed interface GameExploreViewState {
     ) : GameExploreViewState
 }
 
-data class PosterGridData(val title: String, val games: List<Game>)
+data class PosterGridData(val title: String, val games: List<Game>, val dataQuery: String)

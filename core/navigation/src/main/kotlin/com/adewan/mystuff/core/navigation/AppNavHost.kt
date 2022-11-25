@@ -11,6 +11,8 @@ import androidx.navigation.navOptions
 import com.adewan.mystuff.feature.explore.navigation.exploreGraph
 import com.adewan.mystuff.feature.explore.navigation.exploreRoute
 import com.adewan.mystuff.feature.explore.navigation.navigateToExploreRoute
+import com.adewan.mystuff.feature.gameslist.navigation.gamesListScreen
+import com.adewan.mystuff.feature.gameslist.navigation.navigateToGamesList
 import com.adewan.mystuff.features.landing.navigation.landingRoute
 import com.adewan.mystuff.features.landing.navigation.landingScreen
 
@@ -39,7 +41,8 @@ fun AppNavHost(
                     )
                 }
             )
-            exploreGraph { }
+            exploreGraph(navigateToGamesList = navController::navigateToGamesList) { }
+            gamesListScreen()
         }
     }
 }

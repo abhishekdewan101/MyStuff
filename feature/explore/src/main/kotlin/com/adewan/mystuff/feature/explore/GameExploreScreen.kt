@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,7 +26,8 @@ import org.koin.androidx.compose.get
 @Composable
 internal fun GameExploreScreen(
     modifier: Modifier = Modifier,
-    viewModel: GameExploreViewModel = get()
+    viewModel: GameExploreViewModel = get(),
+    navigateToGamesList: (String) -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
@@ -35,14 +35,19 @@ internal fun GameExploreScreen(
         GameExploreViewState.Loading -> CenteredLoadingIndicator()
         is GameExploreViewState.Result -> GameExploreScreenWithData(
             modifier = modifier,
-            data = viewState as GameExploreViewState.Result
+            data = viewState as GameExploreViewState.Result,
+            navigateToGamesList = navigateToGamesList
         )
     }
 }
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreViewState.Result) {
+internal fun GameExploreScreenWithData(
+    modifier: Modifier,
+    data: GameExploreViewState.Result,
+    navigateToGamesList: (String) -> Unit
+) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         item {
             HorizontalPager(count = data.posterReelItems.size) {
@@ -67,7 +72,7 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = posterGridData,
-                onSeeAllTap = { },
+                onSeeAllTap = { navigateToGamesList(data.posterGrid1.dataQuery) },
                 onTap = {}
             )
         }
@@ -82,7 +87,7 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = carouselWithTitleData,
                 onTap = {},
-                onSeeAllTap = {}
+                onSeeAllTap = { navigateToGamesList(data.posterGrid2.dataQuery) }
             )
         }
 
@@ -94,7 +99,7 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
             PosterGridWithTitle(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 data = posterGridData,
-                onSeeAllTap = { },
+                onSeeAllTap = { navigateToGamesList(data.posterGrid3.dataQuery) },
                 onTap = {}
             )
         }
@@ -108,5 +113,5 @@ internal fun GameExploreScreenWithData(modifier: Modifier, data: GameExploreView
 @Preview
 @Composable
 fun PreviewGameExploreScreen() {
-    GameExploreScreen()
+    GameExploreScreen(navigateToGamesList = {})
 }

@@ -38,7 +38,11 @@ import com.adewan.mystuff.common.ux.ThemedContainer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExploreScreen(navigateToSearchScreen: () -> Unit, navigateToAccountScreen: () -> Unit) {
+fun ExploreScreen(
+    navigateToSearchScreen: () -> Unit,
+    navigateToAccountScreen: () -> Unit,
+    navigateToGamesList: (String) -> Unit
+) {
     var selectedTab by remember { mutableStateOf(0) }
     ThemedContainer {
         Scaffold(topBar = {
@@ -55,7 +59,10 @@ fun ExploreScreen(navigateToSearchScreen: () -> Unit, navigateToAccountScreen: (
         }) { paddingValue ->
             Column(modifier = Modifier.padding(paddingValue)) {
                 when (selectedTab) {
-                    0 -> GameExploreScreen(modifier = Modifier.padding(top = 10.dp))
+                    0 -> GameExploreScreen(
+                        modifier = Modifier.padding(top = 10.dp),
+                        navigateToGamesList = navigateToGamesList
+                    )
                     1 -> MovieExploreScreen()
                     2 -> ShowExploreScreen()
                 }
@@ -127,6 +134,10 @@ private fun TopBarRow(navigateToSearchScreen: () -> Unit, navigateToAccountScree
 @Composable
 fun PreviewExploreScreen() {
     MyStuffTheme {
-        ExploreScreen(navigateToSearchScreen = {}, navigateToAccountScreen = {})
+        ExploreScreen(
+            navigateToSearchScreen = {},
+            navigateToAccountScreen = {},
+            navigateToGamesList = {}
+        )
     }
 }

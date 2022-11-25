@@ -32,7 +32,7 @@ val mostHypedGamesForNext6Months = gameQuery {
         field = QueryField.HYPES
         order = QuerySortOrder.DESC
     }
-    limit = 20
+    limit = 100
 }.toString()
 
 val topRatedGamesForLast2Years = gameQuery {
@@ -67,7 +67,7 @@ val topRatedGamesForLast2Years = gameQuery {
         field = QueryField.RATING
         order = QuerySortOrder.DESC
     }
-    limit = 20
+    limit = 100
 }.toString()
 
 val gamesComingInTheNext6Months = gameQuery {
@@ -100,7 +100,7 @@ val gamesComingInTheNext6Months = gameQuery {
         field = QueryField.RATING
         order = QuerySortOrder.DESC
     }
-    limit = 20
+    limit = 100
 }.toString()
 
 val gamesReleasedInTheLast2Month = gameQuery {
@@ -132,7 +132,7 @@ val gamesReleasedInTheLast2Month = gameQuery {
         field = QueryField.RATING
         order = QuerySortOrder.DESC
     }
-    limit = 20
+    limit = 100
 }.toString()
 
 val gameDetailsQuery = { slug: String ->
