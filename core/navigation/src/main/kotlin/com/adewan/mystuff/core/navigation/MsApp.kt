@@ -98,8 +98,8 @@ internal fun MsAppBottomBar(navController: NavController, bottomBarPresent: Bool
                     navController.navigateToLibraryView()
                 },
                 interactionSource = NoRippleInteractionSource,
-                icon = { Icon(imageVector = Icons.Default.Apps, contentDescription = "MyStuff") },
-                label = { Text(text = "MyStuff") }
+                icon = { Icon(imageVector = Icons.Default.Apps, contentDescription = "Library") },
+                label = { Text(text = "Library") }
             )
             NavigationBarItem(
                 selected = selectedIndex == 2,

@@ -22,4 +22,5 @@ dependencies {
         implementation(pager)
         implementation(pager.indicators)
     }
+    implementation(libs.coil)
 }
