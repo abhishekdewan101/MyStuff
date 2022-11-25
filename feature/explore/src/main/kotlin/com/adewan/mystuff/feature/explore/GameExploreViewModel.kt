@@ -21,7 +21,9 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
     init {
         viewModelScope.launch {
             val data = async {
-                repository.getGameListForQuery(topRatedGamesForLast2Years).map {
+                repository.getGameListForQuery(
+                    topRatedGamesForLast2Years.copy(limit = 9).buildQuery()
+                ).map {
                     PosterReelItemData(
                         posterUrl = it.posterUrl(),
                         title = it.name,
@@ -35,27 +37,33 @@ class GameExploreViewModel(private val repository: GameRepository) : ViewModel()
             val posterGrid1 = async {
                 PosterGridData(
                     title = "Coming Soon",
-                    games = repository.getGameListForQuery(gamesComingInTheNext6Months)
+                    games = repository.getGameListForQuery(
+                        gamesComingInTheNext6Months.copy(limit = 9).buildQuery()
+                    )
                         .sortedByDescending { it.hypes }.take(9),
-                    dataQuery = gamesComingInTheNext6Months
+                    dataQuery = gamesComingInTheNext6Months.buildQuery() // FIXME: This is a dumb way to pass data to the screen
                 )
             }
 
             val posterGrid2 = async {
                 PosterGridData(
                     title = "Recently Released",
-                    games = repository.getGameListForQuery(gamesReleasedInTheLast2Month)
+                    games = repository.getGameListForQuery(
+                        gamesReleasedInTheLast2Month.copy(limit = 9).buildQuery()
+                    )
                         .sortedByDescending { it.rating }.take(9),
-                    dataQuery = gamesReleasedInTheLast2Month
+                    dataQuery = gamesReleasedInTheLast2Month.buildQuery() // FIXME: This is a dumb way to pass data to the screen
                 )
             }
 
             val posterGrid3 = async {
                 PosterGridData(
                     title = "Critically Acclaimed",
-                    games = repository.getGameListForQuery(topRatedGamesForLast2Years)
+                    games = repository.getGameListForQuery(
+                        topRatedGamesForLast2Years.copy(limit = 9).buildQuery()
+                    )
                         .sortedByDescending { it.rating }.take(9),
-                    dataQuery = topRatedGamesForLast2Years
+                    dataQuery = topRatedGamesForLast2Years.buildQuery() // FIXME: This is a dumb way to pass data to the screen
                 )
             }
 

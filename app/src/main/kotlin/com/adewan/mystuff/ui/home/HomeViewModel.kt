@@ -177,7 +177,7 @@ class HomeViewModel(
         _viewState.value = null
         viewModelScope.launch {
             val data1 = async {
-                gameRepository.getGameListForQuery(mostHypedGamesForNext6Months)
+                gameRepository.getGameListForQuery(mostHypedGamesForNext6Months.buildQuery())
                     .filter { it.hasCover() && it.name.isNotEmpty() }
                     .map {
                         ImageShowcaseItem(
@@ -188,7 +188,7 @@ class HomeViewModel(
                     }
             }
             val data2 = async {
-                gameRepository.getGameListForQuery(topRatedGamesForLast2Years).run {
+                gameRepository.getGameListForQuery(topRatedGamesForLast2Years.buildQuery()).run {
                     ImageCarouselWithTitleData(
                         title = "Top Rated",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -198,7 +198,7 @@ class HomeViewModel(
             }
 
             val data3 = async {
-                gameRepository.getGameListForQuery(gamesComingInTheNext6Months).run {
+                gameRepository.getGameListForQuery(gamesComingInTheNext6Months.buildQuery()).run {
                     ImageCarouselWithTitleData(
                         title = "Coming Soon",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },
@@ -208,7 +208,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                gameRepository.getGameListForQuery(gamesReleasedInTheLast2Month).run {
+                gameRepository.getGameListForQuery(gamesReleasedInTheLast2Month.buildQuery()).run {
                     ImageCarouselWithTitleData(
                         title = "Recently Released",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },

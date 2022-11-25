@@ -13,6 +13,6 @@ class GameDetailViewModel(private val gameRepository: GameRepository) : ViewMode
 
     suspend fun requestGameDetailForIdentifier(identifier: String) {
         _viewState.value =
-            gameRepository.getGameForQuery(gameDetailsQuery(identifier))
+            gameRepository.getGameForQuery(gameDetailsQuery(identifier).buildQuery())
     }
 }

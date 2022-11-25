@@ -1,13 +1,13 @@
 package com.adewan.mystuff.core.models.games
 
-class GameQuery(
+data class GameQuery(
     var fields: GameFieldGenerator? = null,
     var condition: GameConditionGenerator? = null,
     var sort: GameSortGenerator? = null,
     var limit: Int? = null
 ) {
 
-    override fun toString(): String {
+    fun buildQuery(): String {
         val builder = StringBuilder()
         fields?.let { builder.append("f $fields;") }
         condition?.let { builder.append("w $condition;") }
