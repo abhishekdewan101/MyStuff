@@ -54,7 +54,7 @@ class SearchRepositoryImpl(
             SearchResult(
                 name = it.name,
                 poster = it.posterUrl(),
-                releasing = "Releasing - $formattedReleasedDate ",
+                releasing = "Release Date - $formattedReleasedDate ",
                 rating = ratingString,
                 id = it.slug
             )
