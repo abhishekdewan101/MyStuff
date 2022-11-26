@@ -9,6 +9,26 @@ private val localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UT
 private val platformString =
     PlatformIds.run { "($IOS, $ANDROID,$PS5, $PS4, $SWITCH,$XBOX, $XBOX_ONE)" }
 
+fun buildSearchQuery(searchTerm: String) = gameQuery {
+    fields = queryFields {
+        field(QueryField.SLUG)
+        field(QueryField.NAME)
+        field(QueryField.COVER_IMAGE_ID)
+        field(QueryField.FIRST_RELEASE_DATE)
+        field(QueryField.TOTAL_RATING_COUNT)
+        field(QueryField.TOTAL_RATING)
+    }
+    condition = queryConditions {
+        addCondition(
+            lhs = QueryField.CATEGORY,
+            condition = QueryCondition.EQUAL,
+            rhs = "(0, 1)"
+        )
+    }
+    search = "\"$searchTerm\""
+    limit = 50
+}
+
 val mostHypedGamesForNext6Months = gameQuery {
     fields = queryFields {
         field(QueryField.SLUG)

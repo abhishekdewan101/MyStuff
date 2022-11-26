@@ -4,7 +4,8 @@ data class GameQuery(
     var fields: GameFieldGenerator? = null,
     var condition: GameConditionGenerator? = null,
     var sort: GameSortGenerator? = null,
-    var limit: Int? = null
+    var limit: Int? = null,
+    var search: String? = null
 ) {
 
     fun buildQuery(): String {
@@ -12,6 +13,7 @@ data class GameQuery(
         fields?.let { builder.append("f $fields;") }
         condition?.let { builder.append("w $condition;") }
         sort?.let { builder.append("s $sort;") }
+        search?.let { builder.append("search $search;") }
         limit?.let { builder.append("l $limit;") }
         return builder.toString()
     }

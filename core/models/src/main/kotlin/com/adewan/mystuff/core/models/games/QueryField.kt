@@ -6,6 +6,7 @@ enum class QueryField(val fieldName: String) {
     ARTWORKS_IMAGE_ID("artworks.image_id"),
     FIRST_RELEASE_DATE("first_release_date"),
     COVER_IMAGE_ID("cover.image_id"),
+    CATEGORY("category"),
     TOTAL_RATING("total_rating"),
     TOTAL_RATING_COUNT("total_rating_count"),
     GENRE_NAME("genres.name"),

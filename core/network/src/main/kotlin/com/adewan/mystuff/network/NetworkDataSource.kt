@@ -14,6 +14,7 @@ import proto.GameResult
 interface NetworkDataSource {
     suspend fun authenticateAndReturnAuthentication(): NetworkAuthentication
     suspend fun getGamesForQuery(token: String, query: String): GameResult
+    suspend fun searchForGame(token: String, query: String): GameResult
 }
 
 class KtorNetworkDataSource(
@@ -29,6 +30,17 @@ class KtorNetworkDataSource(
     }
 
     override suspend fun getGamesForQuery(token: String, query: String): GameResult {
+        return client.post {
+            headers {
+                append("Client-ID", credentials.igdbClientId)
+                append("Authorization", "Bearer $token")
+            }
+            url { takeFrom("https://api.igdb.com/v4/games.pb") }
+            setBody(query)
+        }.body()
+    }
+
+    override suspend fun searchForGame(token: String, query: String): GameResult {
         return client.post {
             headers {
                 append("Client-ID", credentials.igdbClientId)

@@ -10,6 +10,9 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":common:ux")))
     implementation(project(mapOf("path" to ":core:data")))
+    implementation(project(mapOf("path" to ":core:network")))
+    implementation(project(mapOf("path" to ":core:datastore")))
+
     with(libs.compose) {
         implementation(navigation)
     }
@@ -22,4 +25,6 @@ dependencies {
         implementation(pager)
         implementation(pager.indicators)
     }
+
+    implementation(libs.coil)
 }
