@@ -1,6 +1,5 @@
 package com.adewan.mystuff.feature.search
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,9 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -48,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import coil.compose.AsyncImage
 import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
 import com.adewan.mystuff.common.ux.ChipsRowItem
@@ -174,46 +169,21 @@ internal fun SearchResultItem(result: SearchResult) {
 internal fun StartSearch(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val drawable = context.getDrawable(R.drawable.start_search)
+        ?: throw IllegalStateException("Why can't we get the local")
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        replaceColor(
-            drawable?.toBitmap(),
-            Color(0xFF6c63ff).toArgb(),
-            MaterialTheme.colorScheme.secondaryContainer.toArgb()
-        )?.asImageBitmap()?.let {
-            Image(
-                bitmap = it,
-                contentDescription = "Library is empty",
-                modifier = Modifier.size(128.dp)
-            )
-        }
+        Image(
+            painter = painterResource(id = R.drawable.start_search),
+            contentDescription = "Library is empty",
+            modifier = Modifier.size(128.dp)
+        )
         Text(
             text = "Start your search",
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 20.dp)
         )
     }
-}
-
-fun replaceColor(src: Bitmap?, fromColor: Int, targetColor: Int): Bitmap? {
-    if (src == null) {
-        return null
-    }
-    // Source image size
-    val width: Int = src.width
-    val height: Int = src.height
-    val pixels = IntArray(width * height)
-    // get pixels
-    src.getPixels(pixels, 0, width, 0, 0, width, height)
-    for (x in pixels.indices) {
-        pixels[x] = if (pixels[x] == fromColor) targetColor else pixels[x]
-    }
-    // create result bitmap output
-    val result: Bitmap = Bitmap.createBitmap(width, height, src.getConfig())
-    // set pixels
-    result.setPixels(pixels, 0, width, 0, 0, width, height)
-    return result
 }
