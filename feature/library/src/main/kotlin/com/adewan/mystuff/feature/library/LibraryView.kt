@@ -24,24 +24,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LibraryView(modifier: Modifier = Modifier) {
+fun LibraryView(modifier: Modifier = Modifier, navigateToAccountView: () -> Unit) {
     Column(modifier = modifier.padding(horizontal = 10.dp)) {
         CenterAlignedTopAppBar(
             title = { Text(text = "Library", fontWeight = FontWeight.Bold) },
-            actions = { UserAvatar() }
+            actions = { UserAvatar(navigateToAccountView = navigateToAccountView) }
         )
         EmptyLibrary()
     }
 }
 
 @Composable
-internal fun UserAvatar() {
+internal fun UserAvatar(navigateToAccountView: () -> Unit) {
     IconButton(
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.secondaryContainer),
-        onClick = {}
+        onClick = navigateToAccountView
     ) {
         Icon(
             imageVector = Icons.Default.Person,

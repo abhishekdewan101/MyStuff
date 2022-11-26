@@ -33,6 +33,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.adewan.mystuff.common.ux.NoRippleInteractionSource
+import com.adewan.mystuff.feature.account.accountView
+import com.adewan.mystuff.feature.account.navigateToAccountView
 import com.adewan.mystuff.feature.explore.exploreRoute
 import com.adewan.mystuff.feature.explore.exploreView
 import com.adewan.mystuff.feature.explore.navigateToExploreView
@@ -69,8 +71,12 @@ fun MsApp(modifier: Modifier = Modifier) {
                 startDestination = libraryRoute
             ) {
                 searchView(updateBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
-                libraryView(updateBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
+                libraryView(
+                    updateBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
+                    navigateToAccountView = { navHostController.navigateToAccountView() }
+                )
                 exploreView(updateBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
+                accountView(updateBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
             }
         }
     }

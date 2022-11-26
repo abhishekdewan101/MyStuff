@@ -12,6 +12,7 @@ dependencies {
     implementation(project(mapOf("path" to ":feature:landing")))
     implementation(project(mapOf("path" to ":feature:games")))
     implementation(project(mapOf("path" to ":feature:search")))
+    implementation(project(mapOf("path" to ":feature:account")))
     implementation(project(mapOf("path" to ":feature:library")))
     implementation(project(mapOf("path" to ":common:ux")))
     with(libs.compose) {

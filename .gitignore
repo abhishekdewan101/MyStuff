@@ -32,3 +32,4 @@ feature/gameslist/build
 feature/games/build
 feature/library/build
 feature/search/build
+feature/account/build
