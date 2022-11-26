@@ -18,6 +18,7 @@ dependencies {
 
     with(libs.accompanist) {
         implementation(pager)
+        implementation(pager.indicators)
     }
 
     with(libs.koin) {

@@ -32,6 +32,8 @@ import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
 import com.adewan.mystuff.common.ux.RatingBar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -55,7 +57,10 @@ fun ExploreView(modifier: Modifier = Modifier, viewModel: ExploreViewModel = get
 
 @Composable
 internal fun ExploreResults(results: ExploreViewState.Results) {
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
         FeaturedView(featured = results.featuredGames)
     }
 }
@@ -63,49 +68,57 @@ internal fun ExploreResults(results: ExploreViewState.Results) {
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun FeaturedView(featured: List<FeaturedGames>) {
-    HorizontalPager(count = featured.size) {
-        val game = featured[it]
-        Card(modifier = Modifier.padding(horizontal = 10.dp), onClick = {}) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 10.dp, horizontal = 20.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                AsyncImage(
-                    model = game.poster,
-                    contentDescription = game.name,
+    val pagerState = rememberPagerState()
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        HorizontalPager(count = featured.size, state = pagerState) {
+            val game = featured[it]
+            Card(modifier = Modifier.padding(horizontal = 10.dp), onClick = {}) {
+                Row(
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(150.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(MaterialTheme.colorScheme.secondaryContainer),
-                    contentScale = ContentScale.Crop
-                )
-                Column(
-                    modifier = Modifier.padding(start = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 20.dp),
+                    verticalAlignment = Alignment.Top
                 ) {
-                    Text(
-                        text = game.name,
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
+                    AsyncImage(
+                        model = game.poster,
+                        contentDescription = game.name,
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(150.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer),
+                        contentScale = ContentScale.Crop
                     )
-                    RatingBar(
-                        rating = game.rating,
-                        maxRating = game.totalRating,
-                        iconTint = MaterialTheme.colorScheme.onSecondaryContainer,
-                        iconSize = 24.dp
-                    )
-                    Text(
-                        text = game.genreString,
-                        style = MaterialTheme.typography.titleSmall,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    Column(
+                        modifier = Modifier.padding(start = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Text(
+                            text = game.name,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        RatingBar(
+                            rating = game.rating,
+                            maxRating = game.totalRating,
+                            iconTint = MaterialTheme.colorScheme.onSecondaryContainer,
+                            iconSize = 24.dp
+                        )
+                        Text(
+                            text = game.genreString,
+                            style = MaterialTheme.typography.titleSmall,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
             }
         }
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            activeColor = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(top = 10.dp)
+        )
     }
 }
