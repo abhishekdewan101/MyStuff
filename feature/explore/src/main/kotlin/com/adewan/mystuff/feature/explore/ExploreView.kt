@@ -2,8 +2,10 @@ package com.adewan.mystuff.feature.explore
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +19,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import coil.compose.AsyncImage
 import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
 import com.adewan.mystuff.common.ux.RatingBar
@@ -62,6 +66,51 @@ internal fun ExploreResults(results: ExploreViewState.Results) {
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         FeaturedView(featured = results.featuredGames)
+        PosterGrid(modifier = Modifier.padding(top = 10.dp), gridGames = results.grid1)
+    }
+}
+
+@Composable
+internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, List<GridGame>>) {
+    BoxWithConstraints {
+        val width = maxWidth / 3
+        Column(modifier = modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = gridGames.first,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
+                TextButton(onClick = {}) {
+                    Text(text = "See all")
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Column {
+                gridGames.second.chunked(3).forEach { gameList ->
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(5.dp),
+                        modifier = Modifier.padding(top = 5.dp)
+                    ) {
+                        gameList.forEach {
+                            AsyncImage(
+                                model = it.poster,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .width(width)
+                                    .height(height = max(width * 0.67f, 175.dp))
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

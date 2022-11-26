@@ -3,6 +3,7 @@ package com.adewan.mystuff.feature.explore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.data.repositories.GameRepository
+import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
 import com.adewan.mystuff.core.models.games.posterUrl
 import com.adewan.mystuff.core.models.games.topRatedGamesForLast2Years
 import kotlinx.coroutines.async
@@ -25,23 +26,43 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
                         FeaturedGames(
                             poster = it.posterUrl(),
                             name = it.name,
+                            slug = it.slug,
                             rating = it.rating,
                             totalRating = it.totalRating,
                             genreString = it.themesList.joinToString(" · ") { theme -> theme.name }
                         )
                     }
             }
-            _viewState.value = ExploreViewState.Results(featuredGames = featuredGames.await())
+
+            val gridGame1 = async {
+                repository.getGameListForQuery(
+                    gamesComingInTheNext6Months.copy(limit = 9).buildQuery()
+                ).sortedByDescending { it.hypes }
+                    .map {
+                        GridGame(slug = it.slug, poster = it.posterUrl())
+                    }
+            }
+            _viewState.value =
+                ExploreViewState.Results(
+                    featuredGames = featuredGames.await(),
+                    grid1 = Pair("Coming soon", gridGame1.await())
+                )
         }
     }
 }
 
 sealed interface ExploreViewState {
     object Loading : ExploreViewState
-    data class Results(val featuredGames: List<FeaturedGames>) : ExploreViewState
+    data class Results(
+        val featuredGames: List<FeaturedGames>,
+        val grid1: Pair<String, List<GridGame>>
+    ) : ExploreViewState
 }
 
+data class GridGame(val slug: String, val poster: String)
+
 data class FeaturedGames(
+    val slug: String,
     val poster: String,
     val rating: Double,
     val name: String,
