@@ -14,10 +14,6 @@ fun NavController.navigateToExploreView(navOptions: NavOptions) {
 fun NavGraphBuilder.exploreView(updateBottomBar: (Boolean) -> Unit) {
     composable(exploreRoute) {
         updateBottomBar(true)
-        Exploreview(
-            navigateToSearchScreen = {},
-            navigateToAccountScreen = {},
-            navigateToGamesList = {}
-        )
+        ExploreView()
     }
 }
