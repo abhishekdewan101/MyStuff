@@ -23,7 +23,7 @@ fun RatingBar(rating: Double, maxRating: Double, iconTint: Color, iconSize: Dp) 
         modifier = Modifier
             .width(200.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         var leftRating = rating
         repeat(5) {
