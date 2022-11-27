@@ -9,6 +9,14 @@ private val localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UT
 private val platformString =
     PlatformIds.run { "($IOS, $ANDROID,$PS5, $PS4, $SWITCH,$XBOX, $XBOX_ONE)" }
 
+fun GameConditionGenerator.filterFullAndDlcGames() {
+    addCondition(
+        lhs = QueryField.CATEGORY,
+        condition = QueryCondition.EQUAL,
+        rhs = "(0, 1)"
+    )
+}
+
 fun buildSearchQuery(searchTerm: String) = gameQuery {
     fields = queryFields {
         field(QueryField.SLUG)
@@ -19,11 +27,7 @@ fun buildSearchQuery(searchTerm: String) = gameQuery {
         field(QueryField.TOTAL_RATING)
     }
     condition = queryConditions {
-        addCondition(
-            lhs = QueryField.CATEGORY,
-            condition = QueryCondition.EQUAL,
-            rhs = "(0, 1)"
-        )
+        filterFullAndDlcGames()
     }
     search = "\"$searchTerm\""
     limit = 50
@@ -47,6 +51,8 @@ val mostHypedGamesForNext6Months = gameQuery {
             condition = QueryCondition.GREATER_THAN_EQUAL,
             rhs = "10"
         )
+        join(QueryCondition.AND)
+        filterFullAndDlcGames()
     }
     sort = querySort {
         field = QueryField.HYPES
@@ -82,6 +88,8 @@ val topRatedGamesForLast2Years = gameQuery {
             condition = QueryCondition.EQUAL,
             rhs = platformString
         )
+        join(QueryCondition.AND)
+        filterFullAndDlcGames()
     }
     sort = querySort {
         field = QueryField.RATING
@@ -115,6 +123,8 @@ val gamesComingInTheNext6Months = gameQuery {
             condition = QueryCondition.EQUAL,
             rhs = platformString
         )
+        join(QueryCondition.AND)
+        filterFullAndDlcGames()
     }
     sort = querySort {
         field = QueryField.RATING
@@ -147,6 +157,76 @@ val gamesReleasedInTheLast2Month = gameQuery {
             condition = QueryCondition.EQUAL,
             rhs = platformString
         )
+        join(QueryCondition.AND)
+        filterFullAndDlcGames()
+    }
+    sort = querySort {
+        field = QueryField.RATING
+        order = QuerySortOrder.DESC
+    }
+    limit = 20
+}
+
+val openWorldGames = gameQuery {
+    fields = queryFields {
+        field(QueryField.SLUG)
+        field(QueryField.NAME)
+        field(QueryField.COVER_IMAGE_ID)
+    }
+    condition = queryConditions {
+        addCondition(
+            lhs = QueryField.THEMES,
+            condition = QueryCondition.EQUAL,
+            rhs = "(${ThemeIds.OPEN_WORLD})"
+        )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.FIRST_RELEASE_DATE,
+            condition = QueryCondition.GREATER_THAN_EQUAL,
+            rhs = localDateTime.minusYears(2).toEpochSecond(ZoneOffset.UTC).toString()
+        )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.PLATFORM,
+            condition = QueryCondition.EQUAL,
+            rhs = platformString
+        )
+        join(QueryCondition.AND)
+        filterFullAndDlcGames()
+    }
+    sort = querySort {
+        field = QueryField.RATING
+        order = QuerySortOrder.DESC
+    }
+    limit = 20
+}
+
+val scienceFictionGames = gameQuery {
+    fields = queryFields {
+        field(QueryField.SLUG)
+        field(QueryField.NAME)
+        field(QueryField.COVER_IMAGE_ID)
+    }
+    condition = queryConditions {
+        addCondition(
+            lhs = QueryField.THEMES,
+            condition = QueryCondition.EQUAL,
+            rhs = "(${ThemeIds.SCIENCE_FICTION})"
+        )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.FIRST_RELEASE_DATE,
+            condition = QueryCondition.GREATER_THAN_EQUAL,
+            rhs = localDateTime.minusYears(2).toEpochSecond(ZoneOffset.UTC).toString()
+        )
+        join(QueryCondition.AND)
+        addCondition(
+            lhs = QueryField.PLATFORM,
+            condition = QueryCondition.EQUAL,
+            rhs = platformString
+        )
+        join(QueryCondition.AND)
+        filterFullAndDlcGames()
     }
     sort = querySort {
         field = QueryField.RATING

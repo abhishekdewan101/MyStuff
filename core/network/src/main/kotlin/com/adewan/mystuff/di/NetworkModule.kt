@@ -38,7 +38,9 @@ val networkModule = module {
                 )
                 register(ContentType.Application.ProtoBuf, ProtobufConverter())
             }
-            install(HttpCache)
+            if (!BuildConfig.DEBUG) {
+                install(HttpCache)
+            }
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {

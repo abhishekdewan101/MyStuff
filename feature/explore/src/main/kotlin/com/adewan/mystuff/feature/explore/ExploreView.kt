@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -65,13 +67,56 @@ internal fun ExploreResults(results: ExploreViewState.Results) {
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        FeaturedView(featured = results.featuredGames)
-        PosterGrid(modifier = Modifier.padding(top = 10.dp), gridGames = results.grid1)
+        FeaturedView(featured = results.featurePosters)
+        PosterGrid(gridGames = results.grid1)
+        PosterCarousel(carouselItems = results.grid2)
+        PosterGrid(gridGames = results.grid3)
+        PosterCarousel(carouselItems = results.grid4)
     }
 }
 
 @Composable
-internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, List<GridGame>>) {
+internal fun PosterCarousel(
+    modifier: Modifier = Modifier,
+    carouselItems: Pair<String, List<PosterItem>>
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = carouselItems.first,
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            )
+            TextButton(onClick = {}) {
+                Text(text = "See all")
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            items(carouselItems.second) {
+                AsyncImage(
+                    model = it.poster,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(125.dp)
+                        .height(175.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, List<PosterItem>>) {
     BoxWithConstraints {
         val width = maxWidth / 3
         Column(modifier = modifier.fillMaxWidth()) {
@@ -116,7 +161,7 @@ internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, L
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun FeaturedView(featured: List<FeaturedGames>) {
+internal fun FeaturedView(featured: List<FeaturedPosterItem>) {
     val pagerState = rememberPagerState()
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         HorizontalPager(count = featured.size, state = pagerState) {

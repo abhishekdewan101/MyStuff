@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
+import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
+import com.adewan.mystuff.core.models.games.openWorldGames
 import com.adewan.mystuff.core.models.games.posterUrl
+import com.adewan.mystuff.core.models.games.scienceFictionGames
 import com.adewan.mystuff.core.models.games.topRatedGamesForLast2Years
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +21,12 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
     init {
         viewModelScope.launch {
             _viewState.value = ExploreViewState.Loading
-            val featuredGames = async {
+            val featuredPosterItem = async {
                 repository.getGameListForQuery(
                     topRatedGamesForLast2Years.copy(limit = 9).buildQuery()
                 ).sortedByDescending { it.rating }
                     .map {
-                        FeaturedGames(
+                        FeaturedPosterItem(
                             poster = it.posterUrl(),
                             name = it.name,
                             slug = it.slug,
@@ -34,18 +37,45 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
                     }
             }
 
-            val gridGame1 = async {
+            val posterItems1 = async {
                 repository.getGameListForQuery(
                     gamesComingInTheNext6Months.copy(limit = 9).buildQuery()
-                ).sortedByDescending { it.hypes }
+                ).sortedByDescending { it.hypes }.map {
+                    PosterItem(slug = it.slug, poster = it.posterUrl())
+                }
+            }
+
+            val posterItems2 = async {
+                repository.getGameListForQuery(
+                    gamesReleasedInTheLast2Month.copy(limit = 9).buildQuery()
+                ).sortedByDescending { it.rating }.map {
+                    PosterItem(slug = it.slug, poster = it.posterUrl())
+                }
+            }
+
+            val posterItems3 = async {
+                repository.getGameListForQuery(
+                    openWorldGames.copy(limit = 9).buildQuery()
+                ).sortedByDescending { it.firstReleaseDate.seconds }.map {
+                    PosterItem(slug = it.slug, poster = it.posterUrl())
+                }
+            }
+
+            val posterItems4 = async {
+                repository.getGameListForQuery(scienceFictionGames.copy(limit = 9).buildQuery())
+                    .sortedByDescending { it.firstReleaseDate.seconds }
                     .map {
-                        GridGame(slug = it.slug, poster = it.posterUrl())
+                        PosterItem(slug = it.slug, poster = it.posterUrl())
                     }
             }
+
             _viewState.value =
                 ExploreViewState.Results(
-                    featuredGames = featuredGames.await(),
-                    grid1 = Pair("Coming soon", gridGame1.await())
+                    featurePosters = featuredPosterItem.await(),
+                    grid1 = Pair("Coming soon", posterItems1.await()),
+                    grid2 = Pair("Recently Released", posterItems2.await()),
+                    grid3 = Pair("Open World Games", posterItems3.await()),
+                    grid4 = Pair("Science Fiction Games", posterItems4.await())
                 )
         }
     }
@@ -54,14 +84,17 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
 sealed interface ExploreViewState {
     object Loading : ExploreViewState
     data class Results(
-        val featuredGames: List<FeaturedGames>,
-        val grid1: Pair<String, List<GridGame>>
+        val featurePosters: List<FeaturedPosterItem>,
+        val grid1: Pair<String, List<PosterItem>>,
+        val grid2: Pair<String, List<PosterItem>>,
+        val grid3: Pair<String, List<PosterItem>>,
+        val grid4: Pair<String, List<PosterItem>>
     ) : ExploreViewState
 }
 
-data class GridGame(val slug: String, val poster: String)
+data class PosterItem(val slug: String, val poster: String)
 
-data class FeaturedGames(
+data class FeaturedPosterItem(
     val slug: String,
     val poster: String,
     val rating: Double,
