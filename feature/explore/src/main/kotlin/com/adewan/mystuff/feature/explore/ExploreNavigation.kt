@@ -14,10 +14,14 @@ fun NavController.navigateToExploreView(navOptions: NavOptions) {
 
 fun NavGraphBuilder.exploreView(
     showBottomBar: (Boolean) -> Unit,
-    navigateToExpandedView: (ExpandedViewArgs) -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     composable(exploreRoute) {
         showBottomBar(true)
-        ExploreView(navigateToExpandedView = navigateToExpandedView)
+        ExploreView(
+            navigateToExpandedView = navigateToExpandedView,
+            navigateToDetailView = navigateToDetailView
+        )
     }
 }

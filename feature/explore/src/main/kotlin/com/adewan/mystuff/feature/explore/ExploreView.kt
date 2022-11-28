@@ -2,6 +2,7 @@ package com.adewan.mystuff.feature.explore
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -51,7 +52,8 @@ import org.koin.androidx.compose.getViewModel
 fun ExploreView(
     modifier: Modifier = Modifier,
     viewModel: ExploreViewModel = getViewModel(),
-    navigateToExpandedView: (ExpandedViewArgs) -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
@@ -68,7 +70,8 @@ fun ExploreView(
             ExploreViewState.Error -> ErrorView()
             is ExploreViewState.Results -> ExploreResults(
                 results = (viewState as ExploreViewState.Results),
-                navigateToExpandedView = navigateToExpandedView
+                navigateToExpandedView = navigateToExpandedView,
+                navigateToDetailView = navigateToDetailView
             )
         }
     }
@@ -98,28 +101,33 @@ internal fun ErrorView(modifier: Modifier = Modifier) {
 @Composable
 internal fun ExploreResults(
     results: ExploreViewState.Results,
-    navigateToExpandedView: (ExpandedViewArgs) -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        FeaturedView(featured = results.featurePosters)
+        FeaturedView(featured = results.featurePosters, navigateToDetailView = navigateToDetailView)
         PosterGrid(
             gridGames = results.grid1,
-            navigateToExpandedView = navigateToExpandedView
+            navigateToExpandedView = navigateToExpandedView,
+            navigateToDetailView = navigateToDetailView
         )
         PosterCarousel(
             carouselItems = results.grid2,
-            navigateToExpandedView = navigateToExpandedView
+            navigateToExpandedView = navigateToExpandedView,
+            navigateToDetailView = navigateToDetailView
         )
         PosterGrid(
             gridGames = results.grid3,
-            navigateToExpandedView = navigateToExpandedView
+            navigateToExpandedView = navigateToExpandedView,
+            navigateToDetailView = navigateToDetailView
         )
         PosterCarousel(
             carouselItems = results.grid4,
-            navigateToExpandedView = navigateToExpandedView
+            navigateToExpandedView = navigateToExpandedView,
+            navigateToDetailView = navigateToDetailView
         )
     }
 }
@@ -128,7 +136,8 @@ internal fun ExploreResults(
 internal fun PosterCarousel(
     modifier: Modifier = Modifier,
     carouselItems: PosterViewItem,
-    navigateToExpandedView: (ExpandedViewArgs) -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -166,6 +175,7 @@ internal fun PosterCarousel(
                         .height(175.dp)
                         .clip(RoundedCornerShape(4.dp))
                         .background(MaterialTheme.colorScheme.secondaryContainer)
+                        .clickable { navigateToDetailView(it.slug) }
                 )
             }
         }
@@ -176,7 +186,8 @@ internal fun PosterCarousel(
 internal fun PosterGrid(
     modifier: Modifier = Modifier,
     gridGames: PosterViewItem,
-    navigateToExpandedView: (ExpandedViewArgs) -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     BoxWithConstraints {
         val width = maxWidth / 3
@@ -218,6 +229,7 @@ internal fun PosterGrid(
                                     .height(height = max(width * 0.67f, 175.dp))
                                     .clip(RoundedCornerShape(4.dp))
                                     .background(MaterialTheme.colorScheme.secondaryContainer)
+                                    .clickable { navigateToDetailView(it.slug) }
                             )
                         }
                     }
@@ -229,12 +241,18 @@ internal fun PosterGrid(
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun FeaturedView(featured: List<FeaturedPosterItem>) {
+internal fun FeaturedView(
+    featured: List<FeaturedPosterItem>,
+    navigateToDetailView: (String) -> Unit
+) {
     val pagerState = rememberPagerState()
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         HorizontalPager(count = featured.size, state = pagerState) {
             val game = featured[it]
-            Card(modifier = Modifier.padding(horizontal = 10.dp), onClick = {}) {
+            Card(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                onClick = { navigateToDetailView(game.slug) }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
