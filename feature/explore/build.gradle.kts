@@ -11,7 +11,6 @@ dependencies {
     implementation(project(mapOf("path" to ":common:ux")))
     implementation(project(mapOf("path" to ":core:data")))
     implementation(project(mapOf("path" to ":core:models")))
-    implementation(project(mapOf("path" to ":feature:games")))
     with(libs.compose) {
         implementation(navigation)
     }
