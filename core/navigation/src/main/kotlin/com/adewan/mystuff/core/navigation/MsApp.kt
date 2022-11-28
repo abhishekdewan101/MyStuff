@@ -82,7 +82,10 @@ fun MsApp(modifier: Modifier = Modifier) {
                     navigateToExpandedView = { args -> navHostController.navigateToExpandedView(args = args) }
                 )
                 accountView(showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
-                expandedView(showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
+                expandedView(
+                    showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
+                    navigateBack = { navHostController.popBackStack() }
+                )
             }
         }
     }
