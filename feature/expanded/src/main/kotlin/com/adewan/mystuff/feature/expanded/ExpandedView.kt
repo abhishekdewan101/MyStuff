@@ -1,6 +1,7 @@
 package com.adewan.mystuff.feature.expanded
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -39,7 +40,8 @@ fun ExpandedView(
     modifier: Modifier = Modifier,
     viewModel: ExpandedViewModel = getViewModel(),
     args: ExpandedViewArgs,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
@@ -63,13 +65,16 @@ fun ExpandedView(
         when (viewState) {
             ExpandedViewState.Loading -> CenteredLoadingIndicator()
             ExpandedViewState.Error -> ErrorView(message = "Uh Oh! \n Something went wrong")
-            is ExpandedViewState.Results -> ExpandedList(data = (viewState as ExpandedViewState.Results))
+            is ExpandedViewState.Results -> ExpandedList(
+                data = (viewState as ExpandedViewState.Results),
+                navigateToDetailView = navigateToDetailView
+            )
         }
     }
 }
 
 @Composable
-internal fun ExpandedList(data: ExpandedViewState.Results) {
+internal fun ExpandedList(data: ExpandedViewState.Results, navigateToDetailView: (String) -> Unit) {
     BoxWithConstraints {
         val width = maxWidth / 3
         LazyVerticalGrid(
@@ -88,6 +93,7 @@ internal fun ExpandedList(data: ExpandedViewState.Results) {
                         .height(height = max(width * 0.67f, 175.dp))
                         .clip(RoundedCornerShape(4.dp))
                         .background(MaterialTheme.colorScheme.secondaryContainer)
+                        .clickable { navigateToDetailView(item.slug) }
                 )
             }
         }

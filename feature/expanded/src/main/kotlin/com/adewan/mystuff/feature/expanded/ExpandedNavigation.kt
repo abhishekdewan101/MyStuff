@@ -18,7 +18,11 @@ fun NavController.navigateToExpandedView(args: ExpandedViewArgs) {
     this.navigate(expandedRoute.replace("{args}", encodedUri))
 }
 
-fun NavGraphBuilder.expandedView(showBottomBar: (Boolean) -> Unit, navigateBack: () -> Unit) {
+fun NavGraphBuilder.expandedView(
+    showBottomBar: (Boolean) -> Unit,
+    navigateBack: () -> Unit,
+    navigateToDetailView: (String) -> Unit
+) {
     composable(
         expandedRoute,
         arguments = listOf(navArgument("args") { type = NavType.StringType })
@@ -27,6 +31,10 @@ fun NavGraphBuilder.expandedView(showBottomBar: (Boolean) -> Unit, navigateBack:
             ?: throw IllegalStateException("Cannot navigate to expanded view without valid args")
         val expandedViewArgs = Json.decodeFromString<ExpandedViewArgs>(args)
         showBottomBar(false)
-        ExpandedView(args = expandedViewArgs, navigateBack = navigateBack)
+        ExpandedView(
+            args = expandedViewArgs,
+            navigateBack = navigateBack,
+            navigateToDetailView = navigateToDetailView
+        )
     }
 }
