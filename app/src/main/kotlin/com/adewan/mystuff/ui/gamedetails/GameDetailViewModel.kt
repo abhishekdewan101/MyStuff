@@ -2,7 +2,7 @@ package com.adewan.mystuff.ui.gamedetails
 
 import androidx.lifecycle.ViewModel
 import com.adewan.mystuff.core.data.repositories.GameRepository
-import com.adewan.mystuff.core.models.games.gameDetailsQuery
+import com.adewan.mystuff.core.models.games.buildDetailsQuery
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import proto.Game
@@ -13,6 +13,6 @@ class GameDetailViewModel(private val gameRepository: GameRepository) : ViewMode
 
     suspend fun requestGameDetailForIdentifier(identifier: String) {
         _viewState.value =
-            gameRepository.getGameForQuery(gameDetailsQuery(identifier).buildQuery())
+            gameRepository.getGameForQuery(buildDetailsQuery(identifier).buildQuery())
     }
 }

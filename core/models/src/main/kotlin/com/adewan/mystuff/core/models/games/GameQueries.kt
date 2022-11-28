@@ -235,30 +235,28 @@ val scienceFictionGames = gameQuery {
     limit = 20
 }
 
-val gameDetailsQuery = { slug: String ->
-    gameQuery {
-        fields = queryFields {
-            field(QueryField.SLUG)
-            field(QueryField.NAME)
-            field(QueryField.TOTAL_RATING)
-            field(QueryField.TOTAL_RATING_COUNT)
-            field(QueryField.STORYLINE)
-            field(QueryField.THEMES_NAME)
-            field(QueryField.ARTWORKS_IMAGE_ID)
-            field(QueryField.SUMMARY)
-            field(QueryField.COVER_IMAGE_ID)
-            field(QueryField.GENRE_NAME)
-            field(QueryField.GENRE_SLUG)
-            field(QueryField.VIDEOS_ID)
-            field(QueryField.VIDEOS_NAME)
-            field(QueryField.SCREENSHOTS_ID)
-            field(QueryField.PLATFORM_LOGO_IMAGE_ID)
-            field(QueryField.SIMILAR_GAMES_SLUG)
-            field(QueryField.SIMILAR_GAMES_COVER_MAGE_ID)
-        }
+fun buildDetailsQuery(slug: String) = gameQuery {
+    fields = queryFields {
+        field(QueryField.SLUG)
+        field(QueryField.NAME)
+        field(QueryField.TOTAL_RATING)
+        field(QueryField.TOTAL_RATING_COUNT)
+        field(QueryField.STORYLINE)
+        field(QueryField.THEMES_NAME)
+        field(QueryField.ARTWORKS_IMAGE_ID)
+        field(QueryField.SUMMARY)
+        field(QueryField.COVER_IMAGE_ID)
+        field(QueryField.GENRE_NAME)
+        field(QueryField.GENRE_SLUG)
+        field(QueryField.VIDEOS_ID)
+        field(QueryField.VIDEOS_NAME)
+        field(QueryField.SCREENSHOTS_ID)
+        field(QueryField.PLATFORM_LOGO_IMAGE_ID)
+        field(QueryField.SIMILAR_GAMES_SLUG)
+        field(QueryField.SIMILAR_GAMES_COVER_MAGE_ID)
+    }
 
-        condition = queryConditions {
-            addCondition(lhs = QueryField.SLUG, condition = QueryCondition.EQUAL, rhs = "\"$slug\"")
-        }
+    condition = queryConditions {
+        addCondition(lhs = QueryField.SLUG, condition = QueryCondition.EQUAL, rhs = "\"$slug\"")
     }
 }

@@ -13,7 +13,7 @@ fun NavController.navigateToDetailsView(id: String) {
     this.navigate(detailsRoute.replace("{args}", Uri.encode(id)))
 }
 
-fun NavGraphBuilder.detailsView(showBottomBar: (Boolean) -> Unit) {
+fun NavGraphBuilder.detailsView(showBottomBar: (Boolean) -> Unit, navigateBack: () -> Unit) {
     composable(
         detailsRoute,
         arguments = listOf(navArgument("args") { type = NavType.StringType })
@@ -22,6 +22,6 @@ fun NavGraphBuilder.detailsView(showBottomBar: (Boolean) -> Unit) {
             ?: throw IllegalStateException("Cannot navigate to details view without a valid id")
         val id = Uri.decode(args)
         showBottomBar(false)
-        DetailsView(id = id)
+        DetailsView(id = id, navigateBack = navigateBack)
     }
 }

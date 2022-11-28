@@ -1,6 +1,5 @@
 package com.adewan.mystuff.feature.explore
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,14 +30,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import coil.compose.AsyncImage
 import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
+import com.adewan.mystuff.common.ux.ErrorView
 import com.adewan.mystuff.common.ux.RatingBar
 import com.adewan.mystuff.core.models.navigation.ExpandedViewArgs
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -67,34 +64,13 @@ fun ExploreView(
         )
         when (viewState) {
             ExploreViewState.Loading -> CenteredLoadingIndicator()
-            ExploreViewState.Error -> ErrorView()
+            ExploreViewState.Error -> ErrorView(message = "Uh Oh! \n Something went wrong")
             is ExploreViewState.Results -> ExploreResults(
                 results = (viewState as ExploreViewState.Results),
                 navigateToExpandedView = navigateToExpandedView,
                 navigateToDetailView = navigateToDetailView
             )
         }
-    }
-}
-
-@Composable
-internal fun ErrorView(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.error_illus),
-            contentDescription = "Library is empty",
-            modifier = Modifier.size(128.dp)
-        )
-        Text(
-            text = "Uh Oh! \n Something went wrong",
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 20.dp)
-        )
     }
 }
 
