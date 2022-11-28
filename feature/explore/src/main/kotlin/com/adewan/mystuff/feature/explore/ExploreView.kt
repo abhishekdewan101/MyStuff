@@ -47,7 +47,11 @@ import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun ExploreView(modifier: Modifier = Modifier, viewModel: ExploreViewModel = getViewModel()) {
+fun ExploreView(
+    modifier: Modifier = Modifier,
+    viewModel: ExploreViewModel = getViewModel(),
+    navigateToExpandedView: () -> Unit
+) {
     val viewState by viewModel.viewState.collectAsState()
 
     Column(
@@ -61,7 +65,10 @@ fun ExploreView(modifier: Modifier = Modifier, viewModel: ExploreViewModel = get
         when (viewState) {
             ExploreViewState.Loading -> CenteredLoadingIndicator()
             ExploreViewState.Error -> ErrorView()
-            is ExploreViewState.Results -> ExploreResults(results = (viewState as ExploreViewState.Results))
+            is ExploreViewState.Results -> ExploreResults(
+                results = (viewState as ExploreViewState.Results),
+                navigateToExpandedView = navigateToExpandedView
+            )
         }
     }
 }
@@ -88,23 +95,39 @@ internal fun ErrorView(modifier: Modifier = Modifier) {
 }
 
 @Composable
-internal fun ExploreResults(results: ExploreViewState.Results) {
+internal fun ExploreResults(results: ExploreViewState.Results, navigateToExpandedView: () -> Unit) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        FeaturedView(featured = results.featurePosters)
-        PosterGrid(gridGames = results.grid1)
-        PosterCarousel(carouselItems = results.grid2)
-        PosterGrid(gridGames = results.grid3)
-        PosterCarousel(carouselItems = results.grid4)
+        FeaturedView(
+            featured = results.featurePosters,
+            navigateToExpandedView = navigateToExpandedView
+        )
+        PosterGrid(
+            gridGames = results.grid1,
+            navigateToExpandedView = navigateToExpandedView
+        )
+        PosterCarousel(
+            carouselItems = results.grid2,
+            navigateToExpandedView = navigateToExpandedView
+        )
+        PosterGrid(
+            gridGames = results.grid3,
+            navigateToExpandedView = navigateToExpandedView
+        )
+        PosterCarousel(
+            carouselItems = results.grid4,
+            navigateToExpandedView = navigateToExpandedView
+        )
     }
 }
 
 @Composable
 internal fun PosterCarousel(
     modifier: Modifier = Modifier,
-    carouselItems: Pair<String, List<PosterItem>>
+    carouselItems: Pair<String, List<PosterItem>>,
+    navigateToExpandedView: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -116,7 +139,7 @@ internal fun PosterCarousel(
                 text = carouselItems.first,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
             )
-            TextButton(onClick = {}) {
+            TextButton(onClick = navigateToExpandedView) {
                 Text(text = "See all")
             }
         }
@@ -142,7 +165,11 @@ internal fun PosterCarousel(
 }
 
 @Composable
-internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, List<PosterItem>>) {
+internal fun PosterGrid(
+    modifier: Modifier = Modifier,
+    gridGames: Pair<String, List<PosterItem>>,
+    navigateToExpandedView: () -> Unit
+) {
     BoxWithConstraints {
         val width = maxWidth / 3
         Column(modifier = modifier.fillMaxWidth()) {
@@ -155,7 +182,7 @@ internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, L
                     text = gridGames.first,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
-                TextButton(onClick = {}) {
+                TextButton(onClick = navigateToExpandedView) {
                     Text(text = "See all")
                 }
             }
@@ -187,7 +214,10 @@ internal fun PosterGrid(modifier: Modifier = Modifier, gridGames: Pair<String, L
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun FeaturedView(featured: List<FeaturedPosterItem>) {
+internal fun FeaturedView(
+    featured: List<FeaturedPosterItem>,
+    navigateToExpandedView: () -> Unit // FIXME: We should potentially add a last element that allows the user to explore more perhaps?
+) {
     val pagerState = rememberPagerState()
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         HorizontalPager(count = featured.size, state = pagerState) {

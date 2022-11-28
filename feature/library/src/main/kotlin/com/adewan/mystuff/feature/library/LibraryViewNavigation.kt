@@ -12,11 +12,11 @@ fun NavController.navigateToLibraryView(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.libraryView(
-    updateBottomBar: (Boolean) -> Unit,
+    showBottomBar: (Boolean) -> Unit,
     navigateToAccountView: () -> Unit
 ) {
     composable(route = libraryRoute) {
-        updateBottomBar(true)
+        showBottomBar(true)
         LibraryView(navigateToAccountView = navigateToAccountView)
     }
 }

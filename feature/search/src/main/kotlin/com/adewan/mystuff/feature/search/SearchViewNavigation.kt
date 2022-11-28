@@ -11,9 +11,9 @@ fun NavController.navigateToSearchView(navOptions: NavOptions) {
     this.navigate(searchRoute, navOptions)
 }
 
-fun NavGraphBuilder.searchView(updateBottomBar: (Boolean) -> Unit) {
+fun NavGraphBuilder.searchView(showBottomBar: (Boolean) -> Unit) {
     composable(route = searchRoute) {
-        updateBottomBar(true)
+        showBottomBar(true)
         SearchView()
     }
 }

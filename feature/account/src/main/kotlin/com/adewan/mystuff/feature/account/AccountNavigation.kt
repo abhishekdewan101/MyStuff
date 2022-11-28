@@ -10,9 +10,9 @@ fun NavController.navigateToAccountView() {
     this.navigate(accountRoute)
 }
 
-fun NavGraphBuilder.accountView(updateBottomBar: (Boolean) -> Unit) {
+fun NavGraphBuilder.accountView(showBottomBar: (Boolean) -> Unit) {
     composable(route = accountRoute) {
-        updateBottomBar(false)
+        showBottomBar(false)
         AccountView()
     }
 }
