@@ -6,7 +6,7 @@ import com.adewan.mystuff.common.ux.ImageCarouselWithTitleData
 import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.model.TmdbListType
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
-import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
+import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast6Month
 import com.adewan.mystuff.core.models.games.mostHypedGamesForNext6Months
 import com.adewan.mystuff.core.models.games.topRatedGamesForLast2Years
 import com.adewan.mystuff.core.repository.TmdbRepository
@@ -208,7 +208,7 @@ class HomeViewModel(
             }
 
             val data4 = async {
-                gameRepository.getGameListForQuery(gamesReleasedInTheLast2Month.buildQuery()).run {
+                gameRepository.getGameListForQuery(gamesReleasedInTheLast6Month.buildQuery()).run {
                     ImageCarouselWithTitleData(
                         title = "Recently Released",
                         images = filter { it.hasCover() }.map { "https://images.igdb.com/igdb/image/upload/t_720p/${it.cover.imageId}.jpg" },

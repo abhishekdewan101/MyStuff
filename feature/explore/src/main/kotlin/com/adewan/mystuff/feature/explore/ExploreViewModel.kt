@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.models.games.GameQuery
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
-import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
+import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast6Month
 import com.adewan.mystuff.core.models.games.openWorldGames
 import com.adewan.mystuff.core.models.games.posterUrl
 import com.adewan.mystuff.core.models.games.scienceFictionGames
@@ -49,7 +49,7 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
 
                 val posterItems2 = async {
                     repository.getGameListForQuery(
-                        gamesReleasedInTheLast2Month.copy(limit = 9).buildQuery()
+                        gamesReleasedInTheLast6Month.copy(limit = 9).buildQuery()
                     ).sortedByDescending { it.rating }.map {
                         PosterItem(slug = it.slug, poster = it.posterUrl())
                     }
@@ -82,7 +82,7 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
                         grid2 = PosterViewItem(
                             "Recently Released",
                             posterItems2.await(),
-                            gamesReleasedInTheLast2Month
+                            gamesReleasedInTheLast6Month
                         ),
                         grid3 = PosterViewItem(
                             "Open World Games",

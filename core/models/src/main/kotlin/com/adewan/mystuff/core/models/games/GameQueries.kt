@@ -133,7 +133,7 @@ val gamesComingInTheNext6Months = gameQuery {
     limit = 20
 }
 
-val gamesReleasedInTheLast2Month = gameQuery {
+val gamesReleasedInTheLast6Month = gameQuery {
     fields = queryFields {
         field(QueryField.SLUG)
         field(QueryField.NAME)
@@ -143,7 +143,7 @@ val gamesReleasedInTheLast2Month = gameQuery {
         addCondition(
             lhs = QueryField.FIRST_RELEASE_DATE,
             condition = QueryCondition.GREATER_THAN_EQUAL,
-            rhs = localDateTime.minusMonths(2).toEpochSecond(ZoneOffset.UTC).toString()
+            rhs = localDateTime.minusMonths(6).toEpochSecond(ZoneOffset.UTC).toString()
         )
         join(QueryCondition.AND)
         addCondition(
