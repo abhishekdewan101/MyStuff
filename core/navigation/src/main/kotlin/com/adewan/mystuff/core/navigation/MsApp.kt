@@ -35,6 +35,8 @@ import androidx.navigation.navOptions
 import com.adewan.mystuff.common.ux.NoRippleInteractionSource
 import com.adewan.mystuff.feature.account.accountView
 import com.adewan.mystuff.feature.account.navigateToAccountView
+import com.adewan.mystuff.feature.details.detailsView
+import com.adewan.mystuff.feature.details.navigateToDetailsView
 import com.adewan.mystuff.feature.expanded.expandedView
 import com.adewan.mystuff.feature.expanded.navigateToExpandedView
 import com.adewan.mystuff.feature.explore.exploreRoute
@@ -72,7 +74,10 @@ fun MsApp(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize(),
                 startDestination = exploreRoute
             ) {
-                searchView(showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
+                searchView(
+                    showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
+                    navigateToDetailView = { id -> navHostController.navigateToDetailsView(id) }
+                )
                 libraryView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
                     navigateToAccountView = { navHostController.navigateToAccountView() }
@@ -85,6 +90,9 @@ fun MsApp(modifier: Modifier = Modifier) {
                 expandedView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
                     navigateBack = { navHostController.popBackStack() }
+                )
+                detailsView(
+                    showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar }
                 )
             }
         }

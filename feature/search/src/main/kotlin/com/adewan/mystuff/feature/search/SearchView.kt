@@ -26,7 +26,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,17 +52,22 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchView(modifier: Modifier = Modifier, viewModel: SearchViewModel = getViewModel()) {
+fun SearchView(
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = getViewModel(),
+    navigateToDetailView: (String) -> Unit
+) {
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
     val keyboard = LocalSoftwareKeyboardController.current
 
     val viewState by viewModel.viewState.collectAsState()
 
-    DisposableEffect(key1 = viewModel) {
-        onDispose {
-            viewModel.clearSearchResults()
-        }
-    }
+    // FIXME: This will clear the result even if we go to details. We would like to not clear when going into details but when moving tabs. find a way to do it.
+//    DisposableEffect(key1 = searchText) {
+//        onDispose {
+//            viewModel.clearSearchResults()
+//        }
+//    }
 
     Column(modifier = modifier.padding(horizontal = 10.dp)) {
         CenterAlignedTopAppBar(title = { Text(text = "Search", fontWeight = FontWeight.Bold) })
@@ -115,29 +119,36 @@ fun SearchView(modifier: Modifier = Modifier, viewModel: SearchViewModel = getVi
         when (viewState) {
             SearchViewState.Start -> StartSearch()
             SearchViewState.Loading -> CenteredLoadingIndicator()
-            is SearchViewState.Results -> SearchResults(results = (viewState as SearchViewState.Results).results)
+            is SearchViewState.Results -> SearchResults(
+                results = (viewState as SearchViewState.Results).results,
+                navigateToDetailView = navigateToDetailView
+            )
         }
     }
 }
 
 @Composable
-internal fun SearchResults(modifier: Modifier = Modifier, results: List<SearchResult>) {
+internal fun SearchResults(
+    modifier: Modifier = Modifier,
+    results: List<SearchResult>,
+    navigateToDetailView: (String) -> Unit
+) {
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(results) {
-            SearchResultItem(result = it)
+            SearchResultItem(result = it, navigateToDetailView = navigateToDetailView)
         }
     }
 }
 
 @Composable
-internal fun SearchResultItem(result: SearchResult) {
+internal fun SearchResultItem(result: SearchResult, navigateToDetailView: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { },
+            .clickable { navigateToDetailView(result.id) },
         verticalAlignment = Alignment.Top
     ) {
         AsyncImage(

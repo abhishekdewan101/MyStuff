@@ -28,6 +28,7 @@ include(":core:utils")
 
 include(":feature:explore")
 include(":feature:landing")
+include(":feature:details")
 include(":feature:expanded")
 include(":feature:di")
 include(":feature:search")

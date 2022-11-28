@@ -13,6 +13,7 @@ dependencies {
     implementation(project(mapOf("path" to ":feature:search")))
     implementation(project(mapOf("path" to ":feature:expanded")))
     implementation(project(mapOf("path" to ":feature:account")))
+    implementation(project(mapOf("path" to ":feature:details")))
     implementation(project(mapOf("path" to ":feature:library")))
     implementation(project(mapOf("path" to ":common:ux")))
     implementation(project(mapOf("path" to ":core:models")))
