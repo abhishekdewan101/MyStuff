@@ -1,6 +1,7 @@
 plugins {
     id("mystuff.android.library")
     id("mystuff.android.library.compose")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 android {
@@ -23,6 +24,11 @@ dependencies {
     with(libs.koin) {
         implementation(android)
         implementation(compose)
+    }
+
+    with(libs.kotlinx) {
+        implementation(serialization)
+        implementation(protobuf)
     }
 
     implementation(libs.coil)

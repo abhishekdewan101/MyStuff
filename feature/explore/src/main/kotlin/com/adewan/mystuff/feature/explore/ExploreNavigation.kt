@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.adewan.mystuff.core.models.navigation.ExpandedViewArgs
 
 const val exploreRoute = "explore_route"
 
@@ -13,7 +14,7 @@ fun NavController.navigateToExploreView(navOptions: NavOptions) {
 
 fun NavGraphBuilder.exploreView(
     showBottomBar: (Boolean) -> Unit,
-    navigateToExpandedView: () -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit
 ) {
     composable(exploreRoute) {
         showBottomBar(true)

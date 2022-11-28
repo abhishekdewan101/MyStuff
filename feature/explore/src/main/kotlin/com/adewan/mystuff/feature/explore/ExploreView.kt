@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.max
 import coil.compose.AsyncImage
 import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
 import com.adewan.mystuff.common.ux.RatingBar
+import com.adewan.mystuff.core.models.navigation.ExpandedViewArgs
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -50,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 fun ExploreView(
     modifier: Modifier = Modifier,
     viewModel: ExploreViewModel = getViewModel(),
-    navigateToExpandedView: () -> Unit
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
@@ -95,15 +96,15 @@ internal fun ErrorView(modifier: Modifier = Modifier) {
 }
 
 @Composable
-internal fun ExploreResults(results: ExploreViewState.Results, navigateToExpandedView: () -> Unit) {
+internal fun ExploreResults(
+    results: ExploreViewState.Results,
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit
+) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        FeaturedView(
-            featured = results.featurePosters,
-            navigateToExpandedView = navigateToExpandedView
-        )
+        FeaturedView(featured = results.featurePosters)
         PosterGrid(
             gridGames = results.grid1,
             navigateToExpandedView = navigateToExpandedView
@@ -126,8 +127,8 @@ internal fun ExploreResults(results: ExploreViewState.Results, navigateToExpande
 @Composable
 internal fun PosterCarousel(
     modifier: Modifier = Modifier,
-    carouselItems: Pair<String, List<PosterItem>>,
-    navigateToExpandedView: () -> Unit
+    carouselItems: PosterViewItem,
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -139,7 +140,14 @@ internal fun PosterCarousel(
                 text = carouselItems.first,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
             )
-            TextButton(onClick = navigateToExpandedView) {
+            TextButton(onClick = {
+                navigateToExpandedView(
+                    ExpandedViewArgs(
+                        title = carouselItems.first,
+                        query = carouselItems.third.copy(limit = 100).buildQuery()
+                    )
+                )
+            }) {
                 Text(text = "See all")
             }
         }
@@ -167,8 +175,8 @@ internal fun PosterCarousel(
 @Composable
 internal fun PosterGrid(
     modifier: Modifier = Modifier,
-    gridGames: Pair<String, List<PosterItem>>,
-    navigateToExpandedView: () -> Unit
+    gridGames: PosterViewItem,
+    navigateToExpandedView: (ExpandedViewArgs) -> Unit
 ) {
     BoxWithConstraints {
         val width = maxWidth / 3
@@ -182,7 +190,14 @@ internal fun PosterGrid(
                     text = gridGames.first,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
-                TextButton(onClick = navigateToExpandedView) {
+                TextButton(onClick = {
+                    navigateToExpandedView(
+                        ExpandedViewArgs(
+                            title = gridGames.first,
+                            query = gridGames.third.copy(limit = 100).buildQuery()
+                        )
+                    )
+                }) {
                     Text(text = "See all")
                 }
             }
@@ -214,10 +229,7 @@ internal fun PosterGrid(
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun FeaturedView(
-    featured: List<FeaturedPosterItem>,
-    navigateToExpandedView: () -> Unit // FIXME: We should potentially add a last element that allows the user to explore more perhaps?
-) {
+internal fun FeaturedView(featured: List<FeaturedPosterItem>) {
     val pagerState = rememberPagerState()
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         HorizontalPager(count = featured.size, state = pagerState) {

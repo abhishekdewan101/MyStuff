@@ -3,6 +3,7 @@ package com.adewan.mystuff.feature.explore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adewan.mystuff.core.data.repositories.GameRepository
+import com.adewan.mystuff.core.models.games.GameQuery
 import com.adewan.mystuff.core.models.games.gamesComingInTheNext6Months
 import com.adewan.mystuff.core.models.games.gamesReleasedInTheLast2Month
 import com.adewan.mystuff.core.models.games.openWorldGames
@@ -73,10 +74,26 @@ class ExploreViewModel(private val repository: GameRepository) : ViewModel() {
                 _viewState.value =
                     ExploreViewState.Results(
                         featurePosters = featuredPosterItem.await(),
-                        grid1 = Pair("Coming soon", posterItems1.await()),
-                        grid2 = Pair("Recently Released", posterItems2.await()),
-                        grid3 = Pair("Open World Games", posterItems3.await()),
-                        grid4 = Pair("Science Fiction Games", posterItems4.await())
+                        grid1 = PosterViewItem(
+                            "Coming soon",
+                            posterItems1.await(),
+                            gamesComingInTheNext6Months
+                        ),
+                        grid2 = PosterViewItem(
+                            "Recently Released",
+                            posterItems2.await(),
+                            gamesReleasedInTheLast2Month
+                        ),
+                        grid3 = PosterViewItem(
+                            "Open World Games",
+                            posterItems3.await(),
+                            openWorldGames
+                        ),
+                        grid4 = PosterViewItem(
+                            "Science Fiction Games",
+                            posterItems4.await(),
+                            scienceFictionGames
+                        )
                     )
             } catch (e: Exception) {
                 _viewState.value = ExploreViewState.Error
@@ -90,14 +107,16 @@ sealed interface ExploreViewState {
     object Error : ExploreViewState
     data class Results(
         val featurePosters: List<FeaturedPosterItem>,
-        val grid1: Pair<String, List<PosterItem>>,
-        val grid2: Pair<String, List<PosterItem>>,
-        val grid3: Pair<String, List<PosterItem>>,
-        val grid4: Pair<String, List<PosterItem>>
+        val grid1: PosterViewItem,
+        val grid2: PosterViewItem,
+        val grid3: PosterViewItem,
+        val grid4: PosterViewItem
     ) : ExploreViewState
 }
 
 data class PosterItem(val slug: String, val poster: String)
+
+data class PosterViewItem(val first: String, val second: List<PosterItem>, val third: GameQuery)
 
 data class FeaturedPosterItem(
     val slug: String,

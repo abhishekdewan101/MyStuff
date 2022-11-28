@@ -78,8 +78,9 @@ fun MsApp(modifier: Modifier = Modifier) {
                     navigateToAccountView = { navHostController.navigateToAccountView() }
                 )
                 exploreView(
-                    showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar }
-                ) { navHostController.navigateToExpandedView() }
+                    showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
+                    navigateToExpandedView = { args -> navHostController.navigateToExpandedView(args = args) }
+                )
                 accountView(showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
                 expandedView(showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar })
             }
