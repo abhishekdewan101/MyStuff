@@ -9,6 +9,6 @@ the future. It can offer up recommenedations when you need them (WIP) so you don
 brain cycles trying to figure out what to do next.
 
 
-#Demo (WIP)
+# Demo (WIP)
 
 [![](https://img.youtube.com/vi/Wajmf82ugIs/0.jpg)](https://www.youtube.com/watch?v=Wajmf82ugIs)
