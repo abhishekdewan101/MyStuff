@@ -1,6 +1,7 @@
 package com.adewan.mystuff.feature.details
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +44,7 @@ import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
 import proto.Artwork
 import proto.Game
+import proto.Screenshot
 
 @Composable
 fun DetailsView(
@@ -74,13 +79,22 @@ internal fun Details(game: Game, navigateBack: () -> Unit) {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            FeaturedView(featured = game.artworksList.map { art -> art.imageUrl() })
-            Text(
-                text = game.summary,
-                style = MaterialTheme.typography.bodyLarge
-            )
+            FeaturedView(featured = (game.artworksList.map { art -> art.imageUrl() } + game.screenshotsList.map { screenshot -> screenshot.imageUrl() }))
+            ExpandableSummary(summary = game.summary)
         }
     }
+}
+
+@Composable
+internal fun ExpandableSummary(summary: String) {
+    var expanded by remember { mutableStateOf(false) }
+    Text(
+        text = summary,
+        style = MaterialTheme.typography.bodyLarge,
+        maxLines = if (expanded) 100 else 5,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.clickable { expanded = !expanded }
+    )
 }
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
@@ -132,6 +146,9 @@ internal fun DetailsTopBar(title: String, navigateBack: () -> Unit) {
         }
     )
 }
+
+private fun Screenshot.imageUrl(): String =
+    "https://images.igdb.com/igdb/image/upload/t_1080p/$imageId.jpg"
 
 private fun Artwork.imageUrl(): String =
     "https://images.igdb.com/igdb/image/upload/t_1080p/$imageId.jpg"
