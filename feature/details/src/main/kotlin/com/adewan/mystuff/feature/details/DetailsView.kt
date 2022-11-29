@@ -8,9 +8,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -50,10 +52,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adewan.mystuff.common.ux.CenteredLoadingIndicator
 import com.adewan.mystuff.common.ux.ErrorView
+import com.adewan.mystuff.common.ux.RatingBar
 import com.adewan.mystuff.common.ux.VideoPreview
 import com.adewan.mystuff.core.models.games.buildYoutubeScreenshotUrl
 import com.adewan.mystuff.core.models.games.buildYoutubeUrl
 import com.adewan.mystuff.core.models.games.imageUrl
+import com.adewan.mystuff.core.models.games.posterUrl
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -72,7 +76,8 @@ fun DetailsView(
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = getViewModel(),
     id: String,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToDetailView: (String) -> Unit
 ) {
     LaunchedEffect(key1 = viewModel) {
         viewModel.loadDetails(id)
@@ -84,14 +89,15 @@ fun DetailsView(
         DetailsViewState.Error -> ErrorView(message = "Uh Oh! \n Something went wrong")
         is DetailsViewState.Result -> Details(
             game = (viewState as DetailsViewState.Result).data,
-            navigateBack = navigateBack
+            navigateBack = navigateBack,
+            navigateToDetailView = navigateToDetailView
         )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun Details(game: Game, navigateBack: () -> Unit) {
+internal fun Details(game: Game, navigateBack: () -> Unit, navigateToDetailView: (String) -> Unit) {
     Scaffold(topBar = { DetailsTopBar(title = game.name, navigateBack = navigateBack) }) {
         Column(
             modifier = Modifier
@@ -104,13 +110,75 @@ internal fun Details(game: Game, navigateBack: () -> Unit) {
             MetadataBlock(game = game)
             ExpandableSummary(summary = game.summary)
             Trailers(trailers = game.videosList)
+            SimilarGames(games = game.similarGamesList, navigateToDetailView = navigateToDetailView)
+            Spacer(modifier = Modifier.height(15.dp))
         }
     }
 }
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun Trailers(trailers: List<GameVideo>) {
+internal fun SimilarGames(games: List<Game>, navigateToDetailView: (String) -> Unit) {
+    val pagerState = rememberPagerState()
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Text(
+            text = "Recommendations",
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+        )
+        HorizontalPager(count = games.size, state = pagerState) {
+            val game = games[it]
+            Card(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                onClick = { navigateToDetailView(game.slug) }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 20.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    AsyncImage(
+                        model = game.posterUrl(),
+                        contentDescription = game.name,
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(150.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer),
+                        contentScale = ContentScale.Crop
+                    )
+                    Column(
+                        modifier = Modifier.padding(start = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Text(
+                            text = game.name,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        RatingBar(
+                            rating = game.totalRating,
+                            maxRating = 100.0,
+                            iconTint = MaterialTheme.colorScheme.onSecondaryContainer,
+                            iconSize = 24.dp
+                        )
+                        Text(
+                            text = game.summary,
+                            style = MaterialTheme.typography.titleSmall,
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
+@Composable
+internal fun Trailers(trailers: List<GameVideo>) {
     val context = LocalContext.current
     val pagerState = rememberPagerState()
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -211,10 +279,14 @@ internal fun GameModeMetadata(modifier: Modifier = Modifier, mode: GameMode) {
 
 @Composable
 internal fun ReleaseMetadata(modifier: Modifier, releaseDate: Long) {
-    val timeToRelease = Instant.now().until(Instant.ofEpochSecond(releaseDate), ChronoUnit.DAYS)
+    val timeToRelease =
+        Instant.now().until(Instant.ofEpochSecond(releaseDate), ChronoUnit.DAYS)
     val dateOfRelease =
         DateTimeFormatter.ofPattern("MM/dd/yyyy")
-            .format(Instant.ofEpochSecond(releaseDate).atZone(ZoneId.systemDefault()).toLocalDate())
+            .format(
+                Instant.ofEpochSecond(releaseDate).atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+            )
 
     Column(
         modifier = modifier,

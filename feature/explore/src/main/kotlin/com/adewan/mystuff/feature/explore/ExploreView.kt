@@ -256,8 +256,8 @@ internal fun FeaturedView(
                             overflow = TextOverflow.Ellipsis
                         )
                         RatingBar(
-                            rating = game.rating,
-                            maxRating = game.totalRating,
+                            rating = game.totalRating,
+                            maxRating = 100.0,
                             iconTint = MaterialTheme.colorScheme.onSecondaryContainer,
                             iconSize = 24.dp
                         )

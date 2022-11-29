@@ -255,6 +255,11 @@ fun buildDetailsQuery(slug: String) = gameQuery {
         field(QueryField.SCREENSHOTS_ID)
         field(QueryField.PLATFORM_LOGO_IMAGE_ID)
         field(QueryField.SIMILAR_GAMES_SLUG)
+        field(QueryField.SIMILAR_GAMES_NAME)
+        field(QueryField.SIMILAR_GAMES_TOTAL_RATING_COUNT)
+        field(QueryField.SIMILAR_GAMES_TOTAL_RATING)
+        field(QueryField.SIMILAR_GAMES_SUMMARY)
+        field(QueryField.SIMILAR_GAMES_NAME)
         field(QueryField.SIMILAR_GAMES_COVER_MAGE_ID)
     }
 

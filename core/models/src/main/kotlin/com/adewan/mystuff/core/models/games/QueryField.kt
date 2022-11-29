@@ -25,5 +25,9 @@ enum class QueryField(val fieldName: String) {
     SCREENSHOTS_ID("screenshots.image_id"),
     PLATFORM_LOGO_IMAGE_ID("platforms.platform_logo.image_id"),
     SIMILAR_GAMES_SLUG("similar_games.slug"),
+    SIMILAR_GAMES_NAME("similar_games.name"),
+    SIMILAR_GAMES_TOTAL_RATING("similar_games.total_rating"),
+    SIMILAR_GAMES_TOTAL_RATING_COUNT("similar_games.total_rating_count"),
+    SIMILAR_GAMES_SUMMARY("similar_games.summary"),
     SIMILAR_GAMES_COVER_MAGE_ID("similar_games.cover.image_id")
 }

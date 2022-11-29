@@ -95,7 +95,8 @@ fun MsApp(modifier: Modifier = Modifier) {
                 )
                 detailsView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
-                    navigateBack = { navHostController.popBackStack() }
+                    navigateBack = { navHostController.popBackStack() },
+                    navigateToDetailView = { id -> navHostController.navigateToDetailsView(id) }
                 )
             }
         }
