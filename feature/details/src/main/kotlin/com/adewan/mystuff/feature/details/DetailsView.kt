@@ -14,6 +14,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Splitscreen
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -47,6 +51,7 @@ import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
 import proto.Artwork
 import proto.Game
+import proto.GameMode
 import proto.Screenshot
 import java.time.Instant
 import java.time.ZoneId
@@ -84,7 +89,7 @@ internal fun Details(game: Game, navigateBack: () -> Unit) {
                 .padding(it)
                 .padding(horizontal = 10.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             FeaturedView(featured = (game.artworksList.map { art -> art.imageUrl() } + game.screenshotsList.map { screenshot -> screenshot.imageUrl() }))
             MetadataBlock(game = game)
@@ -94,20 +99,58 @@ internal fun Details(game: Game, navigateBack: () -> Unit) {
 }
 
 @Composable
-internal fun MetadataBlock(game: Game) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+internal fun MetadataBlock(modifier: Modifier = Modifier, game: Game) {
+    Row(modifier = modifier.fillMaxWidth()) {
         RatingMetadata(
             modifier = Modifier
                 .weight(0.3f)
-                .padding(10.dp),
+                .padding(5.dp),
             rating = game.totalRating.toInt(),
             totalRatingCount = game.totalRatingCount
         )
         ReleaseMetadata(
             modifier = Modifier
                 .weight(0.3f)
-                .padding(10.dp),
+                .padding(5.dp),
             releaseDate = game.firstReleaseDate.seconds
+        )
+        GameModeMetadata(
+            modifier = Modifier
+                .weight(0.3f)
+                .padding(5.dp),
+            mode = game.gameModesList.first()
+        )
+    }
+}
+
+@Composable
+internal fun GameModeMetadata(modifier: Modifier = Modifier, mode: GameMode) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            val icon = when (mode.id.toInt()) {
+                1 -> Icons.Default.Person
+                2 -> Icons.Default.Group
+                3 -> Icons.Default.Group
+                4 -> Icons.Default.Splitscreen
+                else -> Icons.Default.Public
+            }
+            Icon(
+                imageVector = icon,
+                contentDescription = "",
+                modifier = Modifier.padding(end = 5.dp)
+            )
+        }
+        Text(
+            text = mode.name,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 5.dp)
         )
     }
 }

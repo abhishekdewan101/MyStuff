@@ -10,6 +10,7 @@ enum class QueryField(val fieldName: String) {
     TOTAL_RATING("total_rating"),
     TOTAL_RATING_COUNT("total_rating_count"),
     GENRE("genres"),
+    GAME_MODES_NAME("game_modes.name"),
     GENRE_NAME("genres.name"),
     GENRE_SLUG("genres.slug"),
     STORYLINE("storyline"),

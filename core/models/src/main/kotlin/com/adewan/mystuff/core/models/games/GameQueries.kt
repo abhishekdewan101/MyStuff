@@ -248,6 +248,7 @@ fun buildDetailsQuery(slug: String) = gameQuery {
         field(QueryField.COVER_IMAGE_ID)
         field(QueryField.GENRE_NAME)
         field(QueryField.FIRST_RELEASE_DATE)
+        field(QueryField.GAME_MODES_NAME)
         field(QueryField.GENRE_SLUG)
         field(QueryField.VIDEOS_ID)
         field(QueryField.VIDEOS_NAME)
