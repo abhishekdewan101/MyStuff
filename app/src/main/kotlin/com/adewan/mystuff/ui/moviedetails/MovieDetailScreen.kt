@@ -38,14 +38,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.adewan.mystuff.common.ux.VideoPreview
 import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.FlowableTextChipRow
 import com.adewan.mystuff.ui.composables.GradientScrimContainer
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.composables.TitledTextBlock
-import com.adewan.mystuff.ui.composables.VideoPreview
 import com.adewan.mystuff.ui.navigation.NavigationDirector
-import com.adewan.mystuff.ui.utils.buildYoutubeIntent
 import com.adewan.mystuff.ui.utils.buildYoutubeScreenshotUrl
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -174,20 +173,18 @@ fun MovieDetailScreen(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         items(viewState!!.videoList.results) {
-                            VideoPreview(previewImage = {
-                                AsyncImage(
-                                    modifier = Modifier
-                                        .size(width = maxWidth - 40.dp, height = 200.dp),
-                                    model = it.buildYoutubeScreenshotUrl(),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Crop,
-                                )
-                            }, title = it.name,) {
-                                navigationDirector.navigateToExternalIntent(
-                                    it.buildYoutubeIntent(),
-                                    context,
-                                )
-                            }
+                            VideoPreview(
+                                previewImage = {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .size(width = maxWidth - 40.dp, height = 200.dp),
+                                        model = it.buildYoutubeScreenshotUrl(),
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop,
+                                    )
+                                },
+                                title = it.name,
+                            )
                         }
                     }
                 }

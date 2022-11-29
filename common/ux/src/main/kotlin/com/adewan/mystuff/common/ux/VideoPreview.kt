@@ -1,15 +1,11 @@
-package com.adewan.mystuff.ui.composables
+package com.adewan.mystuff.common.ux
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircleFilled
@@ -21,23 +17,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.adewan.mystuff.R
 
 @Composable
 fun VideoPreview(
     modifier: Modifier = Modifier,
     previewImage: @Composable () -> Unit,
-    title: String,
-    onClick: () -> Unit,
+    title: String
 ) {
     Column(
-        modifier = modifier.clickable(onClick = onClick),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box {
             previewImage()
@@ -46,7 +37,7 @@ fun VideoPreview(
                     .size(20.dp)
                     .align(Alignment.Center)
                     .clip(CircleShape)
-                    .background(Color.Black.copy(alpha = 0.5f)),
+                    .background(Color.Black.copy(alpha = 0.5f))
             )
             Icon(
                 Icons.Default.PlayCircleFilled,
@@ -54,32 +45,15 @@ fun VideoPreview(
                 modifier = Modifier
                     .size(64.dp)
                     .align(Alignment.Center),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.primary
             )
         }
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyLarge,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .padding(top = 5.dp)
-                .width(200.dp),
+            modifier = Modifier.padding(top = 10.dp)
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewVideoPreview() {
-    VideoPreview(previewImage = {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-        )
-    }, title = "Test Title",) {}
 }

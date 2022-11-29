@@ -42,15 +42,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.adewan.mystuff.common.ux.VideoPreview
 import com.adewan.mystuff.ui.composables.AnimatedImagePager
 import com.adewan.mystuff.ui.composables.CenteredLoadingIndicator
 import com.adewan.mystuff.ui.composables.FlowableTextChipRow
 import com.adewan.mystuff.ui.composables.GradientScrimContainer
 import com.adewan.mystuff.ui.composables.RatingBar
 import com.adewan.mystuff.ui.composables.TitledTextBlock
-import com.adewan.mystuff.ui.composables.VideoPreview
 import com.adewan.mystuff.ui.navigation.NavigationDirector
-import com.adewan.mystuff.ui.utils.buildYoutubeIntent
 import com.adewan.mystuff.ui.utils.buildYoutubeScreenshotUrl
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -188,12 +187,7 @@ fun GameDetailScreen(
                                     )
                                 },
                                 title = it.name,
-                            ) {
-                                navigationDirector.navigateToExternalIntent(
-                                    it.buildYoutubeIntent(),
-                                    context,
-                                )
-                            }
+                            )
                         }
                     }
                 }
