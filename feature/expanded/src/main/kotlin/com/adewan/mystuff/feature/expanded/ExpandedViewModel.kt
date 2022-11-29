@@ -20,7 +20,7 @@ class ExpandedViewModel(private val repository: GameRepository) : ViewModel() {
             try {
                 val result = async {
                     repository.getGameListForQuery(args.query)
-                        .sortedByDescending { it.firstReleaseDate.nanos }
+                        .sortedBy { it.firstReleaseDate.seconds }
                         .map {
                             PosterItem(slug = it.slug, poster = it.posterUrl())
                         }

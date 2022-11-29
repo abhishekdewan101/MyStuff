@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +48,10 @@ import org.koin.androidx.compose.getViewModel
 import proto.Artwork
 import proto.Game
 import proto.Screenshot
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 @Composable
 fun DetailsView(
@@ -80,7 +87,106 @@ internal fun Details(game: Game, navigateBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             FeaturedView(featured = (game.artworksList.map { art -> art.imageUrl() } + game.screenshotsList.map { screenshot -> screenshot.imageUrl() }))
+            MetadataBlock(game = game)
             ExpandableSummary(summary = game.summary)
+        }
+    }
+}
+
+@Composable
+internal fun MetadataBlock(game: Game) {
+    Row(modifier = Modifier.fillMaxWidth()) {
+        RatingMetadata(
+            modifier = Modifier
+                .weight(0.3f)
+                .padding(10.dp),
+            rating = game.totalRating.toInt(),
+            totalRatingCount = game.totalRatingCount
+        )
+        ReleaseMetadata(
+            modifier = Modifier
+                .weight(0.3f)
+                .padding(10.dp),
+            releaseDate = game.firstReleaseDate.seconds
+        )
+    }
+}
+
+@Composable
+internal fun ReleaseMetadata(modifier: Modifier, releaseDate: Long) {
+    val timeToRelease = Instant.now().until(Instant.ofEpochSecond(releaseDate), ChronoUnit.DAYS)
+    val dateOfRelease =
+        DateTimeFormatter.ofPattern("MM/dd/yyyy")
+            .format(Instant.ofEpochSecond(releaseDate).atZone(ZoneId.systemDefault()).toLocalDate())
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Event,
+                contentDescription = "",
+                modifier = Modifier.padding(end = 5.dp)
+            )
+            val releaseText = if (timeToRelease > 0) {
+                "$timeToRelease days"
+            } else {
+                "Released"
+            }
+            Text(
+                text = releaseText,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+        Text(
+            text = dateOfRelease,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 5.dp)
+        )
+    }
+}
+
+@Composable
+internal fun RatingMetadata(
+    modifier: Modifier = Modifier,
+    rating: Int,
+    totalRatingCount: Int
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = "",
+                modifier = Modifier.padding(end = 5.dp)
+            )
+            val ratingText = if (rating == 0) {
+                "TBD"
+            } else {
+                "$rating"
+            }
+            Text(
+                text = ratingText,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+        if (rating != 0) {
+            Text(
+                text = "out of $totalRatingCount reviews",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 5.dp)
+            )
         }
     }
 }
