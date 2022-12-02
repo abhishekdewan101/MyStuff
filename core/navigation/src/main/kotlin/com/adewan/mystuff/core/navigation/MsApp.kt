@@ -72,7 +72,7 @@ fun MsApp(modifier: Modifier = Modifier) {
             NavHost(
                 navController = navHostController,
                 modifier = Modifier.fillMaxSize(),
-                startDestination = exploreRoute
+                startDestination = libraryRoute
             ) {
                 searchView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
