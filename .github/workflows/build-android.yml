@@ -30,6 +30,8 @@ jobs:
      with:
        fileName: "local.properties"
        encodedString: ${{ secrets.IDS }}
+   - name: Echo
+     run : cat local.properties
   
    - name: Build App 
      run: bundle exec fastlane android build
