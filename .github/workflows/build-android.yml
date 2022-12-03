@@ -32,7 +32,7 @@ jobs:
        encodedString: ${{ secrets.IDS }}
    
    - name: Echo
-     run : mv ${{steps.local_properties.filePath}} local.properties & ls
+     run : mv ${{steps.local_properties.filePath}} . & ls
   
    - name: Build App 
      run: bundle exec fastlane android build
