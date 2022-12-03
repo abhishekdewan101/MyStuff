@@ -31,8 +31,8 @@ jobs:
        fileName: "local.properties"
        encodedString: ${{ secrets.IDS }}
    
-   - name: Echo
-     run : mv ${{steps.local_properties.outputs.filePath}} ./local.properties & ls
+   - name: Copy local.properties
+     run : mv ${{steps.local_properties.outputs.filePath}} ./local.properties
   
    - name: Build App 
      run: bundle exec fastlane android build
@@ -42,4 +42,4 @@ jobs:
      with:
        name: assets
        path: |
-         ${{ github.workspace }}/app/build/outputs/bundle/release
+         ${{ github.workspace }}/app/build/outputs/apk/release
