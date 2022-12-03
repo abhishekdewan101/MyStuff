@@ -38,3 +38,4 @@ feature/details/build
 feature/splash/build
 pc-api-9147384264830807685-413-ab8f80c7154f.json
 serviceAccount.json
+fastlane/report.xml
