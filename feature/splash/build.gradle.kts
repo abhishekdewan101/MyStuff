@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.adewan.mystuff.feature.landing"
+    namespace = "com.adewan.mystuff.feature.splash"
 }
 
 dependencies {

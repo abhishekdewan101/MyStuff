@@ -9,6 +9,7 @@
       <module name="MyStuff.core.utils.test" target="11" />
       <module name="MyStuff.feature.games" target="11" />
       <module name="MyStuff.feature.gameslist" target="11" />
+      <module name="MyStuff.feature.landing" target="11" />
       <module name="MyStuff.mygames" target="11" />
     </bytecodeTargetLevel>
   </component>

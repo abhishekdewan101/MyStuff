@@ -48,11 +48,13 @@ import com.adewan.mystuff.feature.library.navigateToLibraryView
 import com.adewan.mystuff.feature.search.navigateToSearchView
 import com.adewan.mystuff.feature.search.searchRoute
 import com.adewan.mystuff.feature.search.searchView
+import com.adewan.mystuff.feature.splash.splashRoute
+import com.adewan.mystuff.feature.splash.splashView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MsApp(modifier: Modifier = Modifier) {
-    var bottomBarPresent by remember { mutableStateOf(true) }
+fun MsApp(modifier: Modifier = Modifier, userOnBoarded: Boolean) {
+    var bottomBarPresent by remember { mutableStateOf(false) }
     val navHostController = rememberNavController()
 
     Scaffold(
@@ -72,8 +74,20 @@ fun MsApp(modifier: Modifier = Modifier) {
             NavHost(
                 navController = navHostController,
                 modifier = Modifier.fillMaxSize(),
-                startDestination = libraryRoute
+                startDestination = if (userOnBoarded) libraryRoute else splashRoute
             ) {
+                splashView(
+                    showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
+                    navigateToLibrary = {
+                        navHostController.navigateToLibraryView(
+                            navOptions {
+                                popUpTo(splashRoute) {
+                                    inclusive = true
+                                }
+                            }
+                        )
+                    }
+                )
                 searchView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
                     navigateToDetailView = { id -> navHostController.navigateToDetailsView(id) }

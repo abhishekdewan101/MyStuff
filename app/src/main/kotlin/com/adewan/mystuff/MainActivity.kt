@@ -4,11 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import com.adewan.mystuff.common.theme.MyStuffTheme
 import com.adewan.mystuff.common.ux.ThemedContainer
 import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
+import com.adewan.mystuff.core.data.repositories.OnBoardingRepository
 import com.adewan.mystuff.core.navigation.MsApp
 import org.koin.androidx.compose.get
 
@@ -19,14 +18,12 @@ class MainActivity : ComponentActivity() {
             MyStuffTheme {
                 ThemedContainer {
                     val repository: AuthenticationRepository = get()
-                    val authState = remember { mutableStateOf(false) }
-                    LaunchedEffect(key1 = repository) {
-                        repository.getAndSaveAuthenticationToken()
-                        authState.value = true
+                    val onBoardingRepository: OnBoardingRepository = get()
+
+                    LaunchedEffect(key1 = Unit) {
+                        if (!repository.isUserAuthenticated()) repository.getAndSaveAuthenticationToken()
                     }
-                    if (authState.value) {
-                        MsApp()
-                    }
+                    MsApp(userOnBoarded = onBoardingRepository.hasUserOnBoarded())
                 }
             }
         }

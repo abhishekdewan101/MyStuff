@@ -41,9 +41,9 @@
             <option value="$PROJECT_DIR$/feature/di" />
             <option value="$PROJECT_DIR$/feature/expanded" />
             <option value="$PROJECT_DIR$/feature/explore" />
-            <option value="$PROJECT_DIR$/feature/landing" />
             <option value="$PROJECT_DIR$/feature/library" />
             <option value="$PROJECT_DIR$/feature/search" />
+            <option value="$PROJECT_DIR$/feature/splash" />
           </set>
         </option>
       </GradleProjectSettings>
