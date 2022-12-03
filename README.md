@@ -1,4 +1,4 @@
-# MyStuff
+# MyStuff [![Android Build & Deploy](https://github.com/abhishekdewan101/MyStuff/actions/workflows/build-android.yml/badge.svg?branch=main)](https://github.com/abhishekdewan101/MyStuff/actions/workflows/build-android.yml)
 
 Have you ever had to sit in-front of the tv and figure out what you'd like to play next or finish a
 game and try to figure out which one to play next or keep a track of what games you'd like to buy.
