@@ -24,18 +24,12 @@ jobs:
        fileName: "serviceAccount.json"
        encodedString: ${{ secrets.PLAY_CONSOLE_KEYS }}
        
-   - name: List Files
-     run: ls
-       
-   - name: Get Client Id
-     env:
-       MOCK_USERNAME: ${{ secrets.CLIENT_ID }}
-     run: echo clientId="$CLIENT_ID" > ./local.properties
-
-   - name: Get TMDB Client Id
-     env:
-       MOCK_USERNAME: ${{ secrets.TMDB_CLIENT_ID }}
-     run: echo tmdbClientId="$TMDB_CLIENT_ID" > ./local.properties
+   - name: Decode IDS
+     uses: timheuer/base64-to-file@v1
+     id: local.properties
+     with:
+       fileName: "local.properties"
+       encodedString: ${{ secrets.IDS }}
   
    - name: Build App 
      run: bundle exec fastlane android build
