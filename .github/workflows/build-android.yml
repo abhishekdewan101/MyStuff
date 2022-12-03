@@ -1,4 +1,4 @@
-name: Android Build & Deploy
+name: Android Build
  
 on:
  push:
@@ -17,15 +17,25 @@ jobs:
        ruby-version: 2.7.2
        bundler-cache: true
  
-   - name: Run tests
-     run: bundle exec fastlane android build
- 
    - name: Decode Service Account Key JSON File
      uses: timheuer/base64-to-file@v1
      id: service_account_json_file
      with:
        fileName: "serviceAccount.json"
        encodedString: ${{ secrets.PLAY_CONSOLE_KEYS }}
+
+  - name: Get Client Id
+    env:
+      MOCK_USERNAME: ${{ secrets.CLIENT_ID }}
+    run: echo clientId="$CLIENT_ID" > ./local.properties
+
+  - name: Get TMDB Client Id
+    env:
+      MOCK_USERNAME: ${{ secrets.TMDB_CLIENT_ID }}
+    run: echo tmdbClientId="$TMDB_CLIENT_ID" > ./local.properties
+  
+  - name: Build App 
+     run: bundle exec fastlane android build
  
    - name: Upload build artifacts
      uses: actions/upload-artifact@v2
