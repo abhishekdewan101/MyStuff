@@ -24,6 +24,9 @@ jobs:
        fileName: "serviceAccount.json"
        encodedString: ${{ secrets.PLAY_CONSOLE_KEYS }}
        
+   - name: List Files
+     run: ls
+       
    - name: Get Client Id
      env:
        MOCK_USERNAME: ${{ secrets.CLIENT_ID }}
