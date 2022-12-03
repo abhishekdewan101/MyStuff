@@ -26,7 +26,7 @@ jobs:
        
    - name: Decode IDS
      uses: timheuer/base64-to-file@v1
-     id: local.properties
+     id: local_properties
      with:
        fileName: "local.properties"
        encodedString: ${{ secrets.IDS }}
