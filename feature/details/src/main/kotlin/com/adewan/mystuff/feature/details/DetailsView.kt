@@ -3,6 +3,7 @@ package com.adewan.mystuff.feature.details
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -79,25 +81,34 @@ fun DetailsView(
     navigateBack: () -> Unit,
     navigateToDetailView: (String) -> Unit
 ) {
+    val viewState by viewModel.viewState.collectAsState()
+
     LaunchedEffect(key1 = viewModel) {
         viewModel.loadDetails(id)
     }
 
-    val viewState by viewModel.viewState.collectAsState()
     when (viewState) {
         DetailsViewState.Loading -> CenteredLoadingIndicator()
         DetailsViewState.Error -> ErrorView(message = "Uh Oh! \n Something went wrong")
         is DetailsViewState.Result -> Details(
-            game = (viewState as DetailsViewState.Result).data,
+            result = (viewState as DetailsViewState.Result),
             navigateBack = navigateBack,
-            navigateToDetailView = navigateToDetailView
+            navigateToDetailView = navigateToDetailView,
+            addGameToLibrary = viewModel::addGameToLibrary
         )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun Details(game: Game, navigateBack: () -> Unit, navigateToDetailView: (String) -> Unit) {
+internal fun Details(
+    result: DetailsViewState.Result,
+    navigateBack: () -> Unit,
+    navigateToDetailView: (String) -> Unit,
+    addGameToLibrary: () -> Unit
+) {
+    val game = result.data
+    val isGamePresentInDB = result.isGamePresentInDB
     Scaffold(topBar = { DetailsTopBar(title = game.name, navigateBack = navigateBack) }) {
         Column(
             modifier = Modifier
@@ -107,6 +118,11 @@ internal fun Details(game: Game, navigateBack: () -> Unit, navigateToDetailView:
             verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             FeaturedView(featured = (game.artworksList.map { art -> art.imageUrl() } + game.screenshotsList.map { screenshot -> screenshot.imageUrl() }))
+            AnimatedVisibility(visible = !isGamePresentInDB) {
+                FilledTonalButton(onClick = addGameToLibrary, modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "Add to library", fontWeight = FontWeight.Bold)
+                }
+            }
             MetadataBlock(game = game)
             ExpandableSummary(summary = game.summary)
             Trailers(trailers = game.videosList)

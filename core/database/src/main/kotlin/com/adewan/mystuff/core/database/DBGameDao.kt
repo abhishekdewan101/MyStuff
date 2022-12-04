@@ -12,4 +12,7 @@ interface DBGameDao {
 
     @Insert
     fun insertGame(game: DBGame)
+
+    @Query("SELECT * from dbgame where game_slug = :slug")
+    fun findGame(slug: String): DBGame?
 }
