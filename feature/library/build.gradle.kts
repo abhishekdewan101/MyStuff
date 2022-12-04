@@ -10,6 +10,7 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":common:ux")))
     implementation(project(mapOf("path" to ":core:data")))
+    implementation(project(mapOf("path" to ":core:database"))) // FIXME: Workaround, we should have a common model class
     with(libs.compose) {
         implementation(navigation)
     }

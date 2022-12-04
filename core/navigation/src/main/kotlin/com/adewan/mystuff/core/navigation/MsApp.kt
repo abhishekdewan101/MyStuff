@@ -94,7 +94,8 @@ fun MsApp(modifier: Modifier = Modifier, userOnBoarded: Boolean) {
                 )
                 libraryView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
-                    navigateToAccountView = { navHostController.navigateToAccountView() }
+                    navigateToAccountView = { navHostController.navigateToAccountView() },
+                    navigateToDetailView = { id -> navHostController.navigateToDetailsView(id) }
                 )
                 exploreView(
                     showBottomBar = { showBottomBar -> bottomBarPresent = showBottomBar },
