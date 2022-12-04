@@ -6,6 +6,7 @@ import com.adewan.mystuff.core.data.repositories.GameRepositoryImpl
 import com.adewan.mystuff.core.data.repositories.IgdbAuthenticationRepository
 import com.adewan.mystuff.core.data.repositories.OnBoardRepositoryImpl
 import com.adewan.mystuff.core.data.repositories.OnBoardingRepository
+import com.adewan.mystuff.core.database.DBGameDao
 import com.adewan.mystuff.datastore.LocalDataStore
 import com.adewan.mystuff.network.NetworkDataSource
 import org.koin.core.module.dsl.singleOf
@@ -25,7 +26,8 @@ val dataModule = module {
     singleOf<GameRepository> {
         GameRepositoryImpl(
             get(NetworkDataSource::class.java),
-            get(LocalDataStore::class.java)
+            get(LocalDataStore::class.java),
+            get(DBGameDao::class.java)
         )
     }
 

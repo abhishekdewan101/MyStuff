@@ -20,6 +20,7 @@ include(":common:ux")
 
 include(":core:models")
 include(":core:data")
+include(":core:database")
 include(":core:di")
 include(":core:datastore")
 include(":core:navigation")
