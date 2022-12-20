@@ -2,6 +2,7 @@ package com.adewan.mystuff.core.data.repositories
 
 import com.adewan.mystuff.core.database.DBGame
 import com.adewan.mystuff.core.database.DBGameDao
+import com.adewan.mystuff.core.database.DBGameStatus
 import com.adewan.mystuff.core.models.games.posterUrl
 import com.adewan.mystuff.datastore.LocalDataStore
 import com.adewan.mystuff.network.NetworkDataSource
@@ -46,7 +47,12 @@ class GameRepositoryImpl(
     }
 
     override fun addGameToLibrary(game: Game) {
-        val dbGame = DBGame(name = game.name, slug = game.slug, poster = game.posterUrl())
+        val dbGame = DBGame(
+            name = game.name,
+            slug = game.slug,
+            poster = game.posterUrl(),
+            status = DBGameStatus.WANTED
+        )
         dbGameDao.insertGame(dbGame)
     }
 }
