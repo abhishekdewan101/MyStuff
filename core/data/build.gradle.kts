@@ -1,5 +1,6 @@
 plugins {
     id("mystuff.android.library")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -19,4 +20,11 @@ dependencies {
     with(libs.koin) {
         implementation(core)
     }
+
+    with(libs.firebase) {
+        implementation(platform(bom))
+        implementation(auth)
+    }
+
+    implementation("com.google.android.gms:play-services-auth:20.4.0")
 }

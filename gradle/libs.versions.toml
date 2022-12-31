@@ -21,6 +21,9 @@ junit4 = "4.13.2"
 truth = "1.1.3"
 room = "2.4.3"
 kotlinxCoroutines = "1.6.4"
+firebaseGradlePlugin = "4.3.13"
+firebaseBomVersion = "31.1.1"
+playServices = "20.4.0"
 
 [libraries]
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
@@ -49,6 +52,9 @@ accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version = "3.2.1" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBomVersion" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+play-services = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServices" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
@@ -72,5 +78,6 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 google-protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+firebase = { id = "com.google.gms.google-services", version.ref = "firebaseGradlePlugin" }
 
 

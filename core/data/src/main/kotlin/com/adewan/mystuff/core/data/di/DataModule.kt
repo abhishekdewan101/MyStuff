@@ -1,6 +1,7 @@
 package com.adewan.mystuff.core.data.di
 
 import com.adewan.mystuff.core.data.repositories.AuthenticationRepository
+import com.adewan.mystuff.core.data.repositories.FirebaseAuthenticationRepository
 import com.adewan.mystuff.core.data.repositories.GameRepository
 import com.adewan.mystuff.core.data.repositories.GameRepositoryImpl
 import com.adewan.mystuff.core.data.repositories.IgdbAuthenticationRepository
@@ -35,5 +36,9 @@ val dataModule = module {
         OnBoardRepositoryImpl(
             get(LocalDataStore::class.java)
         )
+    }
+
+    singleOf<FirebaseAuthenticationRepository> {
+        FirebaseAuthenticationRepository()
     }
 }
